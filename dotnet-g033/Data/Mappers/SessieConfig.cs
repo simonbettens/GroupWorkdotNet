@@ -14,7 +14,6 @@ namespace dotnet_g033.Data.Mappers
         {
             builder.ToTable("Sessie");
             builder.Property(s => s.Id).IsRequired();
-            builder.Property(s => s.Naam).HasMaxLength(100).IsRequired();
 
             //builder.Property(s => s.Id).IsRequired();
             builder.Property(s => s.Naam).HasMaxLength(50).IsRequired();
