@@ -13,7 +13,7 @@ namespace dotnet_g033.Data.Mappers
         public void Configure(EntityTypeBuilder<Sessie> builder)
         {
             builder.ToTable("Sessie");
-            builder.Property(s => s.Id).IsRequired();
+            builder.HasKey(s => s.Id);
 
             //builder.Property(s => s.Id).IsRequired();
             builder.Property(s => s.Naam).HasMaxLength(50).IsRequired();
