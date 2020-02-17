@@ -11,11 +11,13 @@ namespace dotnet_g033.Data.Repositories
     {
         private readonly DbSet<Sessie> _sessies;
         private readonly ApplicationDbContext _context;
+
         public SessieRepository(ApplicationDbContext context)
         {
             this._context = context;
-            this._sessies = context.Sessies;
+            this._sessies = context.Sessie;
         }
+
         public IEnumerable<Sessie> GetAll()
         {
             return _sessies.ToList();

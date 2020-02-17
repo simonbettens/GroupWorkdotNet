@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dotnet_g033.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,11 @@ namespace dotnet_g033.Data
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
-               
+                Sessie sessie1 = new Sessie("sessie1", new DateTime(2020, 2, 20, 14, 0, 0), new DateTime(2020, 2, 20, 15, 0, 0), false, 20, 0);
+                Sessie sessie2 = new Sessie("sessie2", new DateTime(2020, 2, 21, 10, 30, 0), new DateTime(2020, 2, 21, 12, 30, 0), false, 10, 0);
+                Sessie sessie3 = new Sessie("sessie3", new DateTime(2020, 2, 22, 16, 0, 0), new DateTime(2020, 2, 22, 17, 0, 0), true, 30, 0);
+                Sessie[] sessies = { sessie1, sessie2, sessie3 };
+                _dbContext.Sessie.AddRange(sessies);
                 _dbContext.SaveChanges();
             }
         }

@@ -19,10 +19,10 @@ namespace dotnet_g033.Models.Domain
         {
 
         }
-        public Sessie(String naam, long id,DateTime? start,DateTime? eind,bool geopend,int maxCap,int aantalAanwezigeGebruikers)
+
+        public Sessie(String naam, DateTime? start, DateTime? eind, bool geopend, int maxCap, int aantalAanwezigeGebruikers)
         {
             this.Naam = naam;
-            this.Id = id;
             this.StartDatum = start.GetValueOrDefault();
             this.EindDatum = eind.GetValueOrDefault();
             this.Geopend = geopend;
