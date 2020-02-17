@@ -12,6 +12,8 @@ using dotnet_g033.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using dotnet_g033.Models.Domain;
+using dotnet_g033.Data.Repositories;
 
 namespace dotnet_g033 {
     public class Startup {
@@ -30,10 +32,13 @@ namespace dotnet_g033 {
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<ISessieRepository, SessieRepository>();
+            services.AddScoped<InitData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, InitData initializer) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -57,6 +62,7 @@ namespace dotnet_g033 {
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            initializer.InitializeData();
         }
     }
 }
