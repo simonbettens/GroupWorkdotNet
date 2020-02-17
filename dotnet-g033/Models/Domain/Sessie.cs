@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace dotnet_g033.Models.Domain
 {
     public class Sessie
     {
+        
         public String Naam { get; private set; }
         public long Id { get; private set; }
         public DateTime StartDatum { get; private set; }
