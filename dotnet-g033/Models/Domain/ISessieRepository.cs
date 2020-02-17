@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain
 {
-    interface ISessieRepository
+    public interface ISessieRepository
     {
         IEnumerable<Sessie> GetAll();
         IEnumerable<Sessie> GetByMaand(int maand);

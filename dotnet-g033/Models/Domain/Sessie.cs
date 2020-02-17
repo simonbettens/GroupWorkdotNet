@@ -22,11 +22,11 @@ namespace dotnet_g033.Models.Domain
 
         }
 
-        public Sessie(String naam, DateTime? start, DateTime? eind, bool geopend, int maxCap, int aantalAanwezigeGebruikers)
+        public Sessie(String naam, DateTime start, DateTime eind, bool geopend, int maxCap, int aantalAanwezigeGebruikers)
         {
             this.Naam = naam;
-            this.StartDatum = start.GetValueOrDefault();
-            this.EindDatum = eind.GetValueOrDefault();
+            this.StartDatum = start;
+            this.EindDatum = eind;
             this.Geopend = geopend;
             this.MaxCap = maxCap;
             this.AantalAanwezigeGebruikers = aantalAanwezigeGebruikers;

@@ -1,1 +1,61 @@
-﻿
+﻿@model IEnumerable<dotnet_g033.Models.Domain.Sessie>
+@{
+    ViewData["Title"] = "Sessie kalender";
+}
+
+<h2>@ViewData["Title"]</h2>
+<form>
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="categoryId"></label>
+            <select id="categoryId" name="maandId" asp-items="@(ViewData["Maanden"] as SelectList)" class="form-control">
+                <option value="">-- alle maanden --</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary ml-1">Ingeven</button>
+    </div>
+</form>
+
+<p></p>
+
+<table class="table">
+    <tr>
+        <th>Titel</th>
+        <th>Naam verantwoordelijke</th>
+        <th>Start datum & tijd</th>
+        <th>Eind datum & tijd</th>
+        <th class="text-center">Aantal Personen</th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Naam
+            </td>
+            <td>
+                <!--Nog niet defenitief, in afwachting voor een gebruiker klasse-->
+                NAAM VERANTWOORDELIJKE
+            </td>
+            <td>
+                @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+            </td>
+            <td>
+                @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+            </td>
+
+            <!--Nog niet defenitief, klopt nog niet volledig-->
+            @if (item.Geopend)
+            {
+                <td class="text-center">@(item.AantalAanwezigeGebruikers)/@item.MaxCap</td>
+            }
+            else
+            {
+                <td class="text-center">@(item.AantalAanwezigeGebruikers - 1)/@item.MaxCap</td>
+            }
+            <td>
+                | <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            </td>
+        </tr>
+    }
+</table>
