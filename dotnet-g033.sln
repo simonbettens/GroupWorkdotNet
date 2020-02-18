@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-g033", "dotnet-g033\dotnet-g033.csproj", "{280BBA0A-117F-49B6-9725-CCB022645EAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-g033", "dotnet-g033\dotnet-g033.csproj", "{280BBA0A-117F-49B6-9725-CCB022645EAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-g033.Tests", "dotnet-g033.Tests\dotnet-g033.Tests.csproj", "{E4380A1A-8E65-4130-B7FA-7DA53CD14FB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{280BBA0A-117F-49B6-9725-CCB022645EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{280BBA0A-117F-49B6-9725-CCB022645EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{280BBA0A-117F-49B6-9725-CCB022645EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4380A1A-8E65-4130-B7FA-7DA53CD14FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4380A1A-8E65-4130-B7FA-7DA53CD14FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4380A1A-8E65-4130-B7FA-7DA53CD14FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4380A1A-8E65-4130-B7FA-7DA53CD14FB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

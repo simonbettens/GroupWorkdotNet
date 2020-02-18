@@ -4,12 +4,13 @@
 }
 
 <h2>@ViewData["Title"]</h2>
+
 <form>
     <div class="form-inline">
         <div class="form-group">
-            <label for="categoryId"></label>
-            <select id="categoryId" name="maandId" asp-items="@(ViewData["Maanden"] as SelectList)" class="form-control">
-                <option value="">-- alle maanden --</option>
+            <label for="maandId"></label>
+            <select id="maandId" name="maandId" asp-items="@(ViewData["Maanden"] as SelectList)" class="form-control">
+                <option value="">-- huidige maand --</option>
             </select>
         </div>
         <button type="submit" class="btn btn-secondary ml-1">Ingeven</button>
