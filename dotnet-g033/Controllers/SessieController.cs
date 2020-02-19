@@ -20,6 +20,7 @@ namespace dotnet_g033.Controllers
                 maandId = DateTime.Now.Month;
             }
             IEnumerable<Sessie> sessies = _sessieRepository.GetByMaand(maandId).ToList();
+            ViewData["bevatSessies"] = !sessies.Any();
             ViewData["Maanden"] = GetMaandSelectList(maandId);
             return View(sessies);
         }
