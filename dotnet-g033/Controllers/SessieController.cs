@@ -26,6 +26,7 @@ namespace dotnet_g033.Controllers
         }
 
         public ActionResult Details(int id) {
+            ViewData["Sessie"] = _sessieRepository.GetById(id);
             return View();
         }
         private SelectList GetMaandSelectList(int maandId = 0)

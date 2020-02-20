@@ -20,7 +20,8 @@ namespace dotnet_g033.Data.Mappers
             builder.Property(d => d.StartDatum).IsRequired();
             builder.Property(d => d.EindDatum).IsRequired();
             builder.Property(m => m.MaxCap).HasDefaultValue(30).IsRequired();
-            builder.Property(m => m.AantalAanwezigeGebruikers).HasDefaultValue(1);
+            builder.Property(m => m.AantalAanwezigeGebruikers).HasDefaultValue(0);
+            builder.Property(l => l.Lokaal).IsRequired();
         }
     }
 }
