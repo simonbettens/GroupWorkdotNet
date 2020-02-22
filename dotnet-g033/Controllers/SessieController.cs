@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotnet_g033.Models.Domain;
+using dotnet_g033.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -26,8 +27,9 @@ namespace dotnet_g033.Controllers
         }
 
         public ActionResult Details(int id) {
-            ViewData["Sessie"] = _sessieRepository.GetById(id);
-            return View();
+            Sessie sessie = _sessieRepository.GetById(id);
+            var viewModel = new SessieDetailsViewModel(sessie);
+            return View(viewModel);
         }
         private SelectList GetMaandSelectList(int maandId = 0)
         {
