@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace dotnet_g033.Data {
     public class ApplicationDbContext : IdentityDbContext {
         public DbSet<Sessie> Sessie { get; set; }
+        public DbSet<Account> Account { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {
@@ -24,7 +25,6 @@ namespace dotnet_g033.Data {
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new SessieConfig());
-            
         }
     }
 }
