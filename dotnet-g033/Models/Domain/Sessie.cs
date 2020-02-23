@@ -10,13 +10,14 @@ namespace dotnet_g033.Models.Domain
     {
         
         public String Naam { get; private set; }
-        public long Id { get; private set; }
+        public int SessieId { get; private set; }
         public DateTime StartDatum { get; private set; }
         public DateTime EindDatum { get; private set; }
         public bool Geopend { get; private set; }
         public int MaxCap { get; private set; }
         public int AantalAanwezigeGebruikers { get; private set; }
         public string Lokaal { get; private set; }
+        public Media Media { get; set; }
 
         public Sessie()
         {
@@ -32,6 +33,7 @@ namespace dotnet_g033.Models.Domain
             this.MaxCap = maxCap;
             this.AantalAanwezigeGebruikers = aantalAanwezigeGebruikers;
             this.Lokaal = lokaal;
+            this.Media = new Media();
         }
     }
 }

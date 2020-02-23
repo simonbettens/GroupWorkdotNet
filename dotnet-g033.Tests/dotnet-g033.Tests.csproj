@@ -19,8 +19,4 @@
     <ProjectReference Include="..\dotnet-g033\dotnet-g033.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

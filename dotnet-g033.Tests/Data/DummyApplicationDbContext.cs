@@ -9,7 +9,7 @@ namespace dotnet_g033.Tests.Data
     {
         private readonly IList<Sessie> _sessies;
         private readonly IList<Sessie> _sessiesFeb;
-
+        #region Properties
         public Sessie Sessie1 { get; set; }
         public Sessie Sessie2 { get; set; }
         public Sessie Sessie3 { get; set; }
@@ -17,6 +17,18 @@ namespace dotnet_g033.Tests.Data
         public Sessie Sessie5 { get; set; }
         public IEnumerable<Sessie> Sessies => _sessies;
         public IEnumerable<Sessie> SessiesFeb => _sessiesFeb;
+        public Link LinkGoogle { get; set; }
+        public Video VideoYoutube { get; set; }
+        public Video Video { get; set; }
+        public Afbeelding Afbeelding { get; set; }
+        public Document Excel { get; set; }
+        public Document Zip { get; set; }
+        public Document Word { get; set; }
+        public Document Powerpoint { get; set; }
+        public Document Pdf { get; set; }
+        public Media Media { get; set; }
+        #endregion
+
         public DummyApplicationDbContext()
         {
             Sessie1 = new Sessie("sessie1", new DateTime(2020, 2, 20, 14, 0, 0), new DateTime(2020, 2, 20, 15, 0, 0), false, 20, 0, "GSCHB4.026");
@@ -24,8 +36,27 @@ namespace dotnet_g033.Tests.Data
             Sessie3 = new Sessie("sessie3", new DateTime(2020, 2, 22, 16, 0, 0), new DateTime(2020, 2, 22, 17, 0, 0), true, 30, 0, "GSCHB4.026");
             Sessie4 = new Sessie("sessie4", new DateTime(2020, 2, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, 0, "GSCHB4.026");
             Sessie5 = new Sessie("sessie5", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, 0, "GSCHB4.026");
+
             _sessies = new List<Sessie> { Sessie1, Sessie2, Sessie3, Sessie4, Sessie5 };
             _sessiesFeb = new List<Sessie> { Sessie1, Sessie2, Sessie3, Sessie4};
+
+            this.LinkGoogle = new Link("https://www.google.be/",
+               "Klik hier om naar google te gaan", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Link);
+
+            this.VideoYoutube = new Video("https://www.youtube.com/embed/1Rcf8-yk6_o",
+                    "Youtbe Linux", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.YoutubeVideo);
+            this.Video = new Video("test.mp4","test.mp4", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Video);
+
+            this.Afbeelding = new Afbeelding("test.jpg",
+                "test.jpg", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Afbeelding);
+
+            this.Word= new Document("word_doc.docx", "Word document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Word);
+            this.Excel= new Document("excel_doc.xlsx", "Excel document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Excel);
+            this.Zip= new Document("zip_map.zip", "Gezipte map", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Zip);
+            this.Powerpoint= new Document("powerpoint_doc.docx", "Powerpoint document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Powerpoint);
+            this.Pdf= new Document("pdf_doc.docx", "Pdf document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Pdf);
+
+            this.Media = new Media();
         }
 
     }

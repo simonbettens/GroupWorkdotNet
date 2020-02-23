@@ -13,7 +13,7 @@ namespace dotnet_g033.Data.Mappers
         public void Configure(EntityTypeBuilder<Sessie> builder)
         {
             builder.ToTable("Sessie");
-            builder.HasKey(s => s.Id);
+            builder.HasKey(s => s.SessieId);
 
             //builder.Property(s => s.Id).IsRequired();
             builder.Property(s => s.Naam).HasMaxLength(50).IsRequired();
@@ -22,6 +22,8 @@ namespace dotnet_g033.Data.Mappers
             builder.Property(m => m.MaxCap).HasDefaultValue(30).IsRequired();
             builder.Property(m => m.AantalAanwezigeGebruikers).HasDefaultValue(0);
             builder.Property(l => l.Lokaal).IsRequired();
+            builder.HasOne(s => s.Media).WithOne().IsRequired().HasForeignKey<Media>(m => m.SessieId).OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }
