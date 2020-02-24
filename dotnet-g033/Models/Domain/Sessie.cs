@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain
 {
-    public class Sessie
-    {
-        
+    public class Sessie {
+
         public String Naam { get; private set; }
         public int SessieId { get; private set; }
         public DateTime StartDatum { get; private set; }
@@ -18,13 +17,14 @@ namespace dotnet_g033.Models.Domain
         public int AantalAanwezigeGebruikers { get; private set; }
         public string Lokaal { get; private set; }
         public Media Media { get; set; }
+        public String Beschrijving {get; set;}
 
         public Sessie()
         {
 
         }
 
-        public Sessie(String naam, DateTime start, DateTime eind, bool geopend, int maxCap, int aantalAanwezigeGebruikers, String lokaal)
+        public Sessie(String naam, DateTime start, DateTime eind, bool geopend, int maxCap, int aantalAanwezigeGebruikers, String lokaal, String beschrijving = "")
         {
             this.Naam = naam;
             this.StartDatum = start;
@@ -34,6 +34,7 @@ namespace dotnet_g033.Models.Domain
             this.AantalAanwezigeGebruikers = aantalAanwezigeGebruikers;
             this.Lokaal = lokaal;
             this.Media = new Media();
+            this.Beschrijving = beschrijving;
         }
     }
 }

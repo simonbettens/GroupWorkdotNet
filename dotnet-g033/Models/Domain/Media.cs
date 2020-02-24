@@ -63,7 +63,7 @@ namespace dotnet_g033.Models.Domain
             }
             if (Linken.Any())
             {
-                uitvoer += $"<h4>Linken:</h4>";
+                uitvoer += $"<h4>Links:</h4>";
                 foreach (var link in Linken)
                 {
                     uitvoer += link.Display();

@@ -15,7 +15,7 @@ namespace dotnet_g033.Data.Mappers
             builder.ToTable("Sessie");
             builder.HasKey(s => s.SessieId);
 
-            //builder.Property(s => s.Id).IsRequired();
+            builder.Property(s => s.SessieId).IsRequired();
             builder.Property(s => s.Naam).HasMaxLength(50).IsRequired();
             builder.Property(d => d.StartDatum).IsRequired();
             builder.Property(d => d.EindDatum).IsRequired();
@@ -23,7 +23,7 @@ namespace dotnet_g033.Data.Mappers
             builder.Property(m => m.AantalAanwezigeGebruikers).HasDefaultValue(0);
             builder.Property(l => l.Lokaal).IsRequired();
             builder.HasOne(s => s.Media).WithOne().IsRequired().HasForeignKey<Media>(m => m.SessieId).OnDelete(DeleteBehavior.Restrict);
-
+            builder.Property(b => b.Beschrijving).HasMaxLength(1000).IsRequired(false);
         }
     }
 }

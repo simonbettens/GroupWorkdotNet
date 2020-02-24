@@ -9,13 +9,6 @@ namespace dotnet_g033.Models.ViewModels {
         public SessieDetailsViewModel(Sessie sessie) {
             this.Sessie = sessie;
         }
-
-        /*public String Naam { get; set; }
-public String Lokaal { get; set; }
-public DateTime StartDatum { get; set; }
-public DateTime EindDatum { get; set; }
-public int AantalAanwezigeGebruikers { get; set; }
-public int MaxCap { get; set; }*/
         public Sessie Sessie { get; set; }
     }
 }
