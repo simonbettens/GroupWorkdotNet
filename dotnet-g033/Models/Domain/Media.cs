@@ -69,8 +69,8 @@ namespace dotnet_g033.Models.Domain
                     uitvoer += link.Display();
                 }
             }
-            if (uitvoer == "") {
-                uitvoer += "<p>Geen media om te tonen</p>";
+            if (uitvoer != "") {
+                uitvoer = "<li class=\"list-group-item\"><div>"+uitvoer+"</div></li>";
             }
             return uitvoer;
         }

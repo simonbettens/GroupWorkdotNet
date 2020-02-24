@@ -11,13 +11,10 @@
 
         <div class="font-italic">@Model.Sessie.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.Sessie.EindDatum.ToString("HH:mm")</div>
     </li>
-    <li class="list-group-item">
-        <div>
-            <p>@Model.Sessie.Beschrijving</p>
-            <h3>Media:</h3>
-            @Html.Raw(Model.Sessie.Media.DisplayAlleMedia())
-        </div>
-    </li>
+    @if(Model.Sessie.Beschrijving != "") {
+        <li class="list-group-item">@Model.Sessie.Beschrijving</li>
+    }
+    @Html.Raw(Model.Sessie.Media.DisplayAlleMedia())
     <li class="list-group-item">
         <p>Aantal plaatsen beschikbaar: @Model.Sessie.AantalAanwezigeGebruikers/@Model.Sessie.MaxCap</p>
     </li>
