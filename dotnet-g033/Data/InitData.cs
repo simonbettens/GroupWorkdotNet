@@ -1,8 +1,12 @@
 ﻿using dotnet_g033.Models.Domain;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityRole = Microsoft.AspNetCore.Identity.IdentityRole;
 
 namespace dotnet_g033.Data
 {
@@ -66,6 +70,27 @@ namespace dotnet_g033.Data
                 sessie1.Media.VoegDocumentToe(doc5);
                 Document[] documenten = { doc1, doc2, doc3, doc4, doc5 };
                 _dbContext.Document.AddRange(documenten);
+
+                var passwordHasher = new PasswordHasher<Gebruiker>();
+                Gebruiker gebruiker1 = new Gebruiker("pieter.carlier@student.hogent.be", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", true);
+                Gebruiker gebruiker2 = new Gebruiker("simon.bettens@student.hogent.be", "Simon", "Bettens", "simon.bettens@student.hogent.be", true);
+                Gebruiker gebruiker3 = new Gebruiker("ruben.naudts@student.hogent.be", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", true);
+                Gebruiker gebruiker4 = new Gebruiker("aaron.sys@student.hogent.be", "Aaron", "Sys", "aaron.sys@student.hogent.be", false);
+                gebruiker1.EmailConfirmed = true;
+                gebruiker2.EmailConfirmed = true;
+                gebruiker3.EmailConfirmed = true;
+                gebruiker4.EmailConfirmed = true;
+                gebruiker1.PasswordHash = passwordHasher.HashPassword(gebruiker1, "koekjes");
+                gebruiker2.PasswordHash = passwordHasher.HashPassword(gebruiker2, "appeltjes");
+                gebruiker3.PasswordHash = passwordHasher.HashPassword(gebruiker3, "peertjes");
+                gebruiker4.PasswordHash = passwordHasher.HashPassword(gebruiker4, "snoepjes");
+                gebruiker1.SecurityStamp = Guid.NewGuid().ToString();
+                gebruiker2.SecurityStamp = Guid.NewGuid().ToString();
+                gebruiker3.SecurityStamp = Guid.NewGuid().ToString();
+                gebruiker4.SecurityStamp = Guid.NewGuid().ToString();
+
+                Gebruiker[] gebruikers = { gebruiker1, gebruiker2, gebruiker3, gebruiker4 };
+                _dbContext.AddRange(gebruikers);
                 _dbContext.SaveChanges();
             }
             

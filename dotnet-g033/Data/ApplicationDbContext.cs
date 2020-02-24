@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using dotnet_g033.Data.Mappers;
 using dotnet_g033.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_g033.Data {
-    public class ApplicationDbContext : IdentityDbContext {
+    public class ApplicationDbContext : IdentityDbContext<Gebruiker, IdentityRole<Guid>, Guid> {
         public DbSet<Sessie> Sessie { get; set; }
-        public DbSet<Account> Account { get; set; }
+        public DbSet<Gebruiker> Gebruiker { get; set; }
         public DbSet<Link> Link { get; set; }
         public DbSet<Video> Video { get; set; }
         public DbSet<Afbeelding> Afbeelding { get; set; }
@@ -34,6 +35,7 @@ namespace dotnet_g033.Data {
             builder.ApplyConfiguration(new AfbeeldingConfig());
             builder.ApplyConfiguration(new DocumentConfig());
             builder.ApplyConfiguration(new LinkConfig());
+            //builder.ApplyConfiguration(new GebruikerConfig());
             base.OnModelCreating(builder);
             
         }

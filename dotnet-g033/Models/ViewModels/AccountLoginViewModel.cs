@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models
 {
-    public class AccountLoginViewModel
+    public class GebruikerLoginViewModel
     {
         [Required(ErrorMessage = "Dit veld is verplicht")]
         //[Compare("ListActiveUsers")] -> nog zien hoe we de echte users ophalen

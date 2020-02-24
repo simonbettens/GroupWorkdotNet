@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain
 {
-    public interface IAccountRepository
+    public interface IGebruikerRepository
     {
-        IEnumerable<Account> GetAll();
-        IEnumerable<Account> GetByID(int id);
-        Account GetById(int id);
+        IEnumerable<Gebruiker> GetAll();
+        IEnumerable<Gebruiker> GetByID(int idNumber);
+        Gebruiker GetById(int idNumber);
         void SaveChanges();
     }
 }
