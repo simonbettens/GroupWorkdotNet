@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="modal-title">@Model.Sessie.Naam - Naam verantwoordelijke</h1>
+<h1 class="modal-title">@Model.Sessie.Naam - @Model.Sessie.Verantwoordelijke.Voornaam @Model.Sessie.Verantwoordelijke.Achternaam</h1>
 <ul class="list-group">
     <li class="list-group-item">
         <div class="font-italic">@Model.Sessie.Lokaal</div>

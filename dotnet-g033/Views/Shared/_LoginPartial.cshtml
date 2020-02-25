@@ -1,13 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using dotnet_g033.Models.Domain
+@using System.Text.RegularExpressions;
+
 @inject SignInManager<Gebruiker> SignInManager
 @inject UserManager<Gebruiker> UserManager
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
+    @if (SignInManager.IsSignedIn(User)) {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -15,8 +16,7 @@
             </form>
         </li>
     }
-    else
-    {
+    else {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>

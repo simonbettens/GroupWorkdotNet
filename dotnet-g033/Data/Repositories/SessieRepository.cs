@@ -25,13 +25,13 @@ namespace dotnet_g033.Data.Repositories
 
         public IEnumerable<Sessie> GetByMaand(int maand)
         {
-            return _sessies.Where(s => s.StartDatum.Month == maand).OrderBy(s => s.StartDatum).ToList();
+            return _sessies.Where(s => s.StartDatum.Month == maand).Include(s => s.Verantwoordelijke).OrderBy(s => s.StartDatum).ToList();
         }
 
         public Sessie GetById(int id)
         {
             return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Media.Afbeeldingen)
-                .Include(s => s.Media.Videos).Include(s => s.Media.Documenten).Include(s => s.Media.Linken).FirstOrDefault();
+                .Include(s => s.Media.Videos).Include(s => s.Media.Documenten).Include(s => s.Media.Linken).Include(s => s.Verantwoordelijke).FirstOrDefault();
         }
 
         public void SaveChanges()
