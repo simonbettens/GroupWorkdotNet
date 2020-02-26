@@ -12,13 +12,16 @@ namespace dotnet_g033.Data.Mappers
     {
         public void Configure(EntityTypeBuilder<Media> builder)
         {
+            builder.HasDiscriminator<string>("TypeMedia")
+                .HasValue<Video>("Video")
+                .HasValue<Document>("Documenten")
+                .HasValue<Link>("Link")
+                .HasValue<Afbeelding>("Afbeelding");
             builder.ToTable("Media");
-            builder.HasKey(s => s.MediaId);
-            builder.HasMany(m => m.Afbeeldingen).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            builder.HasMany(m => m.Linken).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            builder.HasMany(m => m.Documenten).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            builder.HasMany(m => m.Videos).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-
+            builder.HasKey(l => l.Id);
+            builder.Property(l => l.Naam).HasMaxLength(50).IsRequired();
+            builder.Property(l => l.Adress).HasMaxLength(100).IsRequired();
+            builder.Property(l => l.TijdToegevoegd);
         }
     }
 }

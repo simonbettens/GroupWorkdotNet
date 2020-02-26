@@ -5,13 +5,8 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain
 {
-    public class Video 
+    public class Video : Media
     {
-        public int Id { get; set; }
-        public String Adress { get; set; }
-        public String Naam { get; set; }
-        public DateTime TijdToegevoegd { get; set; }
-        public MediaType MediaType { get; set; }
         public Video()
         {
 
@@ -23,7 +18,7 @@ namespace dotnet_g033.Models.Domain
             this.TijdToegevoegd = tijdToegevoegd;
             this.MediaType = mediaType;
         }
-        public string Display()
+        public override string Display()
         {
             String uitvoer = "";
             switch (MediaType)

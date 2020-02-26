@@ -5,13 +5,8 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain
 {
-    public class Link 
+    public class Link : Media
     {
-        public int Id { get; set; }
-        public String Adress { get; set; }
-        public String Naam { get; set; }
-        public DateTime TijdToegevoegd { get; set; }
-        public MediaType MediaType { get; set; }
         public Link()
         {
 
@@ -23,7 +18,8 @@ namespace dotnet_g033.Models.Domain
             this.TijdToegevoegd = tijdToegevoegd;
             this.MediaType = mediaTye;
         }
-        public string Display()
+        
+        public override string Display()
         {
             return $"<div><a href=\"{Adress}\" target=\"_blank\">{Naam}</a></div>";
         }

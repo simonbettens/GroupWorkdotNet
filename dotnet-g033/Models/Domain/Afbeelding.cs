@@ -2,13 +2,8 @@
 
 namespace dotnet_g033.Models.Domain
 {
-    public class Afbeelding
+    public class Afbeelding :Media
     {
-        public int Id { get; set; }
-        public String Adress { get; set; }
-        public String Naam { get; set; }
-        public DateTime TijdToegevoegd { get; set; }
-        public MediaType MediaType { get; set; }
         public Afbeelding()
         {
 
@@ -20,7 +15,7 @@ namespace dotnet_g033.Models.Domain
             this.TijdToegevoegd = tijdToegevoegd;
             this.MediaType = mediaType;
         }
-        public string Display()
+        public override string Display()
         {
             
             String uitvoer = $"<a href=\"{Adress}\" target=\"_blank\">" +

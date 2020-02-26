@@ -8,8 +8,7 @@ namespace dotnet_g033.Data
     {
         public void Configure(EntityTypeBuilder<Link> builder)
         {
-            builder.ToTable("Link");
-            builder.HasKey(l => l.Id);
+
             builder.Property(l => l.Naam).HasMaxLength(50).IsRequired();
             builder.Property(l => l.Adress).HasMaxLength(100).IsRequired();
             builder.Property(l => l.TijdToegevoegd);

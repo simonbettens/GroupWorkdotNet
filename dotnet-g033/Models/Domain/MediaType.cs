@@ -15,6 +15,7 @@ namespace dotnet_g033.Models.Domain
         Word = 6, 
         Pdf =7,
         Powerpoint=8,
-        Zip=9
+        Zip=9,
+        AnderDocument = 10
     }
 }

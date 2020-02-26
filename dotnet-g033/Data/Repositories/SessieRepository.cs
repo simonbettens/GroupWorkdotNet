@@ -30,10 +30,8 @@ namespace dotnet_g033.Data.Repositories
 
         public Sessie GetById(int id)
         {
-            return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Media.Afbeeldingen)
-                .Include(s => s.Media.Videos).Include(s => s.Media.Documenten).Include(s => s.Media.Linken).Include(s => s.Verantwoordelijke).FirstOrDefault();
+            return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Verantwoordelijke).FirstOrDefault();
         }
-
         public void SaveChanges()
         {
             _context.SaveChanges();

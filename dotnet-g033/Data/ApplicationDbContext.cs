@@ -30,12 +30,20 @@ namespace dotnet_g033.Data {
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new SessieConfig());
+
             builder.ApplyConfiguration(new MediaConfig());
+            builder.Entity<Link>().HasBaseType<Media>();
+            builder.Entity<Afbeelding>().HasBaseType<Media>();
+            builder.Entity<Document>().HasBaseType<Media>();
+            builder.Entity<Video>().HasBaseType<Media>();
+
             builder.ApplyConfiguration(new VideoConfig());
             builder.ApplyConfiguration(new AfbeeldingConfig());
             builder.ApplyConfiguration(new DocumentConfig());
             builder.ApplyConfiguration(new LinkConfig());
-            //builder.ApplyConfiguration(new GebruikerConfig());
+            builder.ApplyConfiguration(new GebruikerConfig());
+
+            
             base.OnModelCreating(builder);
             
         }

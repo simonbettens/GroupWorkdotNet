@@ -14,7 +14,7 @@
     @if(Model.Sessie.Beschrijving != "") {
         <li class="list-group-item">@Model.Sessie.Beschrijving</li>
     }
-    @Html.Raw(Model.Sessie.Media.DisplayAlleMedia())
+    @Html.Raw(Model.Sessie.DisplayAlleMedia())
     <li class="list-group-item">
         <p>Aantal plaatsen beschikbaar: @Model.Sessie.AantalAanwezigeGebruikers/@Model.Sessie.MaxCap</p>
     </li>

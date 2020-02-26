@@ -2,13 +2,8 @@
 
 namespace dotnet_g033.Models.Domain
 {
-    public class Document
+    public class Document : Media
     {
-        public int Id { get; set; }
-        public String Adress { get; set; }
-        public String Naam { get; set; }
-        public DateTime TijdToegevoegd { get; set; }
-        public MediaType MediaType { get; set; }
         public Document()
         {
 
@@ -20,7 +15,7 @@ namespace dotnet_g033.Models.Domain
             this.TijdToegevoegd = toegevoegd;
             this.MediaType = mediaType;
         }
-        public string Display()
+        public override string Display()
         {
             string icoon = "";
             switch (MediaType)

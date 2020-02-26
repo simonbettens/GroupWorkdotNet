@@ -22,7 +22,8 @@ namespace dotnet_g033.Data.Mappers
             builder.Property(m => m.MaxCap).HasDefaultValue(30).IsRequired();
             builder.Property(m => m.AantalAanwezigeGebruikers).HasDefaultValue(0);
             builder.Property(l => l.Lokaal).IsRequired();
-            builder.HasOne(s => s.Media).WithOne().IsRequired().HasForeignKey<Media>(m => m.SessieId).OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne(s => s.Media).WithOne().IsRequired().HasForeignKey<Media>(m => m.SessieId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(s => s.Media).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
             builder.Property(b => b.Beschrijving).HasMaxLength(1000).IsRequired(false);
             builder.HasOne(v => v.Verantwoordelijke).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict);
         }

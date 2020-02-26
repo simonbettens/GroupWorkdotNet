@@ -12,8 +12,6 @@ namespace dotnet_g033.Data.Mappers
     {
         public void Configure(EntityTypeBuilder<Document> builder)
         {
-            builder.ToTable("Document");
-            builder.HasKey(l => l.Id);
             builder.Property(l => l.Naam).HasMaxLength(50).IsRequired();
             builder.Property(l => l.Adress).HasMaxLength(100).IsRequired();
             builder.Property(l => l.TijdToegevoegd);

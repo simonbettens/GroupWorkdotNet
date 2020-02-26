@@ -25,19 +25,22 @@ namespace dotnet_g033.Tests.Models
             this.Powerpoint = _dummyContext.Powerpoint;
             this.Pdf = _dummyContext.Pdf;
         }
+        #region Display
         [Fact]
-        public void DisplayExcelTest() {
-           string uikomst= $"<tr>" +
-                $"<td>" +
-                $"<span class=\"iconify\" data-icon=\"ant-design:file-excel-outlined\" data-inline=\"false\"></span>" +
-                $"</td>" +
-                $"<td><a href=\"{Excel.Adress}\" target=\"_blank\">{Excel.Naam}</a></td>" +
-                $"<td>{Excel.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")}</td>" +
-                $"<tr>";
-            Assert.Equal(uikomst,Excel.Display());
+        public void DisplayExcelTest()
+        {
+            string uikomst = $"<tr>" +
+                 $"<td>" +
+                 $"<span class=\"iconify\" data-icon=\"ant-design:file-excel-outlined\" data-inline=\"false\"></span>" +
+                 $"</td>" +
+                 $"<td><a href=\"{Excel.Adress}\" target=\"_blank\">{Excel.Naam}</a></td>" +
+                 $"<td>{Excel.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")}</td>" +
+                 $"<tr>";
+            Assert.Equal(uikomst, Excel.Display());
         }
         [Fact]
-        public void DisplayZipTest() {
+        public void DisplayZipTest()
+        {
             string uikomst = $"<tr>" +
                 $"<td>" +
                 $"<span class=\"iconify\" data-icon=\"ant-design:file-zip-filled\" data-inline=\"false\"></span>" +
@@ -48,7 +51,8 @@ namespace dotnet_g033.Tests.Models
             Assert.Equal(uikomst, Zip.Display());
         }
         [Fact]
-        public void DisplayWordTest() {
+        public void DisplayWordTest()
+        {
             string uikomst = $"<tr>" +
                 $"<td>" +
                 $"<span class=\"iconify\" data-icon=\"ant-design:file-word-filled\" data-inline=\"false\"></span>" +
@@ -59,7 +63,8 @@ namespace dotnet_g033.Tests.Models
             Assert.Equal(uikomst, Word.Display());
         }
         [Fact]
-        public void DisplayPowerPointTest() {
+        public void DisplayPowerPointTest()
+        {
             string uikomst = $"<tr>" +
                 $"<td>" +
                 $"<span class=\"iconify\" data-icon=\"fa-regular:file-powerpoint\" data-inline=\"false\"></span>" +
@@ -70,7 +75,8 @@ namespace dotnet_g033.Tests.Models
             Assert.Equal(uikomst, Powerpoint.Display());
         }
         [Fact]
-        public void DisplayPdfTest() {
+        public void DisplayPdfTest()
+        {
             string uikomst = $"<tr>" +
                 $"<td>" +
                 $"<span class=\"iconify\" data-icon=\"bx:bxs-file-pdf\" data-inline=\"false\"></span>" +
@@ -80,5 +86,7 @@ namespace dotnet_g033.Tests.Models
                 $"<tr>";
             Assert.Equal(uikomst, Pdf.Display());
         }
+        #endregion
+
     }
 }
