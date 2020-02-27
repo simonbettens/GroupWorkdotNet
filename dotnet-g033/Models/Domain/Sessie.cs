@@ -12,7 +12,7 @@ namespace dotnet_g033.Models.Domain
         public int SessieId { get; private set; }
         public DateTime StartDatum { get; private set; }
         public DateTime EindDatum { get; private set; }
-        public bool Geopend { get; private set; }
+        public bool OoitGeopend { get; private set; }
         public int MaxCap { get; private set; }
         public int AantalAanwezigeGebruikers { get; private set; }
         public string Lokaal { get; private set; }
@@ -20,23 +20,25 @@ namespace dotnet_g033.Models.Domain
         public ICollection<Media> Media { get; set; }
         public string Beschrijving {get; set;}
         public Gebruiker Verantwoordelijke { get; set; }
+        public bool StaatOpen { get; set; }
         public Sessie()
         {
 
         }
 
-        public Sessie(string naam, DateTime start, DateTime eind, bool geopend, int maxCap, int aantalAanwezigeGebruikers, string lokaal, Gebruiker verantwoordelijke, string beschrijving = "")
+        public Sessie(string naam, DateTime start, DateTime eind, bool ooitGeopend, int maxCap, int aantalAanwezigeGebruikers, string lokaal, Gebruiker verantwoordelijke, string beschrijving = "", bool staatOpen = false)
         {
             this.Naam = naam;
             this.StartDatum = start;
             this.EindDatum = eind;
-            this.Geopend = geopend;
+            this.OoitGeopend = ooitGeopend;
             this.MaxCap = maxCap;
             this.AantalAanwezigeGebruikers = aantalAanwezigeGebruikers;
             this.Lokaal = lokaal;
             this.Media = new List<Media>();
             this.Beschrijving = beschrijving;
             this.Verantwoordelijke = verantwoordelijke;
+            this.StaatOpen = StaatOpen;
         }
         public string DisplayAlleMedia()
         {

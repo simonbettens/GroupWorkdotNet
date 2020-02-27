@@ -36,5 +36,6 @@ namespace dotnet_g033.Controllers
             var maanden = from Maand m in Enum.GetValues(typeof(Maand)) select new { ID = (int)m, Name = m.ToString() };
             return new SelectList(maanden,"ID", "Name", maandId);
         }
+      
     }
 }

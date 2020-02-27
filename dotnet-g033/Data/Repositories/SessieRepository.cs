@@ -11,11 +11,13 @@ namespace dotnet_g033.Data.Repositories
     {
         private readonly DbSet<Sessie> _sessies;
         private readonly ApplicationDbContext _context;
+        private readonly Gebruiker _gebruiker;
 
         public SessieRepository(ApplicationDbContext context)
         {
             this._context = context;
             this._sessies = context.Sessie;
+            
         }
 
         public IEnumerable<Sessie> GetAll()
@@ -32,9 +34,20 @@ namespace dotnet_g033.Data.Repositories
         {
             return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Verantwoordelijke).FirstOrDefault();
         }
+        
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public IEnumerable<Sessie> GetAllGeslotenSessies()
+        {
+           return  _sessies.Where(s => s.StaatOpen == true && s.OoitGeopend == false).ToList(); 
+        }
+
+        public IEnumerable<Sessie> GetGeslotenSessiesGebruiker()
+        {
+            return _sessies.Where(s => s.StaatOpen == true && s.OoitGeopend == false && s.Verantwoordelijke.Equals(_gebruiker.UserName)).ToList();
         }
     }
 }
