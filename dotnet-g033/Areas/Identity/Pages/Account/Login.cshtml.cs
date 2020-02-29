@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using dotnet_g033.Models.Domain;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using dotnet_g033.Models.Domain;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace dotnet_g033.Areas.Identity.Pages.Account
 {
@@ -84,22 +82,26 @@ namespace dotnet_g033.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+
+                Gebruiker gebruiker = _gebruikerRepository.GetByUsername(Input.Username);
+                if (gebruiker != null)
+                {
+                    if (gebruiker.Status == StatusType.Geblokkeerd)
+                    {
+                        _logger.LogWarning("User account blocked.");
+                        return RedirectToPage("./Blocked");
+                    }
+                    if (gebruiker.Status == StatusType.NietActief)
+                    {
+                        _logger.LogWarning("User account not active.");
+                        return RedirectToPage("./NotActive");
+                    }
+                }
                 var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    Gebruiker gebruiker = _gebruikerRepository.GetByUsername(Input.Username);
-                    switch (gebruiker.Status)
-                    {
-                        case StatusType.Geblokkeerd:
-                            _logger.LogWarning("User account blocked.");
-                            return RedirectToPage("./Blocked");
-                        case StatusType.NietActief:
-                            _logger.LogWarning("User account not active.");
-                            return RedirectToPage("./NotActive");
-                        default:
-                            _logger.LogInformation("User logged in.");
-                            return LocalRedirect(returnUrl);
-                    }
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {

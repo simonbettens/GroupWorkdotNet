@@ -1,64 +1,61 @@
 ﻿@model IEnumerable<dotnet_g033.Models.Domain.Sessie>
 @{
-    ViewData["Title"] = "Sessie kalender";
+    ViewData["Title"] = "Sessie's";
 }
-
 <h2>@ViewData["Title"]</h2>
 
-<form>
-    <div class="form-inline">
-        <div class="form-group">
-            <label for="maandId"></label>
-            <select id="maandId" name="maandId" asp-items="@(ViewData["Maanden"] as SelectList)" class="form-control">
-                <option value="">-- huidige maand --</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-secondary ml-1">Ingeven</button>
-    </div>
-</form>
+@using (Html.BeginForm("Index", "Sessie", FormMethod.Post))
+{
+    @Html.DropDownList("maandId", ViewData["Maanden"] as SelectList, new { @class = "form-control" })
+}
 
 <p></p>
 
 <table class="table">
-    @if ((bool)@ViewData["bevatSessies"]) {
+    @if ((bool)@ViewData["bevatSessies"])
+    {
         <text>Er zijn geen sessies ingepland voor deze maand</text>;
     }
-    else {
+    else
+    {
         <tr>
             <th>Titel</th>
             <th>Naam verantwoordelijke</th>
             <th>Start datum & tijd</th>
             <th>Eind datum & tijd</th>
             <th class="text-center">Aantal Personen</th>
-
+            <th></th>
         </tr>
-        @foreach (var item in Model) {
-<tr>
-    <td>
-        @item.Naam
-    </td>
-    <td>
-        <!--Nog niet defenitief, in afwachting voor een gebruiker klasse-->
-        @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
-    </td>
-    <td>
-        @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
-    </td>
-    <td>
-        @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
-    </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Naam
+                </td>
+                <td>
+                    @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
+                </td>
+                <td>
+                    @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                </td>
+                <td>
+                    @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                </td>
+                <td class="text-center">@(item.AantalAanwezigeGebruikers)/@item.MaxCap</td>
 
-    <!--Nog niet defenitief, klopt nog niet volledig-->
-    @*if (item.Geopend) {*@
-    <td class="text-center">@(item.AantalAanwezigeGebruikers)/@item.MaxCap</td>
-    @*}
-        else {
-            <td class="text-center">@(item.AantalAanwezigeGebruikers - 1)/@item.MaxCap</td>
-        }*@
-    <td>
-        |   <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a> |
-    </td>
-</tr>
+                <td>
+                    |   <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a> |
+                </td>
+            </tr>
         }
     }
 </table>
+@section scripts{
+    <script>
+        document.addEventListener("DOMContentLoaded", function (e) {
+            document.getElementById("maandId").addEventListener("change", function (ev) {
+                document.forms[0].submit();
+            })
+        });
+    </script>
+}
