@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace dotnet_g033.Models.Domain
 {
@@ -12,6 +9,7 @@ namespace dotnet_g033.Models.Domain
         Gebruiker GetByEmail(string name);
         Gebruiker GetByUsername(string username);
         Gebruiker GetById(int idNumber);
+        Verantwoordelijke GetByUsernameIncludingBeheerdeSessies(string username);
         void SaveChanges();
     }
 }

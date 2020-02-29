@@ -12,6 +12,7 @@ namespace dotnet_g033.Models.Domain
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public StatusType Status { get; private set; }
+        public GebruikerType Type { get; set; }
         public ICollection<Sessie> SessiesIngeschreven { get; set; }
 
         public Gebruiker()
@@ -19,7 +20,7 @@ namespace dotnet_g033.Models.Domain
 
         }
 
-        public Gebruiker(string username, string voornaam, string achternaam, string email, StatusType status)
+        public Gebruiker(string username, string voornaam, string achternaam, string email, StatusType status, GebruikerType type)
         {
             this.UserName = username;
             this.NormalizedUserName = username;
@@ -28,6 +29,7 @@ namespace dotnet_g033.Models.Domain
             this.Email = email;
             this.NormalizedEmail = email;
             this.Status = status;
+            this.Type = type;
             this.SessiesIngeschreven = new List<Sessie>();
         }
 

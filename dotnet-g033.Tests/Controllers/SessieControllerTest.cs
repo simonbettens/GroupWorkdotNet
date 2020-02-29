@@ -22,6 +22,7 @@ namespace dotnet_g033.Tests.Controllers
         private readonly int _maandJan = 1;
         private readonly int _maandFeb = 2;
         private readonly int _huidigeMaand;
+        private readonly Gebruiker _gebruiker;
 
         public SessieControllerTest()
         {
@@ -32,6 +33,7 @@ namespace dotnet_g033.Tests.Controllers
                 TempData = new Mock<ITempDataDictionary>().Object
             };
             _huidigeMaand = DateTime.Now.Month;
+            _gebruiker = _dummyContext.Gebruiker;
         }
 
         #region Index
@@ -39,7 +41,7 @@ namespace dotnet_g033.Tests.Controllers
         public void IndexGeeftLijstTerugMetEnkelSessiesVanDeMaandFebruari() {
             _mockSessieRepository.Setup(s => s.GetByMaand(_maandFeb)).Returns(_dummyContext.SessiesFeb);
 
-            var result = Assert.IsType<ViewResult>(_sessieController.Index(_maandFeb));
+            var result = Assert.IsType<ViewResult>(_sessieController.Index(_gebruiker, _maandFeb));
             List<Sessie> sessies = Assert.IsType<List<Sessie>>(result.Model);
             var maanden = Assert.IsType<SelectList>(result.ViewData["Maanden"]);
             Assert.Equal(_maandFeb.ToString(), maanden.SelectedValue.ToString());
@@ -49,7 +51,7 @@ namespace dotnet_g033.Tests.Controllers
         public void IndexGeeftLijstTerugMetEnkelSessiesVanDeHuidigeMaand()
         {
             _mockSessieRepository.Setup(s => s.GetByMaand(0)).Returns(_dummyContext.SessiesFeb);
-            var result = Assert.IsType<ViewResult>(_sessieController.Index(0));
+            var result = Assert.IsType<ViewResult>(_sessieController.Index(_gebruiker,0));
             List<Sessie> sessies = Assert.IsType<List<Sessie>>(result.Model);
             var maanden = Assert.IsType<SelectList>(result.ViewData["Maanden"]);
             Assert.Equal(_huidigeMaand.ToString(), maanden.SelectedValue.ToString());
@@ -58,7 +60,7 @@ namespace dotnet_g033.Tests.Controllers
         public void IndexGeeftLegeLijstTerugVanMaandJanuari()
         {
             _mockSessieRepository.Setup(s => s.GetByMaand(_maandJan)).Returns(new List<Sessie>());
-            var result = Assert.IsType<ViewResult>(_sessieController.Index(_maandJan));
+            var result = Assert.IsType<ViewResult>(_sessieController.Index(_gebruiker,_maandJan));
             List<Sessie> sessies = Assert.IsType<List<Sessie>>(result.Model);
             var maanden = Assert.IsType<SelectList>(result.ViewData["Maanden"]);
             Assert.Equal(_maandJan.ToString(), maanden.SelectedValue.ToString());

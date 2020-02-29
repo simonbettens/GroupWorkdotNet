@@ -42,6 +42,9 @@ namespace dotnet_g033.Data.Repositories
         {
             return _gebruikers.Where(g => g.Email == email).FirstOrDefault();
         }
+        public Verantwoordelijke GetByUsernameIncludingBeheerdeSessies(string username) {
+            return  _gebruikers.OfType<Verantwoordelijke>().Where(v => v.UserName == username).Include(v=>v.BeheerdeSessies).FirstOrDefault();
+        }
 
         public void SaveChanges()
         {

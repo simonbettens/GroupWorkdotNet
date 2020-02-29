@@ -12,17 +12,41 @@ namespace dotnet_g033.Controllers
 {
     public class SessieController : Controller {
         private readonly ISessieRepository _sessieRepository;
-        public SessieController(ISessieRepository sessieRepository)
+        private readonly IGebruikerRepository _gebruikerRepository;
+        public SessieController(ISessieRepository sessieRepository , IGebruikerRepository gebruikerRepository)
         {
             this._sessieRepository = sessieRepository;
+            this._gebruikerRepository = gebruikerRepository;
         }
-        public ActionResult Index(int maandId=0) {
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public ActionResult Index(Gebruiker gebruiker,int maandId=0) {
             if (maandId == 0)
             {
                 maandId = DateTime.Now.Month;
             }
-            IEnumerable<Sessie> sessies = _sessieRepository.GetByMaand(maandId).ToList();
-            ViewData["bevatSessies"] = !sessies.Any();
+            HashSet<Sessie> hashSessies = _sessieRepository.GetByMaand(maandId).ToHashSet();
+            if (gebruiker != null)
+            {
+                switch (gebruiker.Type)
+                {
+                    case GebruikerType.Gebruiker:
+                        hashSessies = _sessieRepository.GetByMaand(maandId).ToHashSet();
+                        break;
+                    case GebruikerType.Verantwoordelijke:
+                        hashSessies = _sessieRepository.GetByMaandVerantwoordelijke(maandId).ToHashSet();
+                        break;
+                    case GebruikerType.HoofdVerantwoordelijke:
+                        hashSessies = _sessieRepository.GetByMaandVerantwoordelijke(maandId).ToHashSet();
+                        break;
+                }
+                ViewData["bevatSessies"] = !hashSessies.Any();
+                ViewData["Ingelogd"] = true;
+            }
+            else {
+                ViewData["bevatSessies"] = true;
+                ViewData["Ingelogd"] = false;
+            }
+            IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
             ViewData["Maanden"] = GetMaandSelectList(maandId);
             return View(sessies);
         }
@@ -32,15 +56,11 @@ namespace dotnet_g033.Controllers
             var viewModel = new SessieDetailsViewModel(sessie);
             return View(viewModel);
         }
-        private SelectList GetMaandSelectList(int maandId = 0)
-        {
-            var maanden = from Maand m in Enum.GetValues(typeof(Maand)) select new { ID = (int)m, Name = m.ToString() };
-            return new SelectList(maanden,"ID", "Name", maandId);
-        }
+        
 
         [HttpPost]
         [ServiceFilter(typeof(GebruikerFilter))]
-        public IActionResult SchrijfIn(int sessieId, SessieDetailsViewModel viewModel) {
+        public IActionResult SchrijfIn(int sessieId, SessieDetailsViewModel viewModel,Gebruiker gebruiker) {
             if (ModelState.IsValid) {
                 try {
                     Sessie sessie = _sessieRepository.GetById(sessieId);
@@ -52,6 +72,11 @@ namespace dotnet_g033.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(viewModel);
+        }
+        private SelectList GetMaandSelectList(int maandId = 0)
+        {
+            var maanden = from Maand m in Enum.GetValues(typeof(Maand)) select new { ID = (int)m, Name = m.ToString() };
+            return new SelectList(maanden, "ID", "Name", maandId);
         }
     }
 }

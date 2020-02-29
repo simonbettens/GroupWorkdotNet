@@ -19,7 +19,7 @@ namespace dotnet_g033.Models.Domain
         //public Media Media { get; set; }
         public ICollection<Media> Media { get; set; }
         public string Beschrijving {get; set;}
-        public Gebruiker Verantwoordelijke { get; set; }
+        public Verantwoordelijke Verantwoordelijke { get; set; }
         public bool StaatOpen { get; set; }
         public Sessie()
         {
@@ -38,7 +38,7 @@ namespace dotnet_g033.Models.Domain
             this.Media = new List<Media>();
             this.Beschrijving = beschrijving;
             this.Verantwoordelijke = verantwoordelijke;
-            this.StaatOpen = StaatOpen;
+            this.StaatOpen = staatOpen;
         }
         public string DisplayAlleMedia()
         {

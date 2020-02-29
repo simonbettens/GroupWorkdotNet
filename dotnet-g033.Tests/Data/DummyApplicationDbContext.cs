@@ -26,6 +26,7 @@ namespace dotnet_g033.Tests.Data
         public Document Word { get; set; }
         public Document Powerpoint { get; set; }
         public Document Pdf { get; set; }
+        public Gebruiker Gebruiker { get; set; }
         #endregion
 
         public DummyApplicationDbContext()
@@ -55,7 +56,10 @@ namespace dotnet_g033.Tests.Data
             this.Powerpoint= new Document("powerpoint_doc.docx", "Powerpoint document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Powerpoint);
             this.Pdf= new Document("pdf_doc.docx", "Pdf document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Pdf);
 
-            
+            this.Gebruiker = new Gebruiker("test12345", "voornaam", "achternaam", "voornaam.achternaam@student.hogent.be", StatusType.Actief);
+
+
+
         }
 
     }

@@ -41,9 +41,12 @@ namespace dotnet_g033.Data {
             builder.ApplyConfiguration(new AfbeeldingConfig());
             builder.ApplyConfiguration(new DocumentConfig());
             builder.ApplyConfiguration(new LinkConfig());
-            builder.ApplyConfiguration(new GebruikerConfig());
 
-            
+
+            builder.ApplyConfiguration(new GebruikerConfig());
+            builder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
+            builder.ApplyConfiguration(new VerantwoordelijkeConfig());
+
             base.OnModelCreating(builder);
             
         }
