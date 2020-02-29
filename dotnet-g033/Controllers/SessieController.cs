@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_g033.Filters;
 using dotnet_g033.Models.Domain;
 using dotnet_g033.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,21 @@ namespace dotnet_g033.Controllers
             var maanden = from Maand m in Enum.GetValues(typeof(Maand)) select new { ID = (int)m, Name = m.ToString() };
             return new SelectList(maanden,"ID", "Name", maandId);
         }
-      
+
+        [HttpPost]
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public IActionResult SchrijfIn(int sessieId, SessieDetailsViewModel viewModel) {
+            if (ModelState.IsValid) {
+                try {
+                    Sessie sessie = _sessieRepository.GetById(sessieId);
+                    TempData["message"] = $"Je reservatie voor {sessie.Naam} op werd geregistreerd...";
+                }
+                catch(Exception e) {
+                    TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet inschrijven...";
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(viewModel);
+        }
     }
 }

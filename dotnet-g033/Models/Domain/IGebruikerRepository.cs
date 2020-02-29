@@ -11,5 +11,6 @@ namespace dotnet_g033.Models.Domain
         IEnumerable<Gebruiker> GetByID(int idNumber);
         Gebruiker GetById(int idNumber);
         void SaveChanges();
+        Gebruiker GetByEmail(string name);
     }
 }

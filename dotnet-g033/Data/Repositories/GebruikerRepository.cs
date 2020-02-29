@@ -37,5 +37,9 @@ namespace dotnet_g033.Data.Repositories
         {
             _context.SaveChanges();
         }
+
+        public Gebruiker GetByEmail(string email) {
+            return _gebruikers.Where(g => g.Email == email).FirstOrDefault();
+        }
     }
 }

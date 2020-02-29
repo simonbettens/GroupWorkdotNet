@@ -9,7 +9,7 @@
     <li class="list-group-item">
         <div class="font-italic">@Model.Sessie.Lokaal</div>
 
-        <div class="font-italic">@Model.Sessie.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.Sessie.EindDatum.ToString("HH:mm")</div>
+        <div class="font-italic">@Model.Sessie.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.Sessie.EindDatum.ToString("HH:mm") <button class="float-right" asp-controller="Sessie" asp-action="SchrijfIn" asp-route-id="@Model.Sessie.SessieId">Inschrijven in de sessie</button> </div>
     </li>
     @if(Model.Sessie.Beschrijving != "") {
         <li class="list-group-item">@Model.Sessie.Beschrijving</li>
@@ -19,8 +19,6 @@
         <p>Aantal plaatsen beschikbaar: @Model.Sessie.AantalAanwezigeGebruikers/@Model.Sessie.MaxCap</p>
     </li>
 </ul>
-<br />
-<button>Inschrijven in de sessie</button> 
 <br />
 <br />
 <br />

@@ -30,7 +30,7 @@ namespace dotnet_g033.Data
                 Gebruiker gebruiker2 = new Gebruiker("simon.bettens@student.hogent.be", "Simon", "Bettens", "simon.bettens@student.hogent.be", true);
                 Gebruiker gebruiker3 = new Gebruiker("ruben.naudts@student.hogent.be", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", true);
                 Gebruiker gebruiker4 = new Gebruiker("aaron.sys@student.hogent.be", "Aaron", "Sys", "aaron.sys@student.hogent.be", false);
-                Gebruiker admin = new Gebruiker("harm.deweirdt@hogent.be", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", true);
+                Verantwoordelijke admin = new Verantwoordelijke("harm.deweirdt@hogent.be", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", true);
                 gebruiker1.EmailConfirmed = true;
                 gebruiker2.EmailConfirmed = true;
                 gebruiker3.EmailConfirmed = true;
@@ -55,6 +55,12 @@ namespace dotnet_g033.Data
                 Sessie sessie3 = new Sessie("sessie3", new DateTime(2020, 2, 22, 16, 0, 0), new DateTime(2020, 2, 22, 17, 0, 0), true, 30, 0, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
                 Sessie sessie4 = new Sessie("sessie4", new DateTime(2020, 2, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, 0, "GSCHB4.026", admin);
                 Sessie sessie5 = new Sessie("sessie5", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, 0, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+
+                admin.voegSessieToe(sessie1);
+                admin.voegSessieToe(sessie2);
+                admin.voegSessieToe(sessie3);
+                admin.voegSessieToe(sessie4);
+                admin.voegSessieToe(sessie5);
 
                 Sessie[] sessies = { sessie1, sessie2, sessie3, sessie4, sessie5 };
                 _dbContext.Sessie.AddRange(sessies);
@@ -112,6 +118,7 @@ namespace dotnet_g033.Data
                 
                 _dbContext.SaveChanges();
             }
+            
             
         }
     }

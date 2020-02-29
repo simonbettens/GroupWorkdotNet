@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using dotnet_g033.Models.Domain;
 using dotnet_g033.Data.Repositories;
+using dotnet_g033.Filters;
 
 namespace dotnet_g033 {
     public class Startup {
@@ -37,6 +38,7 @@ namespace dotnet_g033 {
             services.AddScoped<ISessieRepository, SessieRepository>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<InitData>();
+            services.AddScoped<GebruikerFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +63,7 @@ namespace dotnet_g033 {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Sessie}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
             initializer.InitializeData();

@@ -26,7 +26,7 @@ namespace dotnet_g033.Models.Domain
 
         }
 
-        public Sessie(string naam, DateTime start, DateTime eind, bool ooitGeopend, int maxCap, int aantalAanwezigeGebruikers, string lokaal, Gebruiker verantwoordelijke, string beschrijving = "", bool staatOpen = false)
+        public Sessie(string naam, DateTime start, DateTime eind, bool ooitGeopend, int maxCap, int aantalAanwezigeGebruikers, string lokaal, Verantwoordelijke verantwoordelijke, string beschrijving = "", bool staatOpen = false)
         {
             this.Naam = naam;
             this.StartDatum = start;
