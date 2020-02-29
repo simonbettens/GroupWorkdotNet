@@ -33,13 +33,19 @@ namespace dotnet_g033.Data.Repositories
             return _gebruikers.Where(g => g.IdNumber == idNumber).FirstOrDefault();
         }
 
+        public Gebruiker GetByUsername(string username)
+        {
+            return _gebruikers.Where(g => g.UserName == username).FirstOrDefault();
+        }
+
+        public Gebruiker GetByEmail(string email)
+        {
+            return _gebruikers.Where(g => g.Email == email).FirstOrDefault();
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();
-        }
-
-        public Gebruiker GetByEmail(string email) {
-            return _gebruikers.Where(g => g.Email == email).FirstOrDefault();
-        }
+        } 
     }
 }

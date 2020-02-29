@@ -15,7 +15,7 @@ namespace dotnet_g033.Data.Mappers
             builder.Property(g => g.UserName).HasMaxLength(50).IsRequired();
             builder.Property(g => g.Voornaam).IsRequired();
             builder.Property(g => g.Achternaam).IsRequired();
-            builder.Property(g => g.Actief).IsRequired();
+            builder.Property(g => g.Status).IsRequired();
         }
     }
 }

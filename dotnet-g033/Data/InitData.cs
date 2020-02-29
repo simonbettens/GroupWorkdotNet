@@ -26,11 +26,11 @@ namespace dotnet_g033.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 var passwordHasher = new PasswordHasher<Gebruiker>();
-                Gebruiker gebruiker1 = new Gebruiker("pieter.carlier@student.hogent.be", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", true);
-                Gebruiker gebruiker2 = new Gebruiker("simon.bettens@student.hogent.be", "Simon", "Bettens", "simon.bettens@student.hogent.be", true);
-                Gebruiker gebruiker3 = new Gebruiker("ruben.naudts@student.hogent.be", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", true);
-                Gebruiker gebruiker4 = new Gebruiker("aaron.sys@student.hogent.be", "Aaron", "Sys", "aaron.sys@student.hogent.be", false);
-                Verantwoordelijke admin = new Verantwoordelijke("harm.deweirdt@hogent.be", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", true);
+                Gebruiker gebruiker1 = new Gebruiker("pc123456", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", StatusType.Actief);
+                Gebruiker gebruiker2 = new Gebruiker("sb123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief);
+                Gebruiker gebruiker3 = new Gebruiker("rn123456", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", StatusType.Geblokkeerd);
+                Gebruiker gebruiker4 = new Gebruiker("as123456", "Aaron", "Sys", "aaron.sys@student.hogent.be", StatusType.NietActief);
+                Verantwoordelijke admin = new Verantwoordelijke("hdw123456", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", StatusType.Geblokkeerd);
                 gebruiker1.EmailConfirmed = true;
                 gebruiker2.EmailConfirmed = true;
                 gebruiker3.EmailConfirmed = true;

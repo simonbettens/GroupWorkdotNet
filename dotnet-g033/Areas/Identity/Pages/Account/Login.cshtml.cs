@@ -22,16 +22,19 @@ namespace dotnet_g033.Areas.Identity.Pages.Account
         private readonly SignInManager<Gebruiker> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IGebruikerRepository _gebruikerRepository;
 
-        public LoginModel(SignInManager<Gebruiker> signInManager, 
+        public LoginModel(SignInManager<Gebruiker> signInManager,
             ILogger<LoginModel> logger,
             UserManager<Gebruiker> userManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IGebruikerRepository gebruikerRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _gebruikerRepository = gebruikerRepository;
         }
 
         [BindProperty]
@@ -47,8 +50,7 @@ namespace dotnet_g033.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -78,16 +80,26 @@ namespace dotnet_g033.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    Gebruiker gebruiker = _gebruikerRepository.GetByUsername(Input.Username);
+                    switch (gebruiker.Status)
+                    {
+                        case StatusType.Geblokkeerd:
+                            _logger.LogWarning("User account blocked.");
+                            return RedirectToPage("./Blocked");
+                        case StatusType.NietActief:
+                            _logger.LogWarning("User account not active.");
+                            return RedirectToPage("./NotActive");
+                        default:
+                            _logger.LogInformation("User logged in.");
+                            return LocalRedirect(returnUrl);
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -116,7 +128,7 @@ namespace dotnet_g033.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
+            var user = await _userManager.FindByEmailAsync(Input.Username);
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
@@ -129,10 +141,10 @@ namespace dotnet_g033.Areas.Identity.Pages.Account
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            //await _emailSender.SendEmailAsync(
+            //    Input.Username,
+            //    "Confirm your email",
+            //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();
