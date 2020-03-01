@@ -21,6 +21,7 @@ namespace dotnet_g033.Models.Domain
         public string Beschrijving {get; set;}
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public bool StaatOpen { get; set; }
+        public ICollection<SessieGebruiker> GebruikersIngeschreven { get; set; }
         public Sessie()
         {
 
@@ -39,6 +40,7 @@ namespace dotnet_g033.Models.Domain
             this.Beschrijving = beschrijving;
             this.Verantwoordelijke = verantwoordelijke;
             this.StaatOpen = staatOpen;
+            GebruikersIngeschreven = new List<SessieGebruiker>();
         }
         public string DisplayAlleMedia()
         {
@@ -102,6 +104,11 @@ namespace dotnet_g033.Models.Domain
         public void VoegMediaToe(Media media)
         {
             Media.Add(media);
+        }
+
+        public void SchrijfGebruikerIn(Sessie sessie, Gebruiker gebruiker) {
+            SessieGebruiker sessieGebruiker = new SessieGebruiker(sessie, gebruiker, sessie.SessieId, gebruiker.IdNumber);
+            this.GebruikersIngeschreven.Add(sessieGebruiker);
         }
     }
 }

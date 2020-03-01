@@ -13,7 +13,7 @@ namespace dotnet_g033.Models.Domain
         public string Achternaam { get; set; }
         public StatusType Status { get; private set; }
         public GebruikerType Type { get; set; }
-        public ICollection<Sessie> SessiesIngeschreven { get; set; }
+        public ICollection<SessieGebruiker> SessiesIngeschreven { get; set; }
 
         public Gebruiker()
         {
@@ -30,11 +30,12 @@ namespace dotnet_g033.Models.Domain
             this.NormalizedEmail = email;
             this.Status = status;
             this.Type = type;
-            this.SessiesIngeschreven = new List<Sessie>();
+            this.SessiesIngeschreven = new List<SessieGebruiker>();
         }
 
-        public void SchrijfIn(Sessie sessie) {
-            this.SessiesIngeschreven.Add(sessie);
+        public void SchrijfIn(Sessie sessie, Gebruiker gebruiker) {
+            SessieGebruiker sessieGebruiker = new SessieGebruiker(sessie, gebruiker, sessie.SessieId, gebruiker.IdNumber);
+            this.SessiesIngeschreven.Add(sessieGebruiker);
         }
 
         //TODO ophalen actieve users
