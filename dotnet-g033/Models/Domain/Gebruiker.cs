@@ -8,16 +8,20 @@ namespace dotnet_g033.Models.Domain
 {
     public class Gebruiker : IdentityUser<Guid>
     {
+
+        #region Properties
         public long IdNumber { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public StatusType Status { get; private set; }
         public GebruikerType Type { get; set; }
         public ICollection<SessieGebruiker> SessiesIngeschreven { get; set; }
+        #endregion
 
+        #region Constructors
         public Gebruiker()
         {
-
+            this.SessiesIngeschreven = new List<SessieGebruiker>();
         }
 
         public Gebruiker(string username, string voornaam, string achternaam, string email, StatusType status, GebruikerType type)
@@ -32,13 +36,14 @@ namespace dotnet_g033.Models.Domain
             this.Type = type;
             this.SessiesIngeschreven = new List<SessieGebruiker>();
         }
+        #endregion
 
-        public void SchrijfIn(Sessie sessie, Gebruiker gebruiker) {
-            SessieGebruiker sessieGebruiker = new SessieGebruiker(sessie, gebruiker, sessie.SessieId, gebruiker.IdNumber);
-            this.SessiesIngeschreven.Add(sessieGebruiker);
+        #region Methods
+        public void SchrijfIn(SessieGebruiker nieuweInschrijving)
+        {
+            this.SessiesIngeschreven.Add(nieuweInschrijving);
         }
-
-        //TODO ophalen actieve users
+        #endregion
 
     }
 }

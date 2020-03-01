@@ -19,6 +19,7 @@ namespace dotnet_g033.Tests.Controllers
         private readonly DummyApplicationDbContext _dummyContext;
         private readonly SessieController _sessieController;
         private readonly Mock<ISessieRepository> _mockSessieRepository;
+        private readonly Mock<IGebruikerRepository> _mockGebruikerRepository;
         private readonly int _maandJan = 1;
         private readonly int _maandFeb = 2;
         private readonly int _huidigeMaand;
@@ -28,7 +29,8 @@ namespace dotnet_g033.Tests.Controllers
         {
             _dummyContext = new DummyApplicationDbContext();
             _mockSessieRepository = new Mock<ISessieRepository>();
-            _sessieController = new SessieController(_mockSessieRepository.Object)
+            _mockGebruikerRepository = new Mock<IGebruikerRepository>();
+            _sessieController = new SessieController(_mockSessieRepository.Object, _mockGebruikerRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };

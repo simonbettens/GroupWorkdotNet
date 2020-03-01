@@ -10,16 +10,18 @@ namespace dotnet_g033.Data.Mappers {
     public class SessieGebruikerConfig : IEntityTypeConfiguration<SessieGebruiker> {
         public void Configure(EntityTypeBuilder<SessieGebruiker> builder) {
             builder.HasKey(t => new { t.SessieId, t.GebruikerId });
-
+            /*
             builder.HasOne(s => s.Sessie)
-                .WithMany()
+                .WithMany(s=>s.GebruikersIngeschreven)
                 .HasForeignKey(pt => pt.SessieId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            */
+            /*
             builder.HasOne(pt => pt.Gebruiker)
-             .WithMany()
+             .WithMany(g=>g.SessiesIngeschreven)
              .HasForeignKey(pt => pt.GebruikerId)
              .OnDelete(DeleteBehavior.Cascade);
+             */
         }
     }
 }

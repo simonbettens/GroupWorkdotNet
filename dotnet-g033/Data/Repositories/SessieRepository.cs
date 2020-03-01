@@ -20,21 +20,26 @@ namespace dotnet_g033.Data.Repositories
 
         public IEnumerable<Sessie> GetAll()
         {
-            return _sessies.ToList();
+            return _sessies.ToList().OrderBy(s => s.StartDatum).ThenBy(s => s.Naam);
         }
 
         public IEnumerable<Sessie> GetByMaand(int maand)
         {
-            return _sessies.Where(s => s.StartDatum.Month == maand && s.EindDatum>DateTime.Today && s.OoitGeopend == false).Include(s => s.Verantwoordelijke).OrderBy(s => s.StartDatum).ThenBy(s=>s.Naam).ToList();
+            return _sessies.Where(s => s.StartDatum.Month == maand && s.EindDatum>DateTime.Today && s.OoitGeopend == false)
+                .Include(s => s.Verantwoordelijke).Include(s=>s.GebruikersIngeschreven)
+                .OrderBy(s => s.StartDatum).ThenBy(s=>s.Naam).ToList();
         }
         public IEnumerable<Sessie> GetByMaandVerantwoordelijke(int maand)
         {
-            return _sessies.Where(s => s.StartDatum.Month == maand &&  s.StaatOpen == false /*&& (s.EindDatum < DateTime.Today || (s.StartDatum <=DateTime.Today && s.EindDatum > DateTime.Today))*/).Include(s => s.Verantwoordelijke).ToList();
+            return _sessies.Where(s => s.StartDatum.Month == maand &&  s.StaatOpen == false)
+                .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
+                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
         }
 
         public Sessie GetById(int id)
         {
-            return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Verantwoordelijke).FirstOrDefault();
+            return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Verantwoordelijke)
+                .Include(s => s.GebruikersIngeschreven).FirstOrDefault();
         }
        
         public void SaveChanges()

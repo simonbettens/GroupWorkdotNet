@@ -49,10 +49,10 @@
                 <td>
                     @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
                 </td>
-                <td class="text-center">@(item.AantalAanwezigeGebruikers)/@item.MaxCap</td>
+                <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
 
                 <td>
-                    |   <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a> |
+                       <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a> 
                 </td>
             </tr>
         }

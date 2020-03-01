@@ -1,22 +1,26 @@
 ﻿
 @model dotnet_g033.Models.ViewModels.SessieDetailsViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gegevens Sessie";
 }
 
-<h1 class="modal-title">@Model.Sessie.Naam - @Model.Sessie.Verantwoordelijke.Voornaam @Model.Sessie.Verantwoordelijke.Achternaam</h1>
+<h1 class="modal-title">@Model.Naam - @Model.VerantwoordelijkeNaam </h1>
 <ul class="list-group">
     <li class="list-group-item">
-        <div class="font-italic">@Model.Sessie.Lokaal</div>
-
-        <div class="font-italic">@Model.Sessie.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.Sessie.EindDatum.ToString("HH:mm") <button class="float-right" asp-controller="Sessie" asp-action="SchrijfIn" asp-route-id="@Model.Sessie.SessieId">Inschrijven in de sessie</button> </div>
+        <div class="font-italic">@Model.Lokaal</div>
+        <div class="font-italic">
+            @Model.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.EindDatum.ToString("HH:mm")
+            <form method="post">
+                <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="SchrijfIn" asp-route-id="@Model.SessieId" type="submit">Schrijf In</button>
+            </form> 
+        </div>
     </li>
-    @if(Model.Sessie.Beschrijving != "") {
-        <li class="list-group-item">@Model.Sessie.Beschrijving</li>
+    @if(Model.Beschrijving != "") {
+        <li class="list-group-item">@Model.Beschrijving</li>
     }
-    @Html.Raw(Model.Sessie.DisplayAlleMedia())
+    @Html.Raw(Model.DisplayMedia())
     <li class="list-group-item">
-        <p>Aantal plaatsen beschikbaar: @Model.Sessie.AantalAanwezigeGebruikers/@Model.Sessie.MaxCap</p>
+        <p>Aantal plaatsen beschikbaar: @Model.AantalIngeschrevenGebruikers/@Model.MaxCap</p>
     </li>
 </ul>
 <br />

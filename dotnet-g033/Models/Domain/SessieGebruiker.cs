@@ -5,20 +5,33 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain {
     public class SessieGebruiker {
+        #region Ids
+        public Guid GebruikerId { get; set; }
+        public int SessieId { get; set; }
+        #endregion
+
+        #region Relatie properties
         public Sessie Sessie { get; set; }
         public Gebruiker Gebruiker { get; set; }
-        public long GebruikerId { get; set; }
-        public int SessieId { get; set; }
-        private bool Aanwezig { get; set; }
+        #endregion
 
-        public SessieGebruiker(Sessie sessie, Gebruiker gebruiker, int sessieId, long gebruikerId) {
+        #region Properties
+        public bool Aanwezig { get; set; }
+        #endregion
+
+        #region Constructors
+        public SessieGebruiker()
+        {
+
+        }
+        public SessieGebruiker(Sessie sessie, Gebruiker gebruiker)
+        {
             this.Sessie = sessie;
             this.Gebruiker = gebruiker;
-            this.GebruikerId = gebruikerId;
-            this.SessieId = sessieId;
+            this.GebruikerId = gebruiker.Id;
+            this.SessieId = sessie.SessieId;
             this.Aanwezig = false;
         }
-
-        
+        #endregion
     }
 }

@@ -56,22 +56,30 @@ namespace dotnet_g033.Controllers
             var viewModel = new SessieDetailsViewModel(sessie);
             return View(viewModel);
         }
-        
 
         [HttpPost]
         [ServiceFilter(typeof(GebruikerFilter))]
-        public IActionResult SchrijfIn(int sessieId, SessieDetailsViewModel viewModel,Gebruiker gebruiker) {
-            if (ModelState.IsValid) {
-                try {
-                    Sessie sessie = _sessieRepository.GetById(sessieId);
+        public IActionResult SchrijfIn(int id,Gebruiker gebruiker) {
+            Sessie sessie = _sessieRepository.GetById(id);
+            if (gebruiker != null && sessie!=null)
+            {
+                try
+                {
+                    SessieGebruiker sessieGebruiker = new SessieGebruiker(sessie, gebruiker);
+                    sessie.SchrijfGebruikerIn(sessieGebruiker, gebruiker);
+                    _gebruikerRepository.SaveChanges();
+                    _sessieRepository.SaveChanges();
                     TempData["message"] = $"Je reservatie voor {sessie.Naam} op werd geregistreerd...";
                 }
-                catch(Exception e) {
+                catch (Exception e)
+                {
                     TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet inschrijven...";
+                   
                 }
-                return RedirectToAction(nameof(Index));
+               
             }
-            return View(viewModel);
+            return RedirectToAction(nameof(Index));
+
         }
         private SelectList GetMaandSelectList(int maandId = 0)
         {

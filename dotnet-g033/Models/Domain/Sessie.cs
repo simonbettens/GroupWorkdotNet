@@ -1,57 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace dotnet_g033.Models.Domain
 {
-    public class Sessie {
+    public class Sessie
+    {
 
+        #region Sessie Properties
         public string Naam { get; private set; }
         public int SessieId { get; private set; }
         public DateTime StartDatum { get; private set; }
         public DateTime EindDatum { get; private set; }
         public bool OoitGeopend { get; private set; }
         public int MaxCap { get; private set; }
-        public int AantalAanwezigeGebruikers { get; private set; }
+        public int AantalAanwezigeGebruikers => AantalIngeschrevenGebruikers==0?0:this.GebruikersIngeschreven.Where(g => g.Aanwezig==true).ToList().Count;
+        public int AantalIngeschrevenGebruikers => this.GebruikersIngeschreven.Count;
         public string Lokaal { get; private set; }
-        //public Media Media { get; set; }
-        public ICollection<Media> Media { get; set; }
-        public string Beschrijving {get; set;}
+        public string Beschrijving { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public bool StaatOpen { get; set; }
+        #endregion
+
+        #region Collections
+        //lijst media items
+        public ICollection<Media> Media { get; set; }
+        //lijst van sessiegebruikers objecten die ingeschreven zijn bij een sessie
         public ICollection<SessieGebruiker> GebruikersIngeschreven { get; set; }
+        #endregion
+
+        #region Constructors
+        //voor databank
         public Sessie()
         {
-
+            Media = new List<Media>();
+            GebruikersIngeschreven = new List<SessieGebruiker>();
         }
-
-        public Sessie(string naam, DateTime start, DateTime eind, bool ooitGeopend, int maxCap, int aantalAanwezigeGebruikers, string lokaal, Verantwoordelijke verantwoordelijke, string beschrijving = "", bool staatOpen = false)
+        //volledige constructor
+        public Sessie(string naam, DateTime start, DateTime eind, bool ooitGeopend, int maxCap, string lokaal, Verantwoordelijke verantwoordelijke, string beschrijving = "", bool staatOpen = false)
         {
             this.Naam = naam;
             this.StartDatum = start;
             this.EindDatum = eind;
             this.OoitGeopend = ooitGeopend;
             this.MaxCap = maxCap;
-            this.AantalAanwezigeGebruikers = aantalAanwezigeGebruikers;
             this.Lokaal = lokaal;
             this.Media = new List<Media>();
             this.Beschrijving = beschrijving;
             this.Verantwoordelijke = verantwoordelijke;
             this.StaatOpen = staatOpen;
-            GebruikersIngeschreven = new List<SessieGebruiker>();
+            this.GebruikersIngeschreven = new List<SessieGebruiker>();
         }
+        #endregion
+
+        #region DisplayMedia
+        //html code voor de media te tonen
         public string DisplayAlleMedia()
         {
             List<Media> linken = Media.Where(m => m.MediaType == MediaType.Link).ToList();
-            List<Media> videos = Media.Where(m => (m.MediaType == MediaType.Video||m.MediaType == MediaType.YoutubeVideo)).ToList();
-            List<Media> documenten = Media.Where(m => (m.MediaType == MediaType.Excel||
-                        m.MediaType==MediaType.Pdf||
-                        m.MediaType==MediaType.Powerpoint||
-                        m.MediaType==MediaType.Word||
-                        m.MediaType==MediaType.Zip||
-                        m.MediaType==MediaType.AnderDocument)).ToList();
+            List<Media> videos = Media.Where(m => (m.MediaType == MediaType.Video || m.MediaType == MediaType.YoutubeVideo)).ToList();
+            List<Media> documenten = Media.Where(m => (m.MediaType == MediaType.Excel ||
+                        m.MediaType == MediaType.Pdf ||
+                        m.MediaType == MediaType.Powerpoint ||
+                        m.MediaType == MediaType.Word ||
+                        m.MediaType == MediaType.Zip ||
+                        m.MediaType == MediaType.AnderDocument)).ToList();
             List<Media> afbeeldingen = Media.Where(m => m.MediaType == MediaType.Afbeelding).ToList();
             string uitvoer = "";
             if (videos.Any())
@@ -101,14 +115,21 @@ namespace dotnet_g033.Models.Domain
             }
             return uitvoer;
         }
+        #endregion
+
+        #region Methods
+        //voegt een media object toe aan de lijst (gebruikt voor het toevoegen van media bij testen en dummydata)
         public void VoegMediaToe(Media media)
         {
             Media.Add(media);
         }
-
-        public void SchrijfGebruikerIn(Sessie sessie, Gebruiker gebruiker) {
-            SessieGebruiker sessieGebruiker = new SessieGebruiker(sessie, gebruiker, sessie.SessieId, gebruiker.IdNumber);
-            this.GebruikersIngeschreven.Add(sessieGebruiker);
+        //krijgt een SessieGebruiker object binnen en voegt het toe aan de lijst
+        public void SchrijfGebruikerIn(SessieGebruiker nieuweInschrijving,Gebruiker gebruiker)
+        {
+            GebruikersIngeschreven.Add(nieuweInschrijving);
+            gebruiker.SchrijfIn(nieuweInschrijving);
         }
+        #endregion
+
     }
 }
