@@ -129,6 +129,17 @@ namespace dotnet_g033.Models.Domain
             GebruikersIngeschreven.Add(nieuweInschrijving);
             gebruiker.SchrijfIn(nieuweInschrijving);
         }
+        public SessieGebruiker GeefSessieGebruiker(Gebruiker gebruiker) {
+            return GebruikersIngeschreven.FirstOrDefault(gs => gs.GebruikerId == gebruiker.Id);
+        }
+        public void SchrijfGebruikerUit(SessieGebruiker nieuweInschrijving, Gebruiker gebruiker)
+        {
+            GebruikersIngeschreven.Remove(nieuweInschrijving);
+            gebruiker.SchrijfUit(nieuweInschrijving);
+        }
+        public bool GebruikerIsIngeschreven(Gebruiker gebruiker) {
+            return GebruikersIngeschreven.Any(gs => gs.GebruikerId == gebruiker.Id);
+        }
         #endregion
 
     }
