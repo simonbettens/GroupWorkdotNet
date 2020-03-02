@@ -140,6 +140,10 @@ namespace dotnet_g033.Models.Domain
         public bool GebruikerIsIngeschreven(Gebruiker gebruiker) {
             return GebruikersIngeschreven.Any(gs => gs.GebruikerId == gebruiker.Id);
         }
+
+        public void StelGebruikerAanwezig(SessieGebruiker aanmelding) {
+            aanmelding.Aanwezig = true;
+        }
         #endregion
 
     }

@@ -11,22 +11,15 @@
         <div class="font-italic">
             @Model.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.EindDatum.ToString("HH:mm")
             <form method="post">
-                @if ((bool)ViewData["IsIngeschreven"])
-                {
-                    <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@Model.SessieId" type="submit">Uitschrijven</button>
-                    if ((bool)ViewData["IsAanwezig"])
-                    {
-
-                    }
-                    else 
-                    {
-                    
+                @if ((bool)ViewData["IsIngeschreven"]) {
+                    <button class="btn btn-secondary float-right text-center " asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@Model.SessieId" type="submit">Uitschrijven</button>
+                    if (!(bool)ViewData["IsAanwezig"]) {
+                        <button class="btn btn-secondary float-right text-center " style="margin-right:1em" asp-controller="Sessie" asp-action="AanwezigStellen" asp-route-id="@Model.SessieId" type="submit">Aanmelden</button>
                     }
                 }
-                else
-                {
+                else {
                     <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@Model.SessieId" type="submit">Inschrijven </button>
-                    
+
                 }
 
             </form> 

@@ -105,16 +105,16 @@ namespace dotnet_g033.Controllers
                     sessie.SchrijfGebruikerIn(sessieGebruiker, gebruiker);
                     _gebruikerRepository.SaveChanges();
                     _sessieRepository.SaveChanges();
-                    TempData["message"] = $"Je inschrijving voor {sessie.Naam} werd geregistreerd...";
+                    TempData["message"] = $"Je inschrijving voor {sessie.Naam} werd geregistreerd.";
                 }
                 catch
                 {
-                    TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet inschrijven...";
+                    TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet inschrijven.";
 
                 }
 
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", new {id = id });
 
         }
         [HttpPost]
@@ -130,17 +130,38 @@ namespace dotnet_g033.Controllers
                     sessie.SchrijfGebruikerUit(sessieGebruiker, gebruiker);
                     _gebruikerRepository.SaveChanges();
                     _sessieRepository.SaveChanges();
-                    TempData["message"] = $"Je bent uitgeschreven voor {sessie.Naam} ...";
+                    TempData["message"] = $"Je bent uitgeschreven voor {sessie.Naam}.";
                 }
                 catch
                 {
-                    TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet uitschrijven ...";
+                    TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet uitschrijven.";
 
                 }
 
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", new {id = id});
 
+        }
+
+        [HttpPost]
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public IActionResult AanwezigStellen(int id, Gebruiker gebruiker) {
+            Sessie sessie = _sessieRepository.GetById(id);
+            if (sessie.GebruikerIsIngeschreven(gebruiker)&&sessie.StaatOpen) {
+                try {
+                    sessie.StelGebruikerAanwezig(sessie.GeefSessieGebruiker(gebruiker));
+                    _gebruikerRepository.SaveChanges();
+                    _sessieRepository.SaveChanges();
+                    TempData["message"] = $"Je staat aanwezig voor {sessie.Naam}.";
+                }
+                catch {
+                    TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet aanmelden.";
+                }
+            }
+            else {
+                TempData["error"] = "Deze sessie staat momenteel nog niet open.";
+            }
+            return RedirectToAction("Details", new { id = id });
         }
 
         #endregion

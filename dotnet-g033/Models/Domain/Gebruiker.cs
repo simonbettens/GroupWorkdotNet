@@ -48,6 +48,7 @@ namespace dotnet_g033.Models.Domain
         {
             this.SessiesIngeschreven.Remove(nieuweInschrijving);
         }
+
         #endregion
 
     }
