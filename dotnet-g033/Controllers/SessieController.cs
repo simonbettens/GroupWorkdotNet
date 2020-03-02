@@ -1,6 +1,7 @@
 ﻿using dotnet_g033.Filters;
 using dotnet_g033.Models.Domain;
 using dotnet_g033.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -9,7 +10,9 @@ using System.Linq;
 
 namespace dotnet_g033.Controllers
 {
-    public class SessieController : Controller
+    
+    [Authorize]
+        public class SessieController : Controller
     {
 
         #region Repositories
@@ -31,6 +34,7 @@ namespace dotnet_g033.Controllers
         #region Index & Details
 
         [ServiceFilter(typeof(GebruikerFilter))]
+
         public ActionResult Index(Gebruiker gebruiker, int maandId = 0)
         {
             if (maandId == 0)
@@ -62,7 +66,8 @@ namespace dotnet_g033.Controllers
             }
             IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
             ViewData["Maanden"] = GetMaandSelectList(maandId);
-            return View(sessies);
+            SessieIndexViewmodel viewmodel = new SessieIndexViewmodel(gebruiker, sessies);
+            return View(viewmodel);
         }
 
         [ServiceFilter(typeof(GebruikerFilter))]

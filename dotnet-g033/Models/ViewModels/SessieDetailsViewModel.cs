@@ -17,6 +17,7 @@ namespace dotnet_g033.Models.ViewModels {
         public int MaxCap { get; }
         public int AantalAanwezigeGebruikers { get; }
         public int AantalIngeschrevenGebruikers { get; }
+        public int AantalResterend => MaxCap - AantalIngeschrevenGebruikers;
         public string Lokaal { get;  }
         public string Beschrijving { get;  }
         public string VerantwoordelijkeNaam { get;  }

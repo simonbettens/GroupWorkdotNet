@@ -29,9 +29,10 @@
         <li class="list-group-item">@Model.Beschrijving</li>
     }
     @Html.Raw(Model.DisplayMedia())
-    <li class="list-group-item">
-        <p>Aantal plaatsen beschikbaar: @Model.AantalIngeschrevenGebruikers/@Model.MaxCap</p>
-    </li>
+<li class="list-group-item">
+    <!-- <p>Aantal plaatsen beschikbaar: @Model.AantalIngeschrevenGebruikers/@Model.MaxCap</p>-->
+    <p>Aantal plaatsen beschikbaar: @(Model.AantalResterend)/@Model.MaxCap</p>
+</li>
 </ul>
 <br />
 <br />
