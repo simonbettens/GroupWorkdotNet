@@ -16,16 +16,16 @@
                     <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@Model.SessieId" type="submit">Uitschrijven</button>
                     if ((bool)ViewData["IsAanwezig"])
                     {
-
+                        
                     }
                     else 
                     {
-                    
+                       
                     }
                 }
                 else
                 {
-                    <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@Model.SessieId" type="submit">Inschrijven </button>
+                    <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@Model.SessieId" type="submit">Inschrijven</button>
                     
                 }
 
@@ -36,9 +36,10 @@
         <li class="list-group-item">@Model.Beschrijving</li>
     }
     @Html.Raw(Model.DisplayMedia())
-    <li class="list-group-item">
-        <p>Aantal plaatsen beschikbaar: @Model.AantalIngeschrevenGebruikers/@Model.MaxCap</p>
-    </li>
+<li class="list-group-item">
+    <!-- <p>Aantal plaatsen beschikbaar: @Model.AantalIngeschrevenGebruikers/@Model.MaxCap</p>-->
+    <p>Aantal plaatsen beschikbaar: @(Model.AantalResterend)/@Model.MaxCap</p>
+</li>
 </ul>
 <br />
 <br />
