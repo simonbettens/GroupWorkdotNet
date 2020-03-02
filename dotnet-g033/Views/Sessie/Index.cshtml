@@ -4,10 +4,16 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-@using (Html.BeginForm("Index", "Sessie", FormMethod.Post))
-{
-    @Html.DropDownList("maandId", ViewData["Maanden"] as SelectList, new { @class = "form-control" })
-}
+<form>
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="maandId"></label>
+            <select onchange="this.form.submit()" id="maandId" name="maandId" asp-items="@(ViewData["Maanden"] as SelectList)" class="form-control">
+            </select>
+        </div>
+    </div>
+</form>
+
 
 <p></p>
 
@@ -52,18 +58,9 @@
                 <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
 
                 <td>
-                       <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a> 
+                    <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
                 </td>
             </tr>
         }
     }
 </table>
-@section Scripts{
-    <script>
-        document.addEventListener("DOMContentLoaded", function (e) {
-            document.getElementById("maandId").addEventListener("change", function (ev) {
-                document.forms[1].submit();
-            })
-        });
-    </script>
-}
