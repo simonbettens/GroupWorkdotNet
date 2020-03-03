@@ -4,17 +4,22 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-@using (Html.BeginForm("Index", "Sessie", FormMethod.Post))
-{
-    @Html.DropDownList("maandId", ViewData["Maanden"] as SelectList, new { @class = "form-control" })
-}
+<form>
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="maandId"></label>
+            <select onchange="this.form.submit()" id="maandId" name="maandId" asp-items="@(ViewData["Maanden"] as SelectList)" class="form-control">
+            </select>
+        </div>
+    </div>
+</form>
 
 <p></p>
-@{ 
+@{
     var gebruikersType = (int)Model.Gebruiker.Type;
 
 }
-   
+
 
 <table class="table">
     @if ((bool)@ViewData["bevatSessies"])
@@ -34,13 +39,13 @@
         <tr>
             @if (gebruikersType >= 2)
             {
-               
-            <th>
-                <p>Zichtbaarheid</p>
-            </th>
+
+                <th>
+                    <p>Zichtbaarheid</p>
+                </th>
             }
-             
-                
+
+
             <th>Titel</th>
             <th>Naam verantwoordelijke</th>
             <th>Start datum & tijd</th>
@@ -50,45 +55,37 @@
         </tr>
         @foreach (var item in Model.Sessies)
         {
-<tr>
-    @if (gebruikersType >= 2 && item.StaatOpen == true)
-    {
-        <td>
-            <span class="iconify" data-icon="el:eye-open" data-inline="false"></span> </td>
-    }
-    else if(gebruikersType >= 2 && item.StaatOpen == false)
-    {
-<td>
-    <span class="iconify" data-icon="el:eye-close" data-inline="false"></span>
-</td>
-    }
-    <td>
-        @item.Naam
-    </td>
-    <td>
-        @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
-    </td>
-    <td>
-        @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
-    </td>
-    <td>
-        @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
-    </td>
-    <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
+            <tr>
+                @if (gebruikersType >= 2 && item.StaatOpen == true)
+                {
+                    <td>
+                        <span class="iconify" data-icon="el:eye-open" data-inline="false"></span>
+                    </td>
+                }
+                else if (gebruikersType >= 2 && item.StaatOpen == false)
+                {
+                    <td>
+                        <span class="iconify" data-icon="el:eye-close" data-inline="false"></span>
+                    </td>
+                }
+                <td>
+                    @item.Naam
+                </td>
+                <td>
+                    @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
+                </td>
+                <td>
+                    @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                </td>
+                <td>
+                    @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                </td>
+                <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
 
-    <td>
-        <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
-    </td>
-</tr>
+                <td>
+                    <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
+                </td>
+            </tr>
         }
     }
 </table>
-@section Scripts{
-    <script>
-        document.addEventListener("DOMContentLoaded", function (e) {
-            document.getElementById("maandId").addEventListener("change", function (ev) {
-                document.forms[1].submit();
-            })
-        });
-    </script>
-}
