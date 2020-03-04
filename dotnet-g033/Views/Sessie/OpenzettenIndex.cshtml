@@ -17,31 +17,34 @@
 <p></p>
 
 <table class="table">
-    @if ((bool)@ViewData["bevatSessies"])
+    <tr>
+        <th>
+            <p>Zichtbaarheid</p>
+        </th>
+        <th>Titel</th>
+        <th>Naam verantwoordelijke</th>
+        <th>Start datum & tijd</th>
+        <th>Eind datum & tijd</th>
+        <th class="text-center">Aantal Personen</th>
+        <th></th>
+    </tr>
+    @if ((bool)ViewData["BevatSessies"])
     {
-        if ((bool)ViewData["Ingelogd"])
-        {
-            <text>Er zijn geen sessies ingepland voor deze maand</text>;
-        }
-        else
-        {
-            <text>U moet zich inloggen</text>;
-
-        }
-    }
-    else
-    {
-        <tr>
-            <th>Titel</th>
-            <th>Naam verantwoordelijke</th>
-            <th>Start datum & tijd</th>
-            <th>Eind datum & tijd</th>
-            <th class="text-center">Aantal Personen</th>
-            <th></th>
-        </tr>
         @foreach (var item in Model.Sessies)
         {
             <tr>
+                @if (item.StaatOpen == true)
+                {
+                    <td>
+                        <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-open" data-inline="false"></span></a>
+                    </td>
+                }
+                else if (item.StaatOpen == false)
+                {
+                    <td>
+                        <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-close" data-inline="false"></span></a>
+                    </td>
+                }
                 <td>
                     @item.Naam
                 </td>
@@ -61,5 +64,9 @@
                 </td>
             </tr>
         }
+    }
+    else
+    {
+        <text>U heeft nog geen sessies ingepland deze maand</text>;
     }
 </table>

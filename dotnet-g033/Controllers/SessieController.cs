@@ -41,7 +41,7 @@ namespace dotnet_g033.Controllers
             {
                 maandId = DateTime.Now.Month;
             }
-            HashSet<Sessie> hashSessies = _sessieRepository.GetByMaand(maandId).ToHashSet();
+            HashSet<Sessie> hashSessies = _sessieRepository.GetByMaand(maandId).Where(s => s.Gesloten != true).ToHashSet();
             if (gebruiker != null)
             {
                 switch (gebruiker.Type)
@@ -179,5 +179,53 @@ namespace dotnet_g033.Controllers
         }
         #endregion
 
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public ActionResult OpenzettenIndex(Gebruiker gebruiker, int maandId = 0)
+        {
+            if (maandId == 0)
+            {
+                maandId = DateTime.Now.Month;
+            }
+            HashSet<Sessie> hashSessies;
+            if ((int) gebruiker.Type == 3)
+                hashSessies = _sessieRepository.GetSessieHoofdVerantwoordelijkeNogTeOpenen(gebruiker, maandId).ToHashSet();
+            else
+                hashSessies = _sessieRepository.GetSessieVerantwoordelijkeNogTeOpenen(gebruiker, maandId).ToHashSet();
+            IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
+            ViewData["BevatSessies"] = sessies.Any(); 
+            ViewData["Maanden"] = GetMaandSelectList(maandId);                
+            SessieIndexViewmodel viewmodel = new SessieIndexViewmodel(gebruiker, sessies);
+            return View(viewmodel);
+        }
+
+        public ActionResult VeranderStaatOpen(int id)
+        {
+            Sessie sessie = _sessieRepository.GetById(id);
+            HashSet<Sessie> hashSessies = _sessieRepository.GetAll().ToHashSet();
+            IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
+            IEnumerable<Sessie> sessiesOpen = new List<Sessie>(sessies.Where(s => s.StaatOpen == true));
+            if (sessie != null)
+            {
+                if (sessie.StaatOpen == true)
+                {
+                    sessie.Sluit();
+                    TempData["message"] = $"{sessie.Naam} is gesloten";
+                }
+                else
+                {
+                    if (sessiesOpen.Count() > 0)
+                    {
+                        TempData["error"] = $"Er staat al een sessie open van {sessiesOpen.ToList().First().Verantwoordelijke.Voornaam} {sessiesOpen.ToList().First().Verantwoordelijke.Achternaam}!";
+                    }
+                    else
+                    {
+                        sessie.ZetOpen();
+                        TempData["message"] = $"{sessie.Naam} staat nu open";
+                    }
+                }
+                _sessieRepository.SaveChanges();
+            }
+            return RedirectToAction("OpenzettenIndex");
+        }
     }
 }

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using dotnet_g033.Models.Domain
+
+@inject SignInManager<Gebruiker> SignInManager
+@inject UserManager<Gebruiker> UserManager
+@inject IGebruikerRepository GebruiksRepository
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,6 +32,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Sessie" asp-action="Index">Sessiekalender</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated) {
+                            @if ((int)GebruiksRepository.GetByUsername(User.Identity.Name).Type >= 2)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sessie" asp-action="OpenzettenIndex">Mijn Sessies</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
@@ -33,11 +47,13 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @if (TempData["message"] != null) {
+            @if (TempData["message"] != null)
+            {
                 <div class="alert alert-success">@TempData["message"]</div>
             }
-            @if (TempData["error"] != null) {
-                <div class="alert alert-warning">@TempData["error"]</div>
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["error"]</div>
             }
             @RenderBody()
         </main>

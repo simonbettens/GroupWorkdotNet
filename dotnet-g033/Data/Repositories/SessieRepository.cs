@@ -20,12 +20,12 @@ namespace dotnet_g033.Data.Repositories
 
         public IEnumerable<Sessie> GetAll()
         {
-            return _sessies.ToList().OrderBy(s => s.StartDatum).ThenBy(s => s.Naam);
+            return _sessies.Include(s => s.Verantwoordelijke).ToList().OrderBy(s => s.StartDatum).ThenBy(s => s.Naam);
         }
 
         public IEnumerable<Sessie> GetByMaand(int maand)
         {
-            return _sessies.Where(s => s.StartDatum.Month == maand && s.EindDatum>DateTime.Today && s.OoitGeopend == false)
+            return _sessies.Where(s => s.StartDatum.Month == maand && s.EindDatum>DateTime.Today && s.Gesloten == false)
                 .Include(s => s.Verantwoordelijke).Include(s=>s.GebruikersIngeschreven)
                 .OrderBy(s => s.StartDatum).ThenBy(s=>s.Naam).ToList();
         }
@@ -41,13 +41,24 @@ namespace dotnet_g033.Data.Repositories
             return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Verantwoordelijke)
                 .Include(s => s.GebruikersIngeschreven).FirstOrDefault();
         }
-       
+
+        public IEnumerable<Sessie> GetSessieVerantwoordelijkeNogTeOpenen(Gebruiker g, int maandId)
+        {
+            return _sessies.Where(s => s.StartDatum.Month == maandId && s.Verantwoordelijke.UserName.Equals(g.UserName) && DateTime.Now.AddHours(1) <= s.StartDatum && s.Gesloten == false)
+                .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
+                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
+        }
+
+        public IEnumerable<Sessie> GetSessieHoofdVerantwoordelijkeNogTeOpenen(Gebruiker g, int maandId)
+        {
+            return _sessies.Where(s => s.StartDatum.Month == maandId && DateTime.Now.AddHours(1) <= s.StartDatum && s.Gesloten == false)
+                .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
+                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();
         }
-
-       
-
     }
 }

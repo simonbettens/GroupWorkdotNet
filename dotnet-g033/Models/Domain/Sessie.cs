@@ -13,7 +13,7 @@ namespace dotnet_g033.Models.Domain
         public int SessieId { get; private set; }
         public DateTime StartDatum { get; private set; }
         public DateTime EindDatum { get; private set; }
-        public bool OoitGeopend { get; private set; }
+        public bool Gesloten { get; private set; }
         public int MaxCap { get; private set; }
         public int AantalAanwezigeGebruikers => AantalIngeschrevenGebruikers==0?0:this.GebruikersIngeschreven.Where(g => g.Aanwezig==true).ToList().Count;
         public int AantalIngeschrevenGebruikers => this.GebruikersIngeschreven.Count;
@@ -38,12 +38,12 @@ namespace dotnet_g033.Models.Domain
             GebruikersIngeschreven = new List<SessieGebruiker>();
         }
         //volledige constructor
-        public Sessie(string naam, DateTime start, DateTime eind, bool ooitGeopend, int maxCap, string lokaal, Verantwoordelijke verantwoordelijke, string beschrijving = "", bool staatOpen = false)
+        public Sessie(string naam, DateTime start, DateTime eind, bool gesloten, int maxCap, string lokaal, Verantwoordelijke verantwoordelijke, string beschrijving = "", bool staatOpen = false)
         {
             this.Naam = naam;
             this.StartDatum = start;
             this.EindDatum = eind;
-            this.OoitGeopend = ooitGeopend;
+            this.Gesloten = gesloten;
             this.MaxCap = maxCap;
             this.Lokaal = lokaal;
             this.Media = new List<Media>();
@@ -143,6 +143,16 @@ namespace dotnet_g033.Models.Domain
 
         public void StelGebruikerAanwezig(SessieGebruiker aanmelding) {
             aanmelding.Aanwezig = true;
+        }
+
+        public void ZetOpen()
+        {
+            this.StaatOpen = true;
+        }
+
+        public void Sluit()
+        {
+            this.StaatOpen = false;
         }
         #endregion
 
