@@ -2,6 +2,7 @@
 using dotnet_g033.Models.Domain;
 using dotnet_g033.Models.ViewModels;
 using dotnet_g033.Tests.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -104,16 +105,83 @@ namespace dotnet_g033.Tests.Controllers
         [Fact]
         public void Inschrijven_KanSessieNietVinden() {
             _mockSessieRepository.Setup(s => s.GetById(1)).Returns((Sessie)null);
-            var result = Assert.IsType<RedirectToActionResult>(_sessieController.InSchrijven(1, _gebruiker));
+            
+            _sessieController.InSchrijven(1, _gebruiker);
+            Assert.False(_sessie.GebruikerIsIngeschreven(_gebruiker));
         }
         [Fact]
-        public void Inschrijven_KanSessieVindenEnKanNietOpslaan() {
+        public void Inschrijven_GebruikerNietIngelogd_SchrijftNietIn() {
             _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie);
-            _mockSessieRepository.Setup(s => s.SaveChanges()).Throws<Exception>();
+            _sessieController.InSchrijven(1, (Gebruiker)null);
+            Assert.False(_sessie.GebruikerIsIngeschreven(_gebruiker));
+        }
+         
+        [Fact]
+        public void Inschrijven_KanSessieVinden() {
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie);
             var result = Assert.IsType<RedirectToActionResult>(_sessieController.InSchrijven(1, _gebruiker));
+            Assert.True(_sessie.GebruikerIsIngeschreven(_gebruiker));
+        }
+        #endregion
+
+        #region uitschrijven
+        [Fact]
+        public void Uitschrijven_SessieIdIsOngeldig_SchrijftNietUit() {
+            _sessie.SchrijfGebruikerIn(new SessieGebruiker(_sessie, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns((Sessie)null);
+            var result = Assert.IsType<RedirectToActionResult>(_sessieController.Uitschrijven(1, _gebruiker));
+            Assert.True(_sessie.GebruikerIsIngeschreven(_gebruiker));
         }
 
+        [Fact]
+        public void Uitschrijven_GebruikerNietIngelogd_SchrijftNietUit() {
+            _sessie.SchrijfGebruikerIn(new SessieGebruiker(_sessie, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie);
+            var result = Assert.IsType<RedirectToActionResult>(_sessieController.Uitschrijven(1, (Gebruiker)null));
+            Assert.True(_sessie.GebruikerIsIngeschreven(_gebruiker));
+        }
 
+        [Fact]
+        public void Uitschrijven_GeldigeVoorwaarden_GebruikerUitgeschreven() {
+            _sessie.SchrijfGebruikerIn(new SessieGebruiker(_sessie, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie);
+            _sessieController.Uitschrijven(1, _gebruiker);
+            Assert.False(_sessie.GebruikerIsIngeschreven(_gebruiker));
+        }
+        #endregion
+
+        #region Aanwezig Stellen
+
+        [Fact]
+        public void AanwezigStellen_GeldigeVoorwaarden_GebruikerAanwezigGezet() {
+            _sessie.SchrijfGebruikerIn(new SessieGebruiker(_sessie, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie);
+            _sessieController.AanwezigStellen(1, _gebruiker);
+            Assert.True(_sessie.GeefSessieGebruiker(_gebruiker).Aanwezig);
+        }
+
+        [Fact]
+        public void AanwezigStellen_GebruikerNietAangemeld_GebruikerNietAanwezigGezet() {
+            _sessie.SchrijfGebruikerIn(new SessieGebruiker(_sessie, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie);
+            _sessieController.AanwezigStellen(1, (Gebruiker)null);
+            Assert.False(_sessie.GeefSessieGebruiker(_gebruiker).Aanwezig);
+        }
+
+        [Fact]
+        public void AanwezigStellen_OngeldigSessieId_GebruikerNietAanwezigGezet() {
+            _sessie.SchrijfGebruikerIn(new SessieGebruiker(_sessie, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns((Sessie)null);
+            _sessieController.AanwezigStellen(1, _gebruiker);
+            Assert.False(_sessie.GeefSessieGebruiker(_gebruiker).Aanwezig);
+        }
+
+        [Fact]
+        public void AanwezigStellen_GebruikerNietIngeschreven_GebruikerNietAanwezigGezet() {
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie);
+            _sessieController.AanwezigStellen(1, _gebruiker);
+            Assert.Null(_sessie.GeefSessieGebruiker(_gebruiker));
+        }
         #endregion
 
     }
