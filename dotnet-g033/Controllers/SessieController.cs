@@ -183,7 +183,6 @@ namespace dotnet_g033.Controllers {
         }
         #endregion
 
-
         #region Hulpmethodes
         private SelectList GetMaandSelectList(int maandId = 0) {
             var maanden = from Maand m in Enum.GetValues(typeof(Maand)) select new { ID = (int)m, Name = m.ToString() };

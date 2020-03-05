@@ -12,6 +12,6 @@ namespace dotnet_g033.Models.Domain
         public String Naam { get; set; }
         public DateTime TijdToegevoegd { get; set; }
         public MediaType MediaType { get; set; }
-        public abstract string Display();
+       
     }
 }

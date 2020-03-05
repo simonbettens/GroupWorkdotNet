@@ -15,6 +15,7 @@ namespace dotnet_g033.Tests.Models
         public Video Video { get; set; }
         public Afbeelding Afbeelding { get; set; }
         public Document Document { get; set; }
+        public Gebruiker Gebruiker { get; set; }
         private readonly DummyApplicationDbContext _dummyContext;
         public SessieTest()
         {
@@ -25,13 +26,68 @@ namespace dotnet_g033.Tests.Models
             this.Video = _dummyContext.Video;
             this.Afbeelding = _dummyContext.Afbeelding;
             this.Document = _dummyContext.Word;
+            this.Gebruiker = _dummyContext.Gebruiker;
         }
+
         [Fact]
         public void VoegMediaToe() {
             Sessie1.VoegMediaToe(LinkGoogle);
             Assert.True(Sessie1.Media.Count==1);
         }
-        
+        [Fact]
+        public void SchrijfGebruikerIn_Test()
+        {
+            Assert.Equal(0, Gebruiker.SessiesIngeschreven.Count);
+            Assert.Equal(0, Sessie1.AantalIngeschrevenGebruikers);
+            SessieGebruiker sg = new SessieGebruiker(Sessie1, Gebruiker);
+            Sessie1.SchrijfGebruikerIn(sg, Gebruiker);
+            Assert.Equal(1, Gebruiker.SessiesIngeschreven.Count);
+            Assert.Equal(1, Sessie1.AantalIngeschrevenGebruikers);
+        }
+        [Fact]
+        public void SchrijfGebruikerUit_Test()
+        {
+            SessieGebruiker sg = new SessieGebruiker(Sessie1, Gebruiker);
+            Sessie1.SchrijfGebruikerUit(sg, Gebruiker);
+            Assert.Equal(0, Gebruiker.SessiesIngeschreven.Count);
+            Assert.Equal(0, Sessie1.AantalIngeschrevenGebruikers);
+        }
+        [Fact]
+        public void GeefSessieGebruiker_Test()
+        {
+            SessieGebruiker sg = new SessieGebruiker(Sessie1, Gebruiker);
+            Sessie1.SchrijfGebruikerIn(sg, Gebruiker);
+            Assert.Equal(sg.GebruikerId, Sessie1.GeefSessieGebruiker(Gebruiker).GebruikerId);
+        }
+        [Fact]
+        public void GebruikerIsIngeschreven_Test()
+        {
+            SessieGebruiker sg = new SessieGebruiker(Sessie1, Gebruiker);
+            Sessie1.SchrijfGebruikerIn(sg, Gebruiker);
+            Assert.True(Sessie1.GebruikerIsIngeschreven(Gebruiker));
+        }
+
+        [Fact]
+        public void StelGebruikerAanwezig_Test()
+        {
+            SessieGebruiker sg = new SessieGebruiker(Sessie1, Gebruiker);
+            Sessie1.StelGebruikerAanwezig(sg);
+            Assert.True(sg.Aanwezig);
+        }
+        [Fact]
+        public void ZetOpen_Test()
+        {
+            Sessie1.StaatOpen = false;
+            Sessie1.ZetOpen();
+            Assert.True(Sessie1.StaatOpen);
+        }
+        [Fact]
+        public void Sluit_Test()
+        {
+            Sessie1.StaatOpen = true;
+            Sessie1.Sluit();
+            Assert.False(Sessie1.StaatOpen);
+        }
 
     }
 }

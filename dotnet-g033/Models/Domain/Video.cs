@@ -18,30 +18,6 @@ namespace dotnet_g033.Models.Domain
             this.TijdToegevoegd = tijdToegevoegd;
             this.MediaType = mediaType;
         }
-        public override string Display()
-        {
-            String uitvoer = "";
-            switch (MediaType)
-            {
-                
-                case MediaType.Video: string prefix = Adress.Split('.')[1].ToLower();
-                    uitvoer = 
-                        $"<div class=\"embed-responsive embed-responsive-16by9\">" +
-                        $"<video class=\"embed-responsive-item\" controls=\"true\" preload=\"auto\">" +
-                        $"<source src=\"{Adress}\" type=\"video/{prefix}\">" +
-                        $"</video></div>";
-                    break;
-                case MediaType.YoutubeVideo: 
-                    uitvoer = 
-                        $"<div class=\"embed-responsive embed-responsive-16by9\"> " +
-                        $"<iframe class=\"embed-responsive-item\" src=\"{Adress}\" controls allowfullscreen></iframe>" +
-                        $"</div>";
-                    break;
-                default:
-                    break;
-            }
-
-            return uitvoer;
-        }
+        
     }
 }

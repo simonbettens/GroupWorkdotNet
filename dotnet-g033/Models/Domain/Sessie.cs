@@ -54,69 +54,6 @@ namespace dotnet_g033.Models.Domain
         }
         #endregion
 
-        #region DisplayMedia
-        //html code voor de media te tonen
-        public string DisplayAlleMedia()
-        {
-            List<Media> linken = Media.Where(m => m.MediaType == MediaType.Link).ToList();
-            List<Media> videos = Media.Where(m => (m.MediaType == MediaType.Video || m.MediaType == MediaType.YoutubeVideo)).ToList();
-            List<Media> documenten = Media.Where(m => (m.MediaType == MediaType.Excel ||
-                        m.MediaType == MediaType.Pdf ||
-                        m.MediaType == MediaType.Powerpoint ||
-                        m.MediaType == MediaType.Word ||
-                        m.MediaType == MediaType.Zip ||
-                        m.MediaType == MediaType.AnderDocument)).ToList();
-            List<Media> afbeeldingen = Media.Where(m => m.MediaType == MediaType.Afbeelding).ToList();
-            string uitvoer = "";
-            if (videos.Any())
-            {
-                uitvoer += $"<h4>Video's:</h4><div>";
-                foreach (var video in videos)
-                {
-                    uitvoer += $"{video.Display()}<br/>";
-                }
-                uitvoer += "</div>";
-            }
-            if (afbeeldingen.Any())
-            {
-                uitvoer += $"<h4>Afbeeldingen:</h4><div class=\"row\">";
-                foreach (var afbeelding in afbeeldingen)
-                {
-                    uitvoer += $"<div class=\"col-md-4\"><div class=\"thumbnail\">{afbeelding.Display()}</div></div>";
-                }
-                uitvoer += "</div>";
-            }
-            if (documenten.Any())
-            {
-                documenten.OrderBy(d => d.MediaType);
-                uitvoer += $"<h4>Documenten:</h4><div><table class=\"table\">";
-                uitvoer += $"<tr>" +
-                    $"<th></th>" +
-                    $"<th>Naam</th>" +
-                    $"<th>Datum Toegevoegd</th>" +
-                    $"</tr>";
-                foreach (var document in documenten)
-                {
-                    uitvoer += document.Display();
-                }
-                uitvoer += "</table></div>";
-            }
-            if (linken.Any())
-            {
-                uitvoer += $"<h4>Links:</h4>";
-                foreach (var link in linken)
-                {
-                    uitvoer += link.Display();
-                }
-            }
-            if (uitvoer != "")
-            {
-                uitvoer = "<li class=\"list-group-item\"><div>" + uitvoer + "</div></li>";
-            }
-            return uitvoer;
-        }
-        #endregion
-
         #region Methods
         //voegt een media object toe aan de lijst (gebruikt voor het toevoegen van media bij testen en dummydata)
         public void VoegMediaToe(Media media)

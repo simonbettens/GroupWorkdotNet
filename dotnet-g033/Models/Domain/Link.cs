@@ -19,9 +19,6 @@ namespace dotnet_g033.Models.Domain
             this.MediaType = mediaTye;
         }
         
-        public override string Display()
-        {
-            return $"<div><a href=\"{Adress}\" target=\"_blank\">{Naam}</a></div>";
-        }
+        
     }
 }

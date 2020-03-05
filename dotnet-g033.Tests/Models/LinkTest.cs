@@ -16,12 +16,5 @@ namespace dotnet_g033.Tests.Models
             _dummyContext = new DummyApplicationDbContext();
             this.Link = _dummyContext.LinkGoogle;
         }
-
-        [Fact]
-        public void DisplayTest()
-        {
-            String uitkomst = "<div><a href=\"https://www.google.be/\" target=\"_blank\">Klik hier om naar google te gaan</a></div>";
-            Assert.Equal(uitkomst,Link.Display());
-        }
     }
 }
