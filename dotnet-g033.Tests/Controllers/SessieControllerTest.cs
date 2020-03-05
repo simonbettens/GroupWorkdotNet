@@ -23,10 +23,13 @@ namespace dotnet_g033.Tests.Controllers
         private readonly Mock<ISessieRepository> _mockSessieRepository;
         private readonly Mock<IGebruikerRepository> _mockGebruikerRepository;
         private readonly Sessie _sessie;
+        private readonly Sessie _sessie2;
         private readonly int _maandJan = 1;
         private readonly int _maandFeb = 2;
         private readonly int _huidigeMaand;
         private readonly Gebruiker _gebruiker;
+        private readonly Verantwoordelijke _verantwoordelijkeLeeg;
+        private readonly Verantwoordelijke _verantwoordelijke;
 
         public SessieControllerTest() {
             _dummyContext = new DummyApplicationDbContext();
@@ -37,7 +40,10 @@ namespace dotnet_g033.Tests.Controllers
             };
             _huidigeMaand = DateTime.Now.Month;
             _gebruiker = _dummyContext.Gebruiker;
+            _verantwoordelijkeLeeg = _dummyContext.VerantwoordelijkeLeeg;
+            _verantwoordelijke= _dummyContext.Verantwoordelijke;
             _sessie = _dummyContext.Sessie1;
+            _sessie2 = _dummyContext.Sessie2;
         }
 
         #region Index
@@ -115,6 +121,28 @@ namespace dotnet_g033.Tests.Controllers
 
 
         #endregion
+
+        [Fact]
+        public void Sessie_Openzetten_KanGeslotenSessieNietVinden()
+        {
+
+            _mockSessieRepository.Setup(s => s.GetSessieVerantwoordelijkeNogTeOpenen(_verantwoordelijkeLeeg, 3)).Returns(new List<Sessie>());
+            var result = Assert.IsType<ViewResult>(_sessieController.OpenzettenIndex(_verantwoordelijkeLeeg));
+            SessieIndexViewmodel sessieOpenZetten = Assert.IsType<SessieIndexViewmodel>(result.Model);
+            Assert.Empty(sessieOpenZetten.Sessies);
+
+        }
+        [Fact]
+        public void Sessie_Openzetten_KanOpenSessieVinden()
+        {
+
+            _mockSessieRepository.Setup(s => s.GetSessieVerantwoordelijkeNogTeOpenen(_verantwoordelijke, 3)).Returns(new List<Sessie>() {_sessie2});
+            var result = Assert.IsType<ViewResult>(_sessieController.OpenzettenIndex(_verantwoordelijke));
+            SessieIndexViewmodel sessieOpenZetten = Assert.IsType<SessieIndexViewmodel>(result.Model);
+            Assert.Contains(_sessie2, sessieOpenZetten.Sessies);
+
+        }
+
 
     }
 }
