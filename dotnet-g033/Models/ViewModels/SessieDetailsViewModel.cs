@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace dotnet_g033.Models.ViewModels {
     public class SessieDetailsViewModel {
 
-        private readonly Sessie _sessie;
+        public Sessie _sessie;
         #region Properties
         public string Naam { get;  }
         public int SessieId { get;  }
@@ -35,7 +35,7 @@ namespace dotnet_g033.Models.ViewModels {
             this.AantalIngeschrevenGebruikers = sessie.AantalIngeschrevenGebruikers;
             this.Lokaal = sessie.Lokaal;
             this.Beschrijving = sessie.Beschrijving;
-            this.VerantwoordelijkeNaam = sessie.Verantwoordelijke.Voornaam + " "+ sessie.Verantwoordelijke.Achternaam;
+            //this.VerantwoordelijkeNaam = sessie.Verantwoordelijke.Voornaam + " "+ sessie.Verantwoordelijke.Achternaam;
             this.StaatOpen = sessie.StaatOpen;
             this._sessie = sessie;
         }
