@@ -170,6 +170,14 @@ namespace dotnet_g033.Tests.Controllers
             _sessieController.Uitschrijven(1, _gebruiker);
             Assert.False(_sessie.GebruikerIsIngeschreven(_gebruiker));
         }
+
+        [Fact]
+        public void Uitschrijven_SessieIsAlVoorbij_SchrijftNietUit() {
+            _sessie2.SchrijfGebruikerIn(new SessieGebruiker(_sessie2, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie2);
+            _sessieController.Uitschrijven(1, _gebruiker);
+            Assert.True(_sessie2.GebruikerIsIngeschreven(_gebruiker));
+        }
         #endregion
 
         #region Aanwezig Stellen

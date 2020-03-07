@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace dotnet_g033.Controllers {
-
+    /// <summary>
+    /// 
+    /// </summary>
     [Authorize]
     public class SessieController : Controller {
 
@@ -29,9 +31,14 @@ namespace dotnet_g033.Controllers {
         #endregion
 
         #region Index & Details
-
+        /// <summary>
+        /// Geeft een view terug waarop alle sessies die zich in de geselecteerde maand bevinden weergeven worden.
+        /// Als er geen maand geselecteerd is wordt de huidige maand gekozen als parameter.
+        /// </summary>
+        /// <param name="gebruiker">De ingelogde gebruiker</param>
+        /// <param name="maandId">De geselecteerde maand</param>
+        /// <returns>Een view met alle sessies van de geselecteerde maand</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
-
         public ActionResult Index(Gebruiker gebruiker, int maandId = 0) {
             if (maandId == 0) {
                 maandId = DateTime.Now.Month;
@@ -45,6 +52,14 @@ namespace dotnet_g033.Controllers {
             return View(viewmodel);
         }
 
+
+        /// <summary>
+        /// Geeft een view terug met alle details van een geselecteerde sessie.
+        /// Er wordt ook meegegeven of de gebruiker al ingeschreven of aanwezig staat voor de gekozen sessie.
+        /// </summary>
+        /// <param name="id">Het Id van de geselecteerde sessie</param>
+        /// <param name="gebruiker">de ingelogde gebruiker</param>
+        /// <returns>een view met alle info van de gekozen sessie</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
         public ActionResult Details(int id, Gebruiker gebruiker) {
             Sessie sessie = _sessieRepository.GetById(id);
@@ -60,15 +75,20 @@ namespace dotnet_g033.Controllers {
                 var viewModel = new SessieDetailsViewModel(sessie);
                 return View(viewModel);
             }
-            TempData["error"] = "Sorry, er is iets mis gegaan, we konden de sessie niet ophalen...";
+            TempData["error"] = "Er is iets mis gegaan, we konden de sessie niet ophalen.";
             return RedirectToAction(nameof(Index));
         }
 
         #endregion
 
         #region Inschrijven & Uitschrijven & Aanwezig Stellen
-
-        [HttpPost]
+        /// <summary>
+        /// De gebruiker inschrijven in de geselecteerde sessie.
+        /// Er wordt gecontroleerd of de gebruiker ingelogd is en of de sessie bestaat.
+        /// </summary>
+        /// <param name="id">de id van de geselecteerde sessie</param>
+        /// <param name="gebruiker">de ingelogde gebruiker</param>
+        /// <returns>een detailview van de gekozen sessie met een melding of de inschrijving geslaagd is</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
         public IActionResult InSchrijven(int id, Gebruiker gebruiker) {
             Sessie sessie = _sessieRepository.GetById(id);
@@ -81,7 +101,7 @@ namespace dotnet_g033.Controllers {
                     TempData["message"] = $"Je inschrijving voor {sessie.Naam} werd geregistreerd.";
                 }
                 catch {
-                    TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet inschrijven.";
+                    TempData["error"] = "Er is iets mis gegaan, we konden je niet inschrijven.";
 
                 }
 
@@ -89,31 +109,50 @@ namespace dotnet_g033.Controllers {
             return RedirectToAction("Details", new { id = id });
 
         }
+
+        /// <summary>
+        /// De gebruiker wordt uigeschreven uit de geselecteerde sessie.
+        /// Er wordt gecontroleerd of de gebruiker ingeschreven is en of de sessie en gebruiker bestaan.
+        /// De gebruiker kan niet uitschrijven als de sessie reeds afgelopen is.
+        /// </summary>
+        /// <param name="id">De id van de geselecteerde sessie</param>
+        /// <param name="gebruiker">de ingelogde gebruiker</param>
+        /// <returns>Een detailview van de gekozen sessie met een melding of de uitschrijving geslaagd is</returns>
         [HttpPost]
         [ServiceFilter(typeof(GebruikerFilter))]
         public IActionResult Uitschrijven(int id, Gebruiker gebruiker) {
             try {
                 Sessie sessie = _sessieRepository.GetById(id);
                 if (gebruiker != null && sessie != null) {
-
-                    SessieGebruiker sessieGebruiker = sessie.GeefSessieGebruiker(gebruiker);
-                    sessie.SchrijfGebruikerUit(sessieGebruiker, gebruiker);
-                    _gebruikerRepository.SaveChanges();
-                    _sessieRepository.SaveChanges();
-                    TempData["message"] = $"Je bent uitgeschreven voor {sessie.Naam}.";
+                    if (sessie.EindDatum > DateTime.Now) {
+                        SessieGebruiker sessieGebruiker = sessie.GeefSessieGebruiker(gebruiker);
+                        sessie.SchrijfGebruikerUit(sessieGebruiker, gebruiker);
+                        _gebruikerRepository.SaveChanges();
+                        _sessieRepository.SaveChanges();
+                        TempData["message"] = $"Je bent uitgeschreven voor {sessie.Naam}.";
+                    }
+                    else {
+                        TempData["error"] = "De sessie is reeds afgelopen. Uitschrijven is niet meer mogelijk.";
+                    }
                 }
                 else {
-                    throw new Exception();
+                    TempData["error"] = "Er is iets mis gegaan, we konden je niet uitschrijven.";
                 }
             }
             catch {
-                TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet uitschrijven.";
-
+                TempData["error"] = "Er is iets mis gegaan, we konden je niet uitschrijven.";
             }
             return RedirectToAction("Details", new { id = id });
 
         }
 
+        /// <summary>
+        /// De gebruiker wordt aanwezig gesteld op een sessie waar hij ingeschreven is.
+        /// Er wordt gecontroleerd of de sessie open staat en of de gebruiker ingeschreven is. 
+        /// </summary>
+        /// <param name="id">De id van de geselecteerde sessie</param>
+        /// <param name="gebruiker">de ingelogde gebruiker</param>
+        /// <returns>Een detailview van de gekozen sessie met een melding of de aanmelding geslaagd is</returns>
         [HttpPost]
         [ServiceFilter(typeof(GebruikerFilter))]
         public IActionResult AanwezigStellen(int id, Gebruiker gebruiker) {
@@ -127,18 +166,18 @@ namespace dotnet_g033.Controllers {
                         TempData["message"] = $"Je staat aanwezig voor {sessie.Naam}.";
                     }
                     catch {
-                        TempData["error"] = "Sorry, er is iets mis gegaan, we konden je niet aanmelden.";
+                        TempData["error"] = "Er is iets mis gegaan, we konden je niet aanmelden.";
                     }
                 }
-            }
-
-            else {
-                TempData["error"] = "Deze sessie staat momenteel nog niet open.";
+                else {
+                    TempData["error"] = "Deze sessie staat momenteel niet open.";
+                }
             }
             return RedirectToAction("Details", new { id = id });
         }
 
         #endregion
+        
 
         #region Open Zetten
         [ServiceFilter(typeof(GebruikerFilter))]

@@ -38,6 +38,7 @@
             <th>Eind datum & tijd</th>
             <th class="text-center">Aantal Personen</th>
             <th></th>
+            <th></th>
         </tr>
         @foreach (var item in Model.Sessies)
         {
@@ -58,6 +59,9 @@
 
                 <td>
                     <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
+                </td>
+                <td>
+                    <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
                 </td>
             </tr>
         }
