@@ -118,7 +118,6 @@ namespace dotnet_g033.Controllers {
         /// <param name="id">De id van de geselecteerde sessie</param>
         /// <param name="gebruiker">de ingelogde gebruiker</param>
         /// <returns>Een detailview van de gekozen sessie met een melding of de uitschrijving geslaagd is</returns>
-        [HttpPost]
         [ServiceFilter(typeof(GebruikerFilter))]
         public IActionResult Uitschrijven(int id, Gebruiker gebruiker) {
             try {

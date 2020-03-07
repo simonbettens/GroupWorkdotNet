@@ -61,7 +61,13 @@
                     <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
                 </td>
                 <td>
-                    <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
+                    @if (!item.GebruikerIsIngeschreven(Model.Gebruiker)) {
+                        <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
+                    }
+                    else {
+                        <a asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@item.SessieId">Uitschrijven</a>
+                    }
+
                 </td>
             </tr>
         }
