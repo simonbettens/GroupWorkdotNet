@@ -17,6 +17,7 @@ namespace dotnet_g033.Tests.Data
         public Sessie Sessie4 { get; set; }
         public Sessie Sessie5 { get; set; }
         public Sessie Sessie6 { get;  set; }
+        public Sessie Sessie7 { get;  set; }
 
         public IEnumerable<Sessie> Sessies => _sessies;
         public IEnumerable<Sessie> SessiesFeb => _sessiesFeb;
@@ -74,10 +75,11 @@ namespace dotnet_g033.Tests.Data
             Sessie3 = new Sessie("sessie3", new DateTime(2020, 2, 22, 16, 0, 0), new DateTime(2020, 2, 22, 17, 0, 0), false, 30, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
             Sessie4 = new Sessie("sessie4", new DateTime(2020, 2, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, "GSCHB4.026", admin);
             Sessie5 = new Sessie("sessie5", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-            Sessie6 = new Sessie("sessie6", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), true, 20, "GSCHB4.026", verantwoordelijkeLeeg, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+            Sessie6 = new Sessie("sessie6", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), true, 20, "GSCHB4.026", verantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+            Sessie7 = new Sessie("sessie7", new DateTime(2020, 2, 21, 10, 30, 0), new DateTime(2020, 2, 21, 12, 30, 0), false, 10, "GSCHB4.026", verantwoordelijke, staatOpen: true);
             this.VerantwoordelijkeLeeg = verantwoordelijkeLeeg;
             this.Verantwoordelijke = verantwoordelijke;
-            _sessies = new List<Sessie> { Sessie1, Sessie2, Sessie3, Sessie4, Sessie5, Sessie6 };
+            _sessies = new List<Sessie> { Sessie1, Sessie2, Sessie3, Sessie4, Sessie5, Sessie6, Sessie7 };
             _sessiesFeb = new List<Sessie> { Sessie1, Sessie2, Sessie3, Sessie4};
 
             this.LinkGoogle = new Link("https://www.google.be/",

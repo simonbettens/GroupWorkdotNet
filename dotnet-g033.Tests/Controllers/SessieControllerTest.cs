@@ -26,6 +26,9 @@ namespace dotnet_g033.Tests.Controllers
         private readonly Mock<IGebruikerRepository> _mockGebruikerRepository;
         private readonly Sessie _sessie;
         private readonly Sessie _sessie2;
+        private readonly Sessie _sessie3;
+        private readonly Sessie _sessie6;
+        private readonly Sessie _sessie7;
         private readonly int _maandJan = 1;
         private readonly int _maandFeb = 2;
         private readonly int _huidigeMaand;
@@ -49,6 +52,9 @@ namespace dotnet_g033.Tests.Controllers
             _verantwoordelijke = _dummyContext.Verantwoordelijke;
             _sessie = _dummyContext.Sessie1;
             _sessie2 = _dummyContext.Sessie2;
+            _sessie3 = _dummyContext.Sessie3;
+            _sessie6 = _dummyContext.Sessie6;
+            _sessie7 = _dummyContext.Sessie7;
         }
 
         #region Index
@@ -236,6 +242,21 @@ namespace dotnet_g033.Tests.Controllers
             SessieIndexViewmodel sessieOpenZetten = Assert.IsType<SessieIndexViewmodel>(result.Model);
             Assert.Contains(_sessie2, sessieOpenZetten.Sessies);
         }
+        [Fact]
+        public void Sessie_Openzetten_OpenzettenVanSessie()
+        {
+            _mockSessieRepository.Setup(s => s.GetById(6)).Returns(_sessie6);
+            _sessieController.VeranderStaatOpen(6);
+            Assert.True(_sessie6.StaatOpen);
+        }
+        [Fact]
+        public void Sessie_Openzetten_SluitenVanSessie()
+        {
+            _mockSessieRepository.Setup(s => s.GetById(7)).Returns(_sessie7);
+            _sessieController.VeranderStaatOpen(7);
+            Assert.False(_sessie7.StaatOpen);
+        }
+
         #endregion
 
 
