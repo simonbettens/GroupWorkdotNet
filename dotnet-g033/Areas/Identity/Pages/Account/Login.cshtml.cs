@@ -48,13 +48,15 @@ namespace dotnet_g033.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Gebruikersnaam")]
             public string Username { get; set; }
 
             [Required]
+            [Display(Name = "Wachtwoord")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Blijf ingelogd?")]
             public bool RememberMe { get; set; }
         }
 
