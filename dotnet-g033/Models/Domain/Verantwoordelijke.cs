@@ -7,7 +7,9 @@ namespace dotnet_g033.Models.Domain {
     public class Verantwoordelijke : Gebruiker {
         public ICollection<Sessie> BeheerdeSessies { get; set; }
 
-        public Verantwoordelijke(string username, string voornaam, string achternaam, string email, StatusType status, GebruikerType type) :base(username, voornaam, achternaam, email, status,type) {
+        public Verantwoordelijke(long idNumber, string username, string voornaam, string achternaam, string email, StatusType status, GebruikerType type) 
+            : base(idNumber, username, voornaam, achternaam, email, status, type)
+        {
             BeheerdeSessies = new List<Sessie>();
         }
 

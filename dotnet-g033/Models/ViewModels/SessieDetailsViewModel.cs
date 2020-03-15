@@ -28,12 +28,15 @@ namespace dotnet_g033.Models.ViewModels {
         public bool HeeftVideos { get; }
         public bool HeeftDocumenten { get; }
         public bool HeeftAfbeeldingen { get; }
+        public bool HeeftInschrevenGebruikers { get; set; }
+        public bool KanNogInschrijven => AantalResterend > 0;
 
         public IEnumerable<Media> Media { get; }
         public IEnumerable<Media> Linken { get; }
         public IEnumerable<Media> Videos { get; }
         public IEnumerable<Media> Documenten { get; }
         public IEnumerable<Media> Afbeeldingen { get; }
+        public IEnumerable<SessieGebruiker> GebruikersIngeschreven { get; set; }
         #endregion
 
         public SessieDetailsViewModel(Sessie sessie)
@@ -66,6 +69,9 @@ namespace dotnet_g033.Models.ViewModels {
             HeeftVideos = Videos.Any();
             HeeftDocumenten = Documenten.Any();
             HeeftAfbeeldingen = Afbeeldingen.Any();
+
+            this.GebruikersIngeschreven = sessie.GebruikersIngeschreven.OrderBy(gi => gi.AanwezigBevestiged).ThenBy(gi => gi.Voornaam).ThenBy(gi => gi.Achternaam);
+            this.HeeftInschrevenGebruikers = GebruikersIngeschreven.Any();
         }
 
 

@@ -23,12 +23,7 @@ namespace dotnet_g033.Data.Repositories
             return _gebruikers.ToList();
         }
 
-        public IEnumerable<Gebruiker> GetByID(int idNumber)
-        {
-            return _gebruikers.Where(g => g.IdNumber == idNumber).OrderBy(g => g.Achternaam).ToList();
-        }
-
-        public Gebruiker GetById(int idNumber)
+        public Gebruiker GetById(long idNumber)
         {
             return _gebruikers.Where(g => g.IdNumber == idNumber).FirstOrDefault();
         }

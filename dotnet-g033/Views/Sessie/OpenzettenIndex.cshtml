@@ -4,7 +4,7 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<form>
+<form style="margin-bottom:1em">
     <div class="form-inline">
         <div class="form-group">
             <label for="maandId"></label>
@@ -13,18 +13,22 @@
         </div>
     </div>
 </form>
+<div style="margin-bottom:1em" class="form-inline">
+    <div>
+        <input type="text" id="naam" onkeyup="filterOpenzettenFunction()" placeholder="Zoek een titel">
+    </div>
+    <div style="margin-left:1em">
+        <input type="text" id="verantwoordelijke" onkeyup="filterVerantwoordelijkeOpenzettenFunction()" placeholder="Zoek verantwoordelijke">
+    </div>
+</div>
 
-<p></p>
-
-<table class="table">
+<table id="myTable" class="table">
     <tr>
-        <th>
-            <p>Zichtbaarheid</p>
-        </th>
-        <th>Titel</th>
-        <th>Naam verantwoordelijke</th>
-        <th>Start datum & tijd</th>
-        <th>Eind datum & tijd</th>
+        <th class="text-left">Zichtbaarheid</th>
+        <th class="text-left">Titel</th>
+        <th class="text-center">Naam verantwoordelijke</th>
+        <th class="text-center">Start datum & tijd</th>
+        <th class="text-center">Duur</th>
         <th class="text-center">Aantal Personen</th>
         <th></th>
     </tr>
@@ -35,32 +39,31 @@
             <tr>
                 @if (item.StaatOpen == true)
                 {
-                    <td>
+                    <td class="text-center">
                         <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-open" data-inline="false"></span></a>
                     </td>
                 }
                 else if (item.StaatOpen == false)
                 {
-                    <td>
+                    <td class="text-center">
                         <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-close" data-inline="false"></span></a>
                     </td>
                 }
-                <td>
+                <td class="text-left">
                     @item.Naam
                 </td>
-                <td>
+                <td class="text-center">
                     @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
                 </td>
-                <td>
+                <td class="text-center">
                     @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
                 </td>
-                <td>
-                    @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                <td class="text-center">
+                    @(item.Duur.ToString(@"hh\:mm"))
                 </td>
                 <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
-
                 <td>
-                    <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
+                    <a asp-controller="Sessie" asp-action="DetailsExtra" asp-route-id="@item.SessieId">Details</a>
                 </td>
             </tr>
         }

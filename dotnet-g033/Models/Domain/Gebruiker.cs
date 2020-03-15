@@ -23,9 +23,9 @@ namespace dotnet_g033.Models.Domain
         {
             this.SessiesIngeschreven = new List<SessieGebruiker>();
         }
-
-        public Gebruiker(string username, string voornaam, string achternaam, string email, StatusType status, GebruikerType type)
+        public Gebruiker(long idNumber, string username, string voornaam, string achternaam, string email, StatusType status, GebruikerType type)
         {
+            this.IdNumber = idNumber;
             this.UserName = username;
             this.NormalizedUserName = username;
             this.Voornaam = voornaam;

@@ -9,31 +9,45 @@
         <div class="font-italic">@Model.Lokaal</div>
         <div class="font-italic">
             @Model.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.EindDatum.ToString("HH:mm")
-            <form method="post">
-                @if ((bool)ViewData["IsIngeschreven"])
-                {
-                    <button class="btn btn-secondary float-right text-center " asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@Model.SessieId" type="submit">Uitschrijven</button>
-                    if (!(bool)ViewData["IsAanwezig"])
+            <!--Kijk of het een Edit view is-->
+            @if ((bool)ViewData["IsDetails"])
+            {
+                <form method="post">
+                    <!--Is de gebruiker ingeschreven-->
+                    @if ((bool)ViewData["IsIngeschreven"])
                     {
-                        <button class="btn btn-secondary float-right text-center " style="margin-right:1em" asp-controller="Sessie" asp-action="AanwezigStellen" asp-route-id="@Model.SessieId" type="submit">Aanmelden</button>
+                        <button class="btn btn-secondary float-right text-center " asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@Model.SessieId" type="submit">Uitschrijven</button>
+                        <!--Is de gebruiker is aanwezig-->
+                        if (!(bool)ViewData["IsAanwezig"])
+                        {
+                            <button class="btn btn-secondary float-right text-center " style="margin-right:1em" asp-controller="Sessie" asp-action="AanwezigStellen" asp-route-id="@Model.SessieId" type="submit">Aanmelden</button>
+                        }
                     }
-                }
-                else
-                {
-                    <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@Model.SessieId" type="submit">Inschrijven </button>
+                    else
+                    {
+                        if (Model.KanNogInschrijven)
+                        {
+                            <button class="btn btn-secondary float-right text-center" asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@Model.SessieId" type="submit">Inschrijven </button>
+                        }
+                    }
 
-                }
-
-            </form>
+                </form>
+            }
         </div>
     </li>
     @if (Model.Beschrijving != "")
     {
         <li class="list-group-item">@Model.Beschrijving</li>
     }
-    <!--Media partial-->
-    <partial name="_MediaPartial" />
-
+    <!--Media partial heeft de view media-->
+    @if ((bool)ViewData["IsDetails"] && Model.HeeftMedia)
+    {
+        <partial name="_MediaPartial" />
+    }
+    @if (!(bool)ViewData["IsDetails"])
+    {
+        <partial name="_IngeschrevenGebruikersPartial" />
+    }
     <li class="list-group-item">
         <!-- <p>Aantal plaatsen beschikbaar: @Model.AantalIngeschrevenGebruikers/@Model.MaxCap</p>-->
         <p>Aantal plaatsen beschikbaar: @(Model.AantalResterend)/@Model.MaxCap</p>

@@ -11,14 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - IT-Lab</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet"  type="text/css" href="~/css/site.css"/>
     <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light navcolor border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">IT-Lab</a>
+                <div class="itlabLogo"><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/websiteImg/Itlablogo.png" /></a></div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,16 +27,14 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark text-black font-weight-bold" asp-area="" asp-controller="Sessie" asp-action="Index">Sessiekalender</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sessie" asp-action="Index">Sessiekalender</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated) {
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             @if ((int)GebruiksRepository.GetByUsername(User.Identity.Name).Type >= 2)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sessie" asp-action="OpenzettenIndex">Mijn Sessies</a>
+                                    <a class="nav-link text-dark text-black font-weight-bold" asp-area="" asp-controller="Sessie" asp-action="OpenzettenIndex">Mijn Sessies</a>
                                 </li>
                             }
                         }
@@ -61,7 +59,18 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - IT-Lab
+            <div class="float-left">
+                <p class="text-center text-md-left text-dark font-weight-bold"> ©2020 - IT-Lab</p>
+            </div>
+            <div class="float-right">
+                <ul class="list-unstyled list-inline">
+
+                    <li class="list-inline-item"><a class="btn-floating btn-fb mx-1" href="https://www.facebook.com/IT-Lab-Hogeschool-Gent-2040310702935554" target="_blank"><span class="iconify" data-icon="bx:bxl-facebook-circle" data-inline="false" style="color: black;" data-width="2em" data-height="2em"></span></a></li>
+                    <li class="list-inline-item"><a class="btn-floating btn-fb mx-1" href="https://www.facebook.com/groups/HoGentITLab" target="_blank"><span class="iconify" data-icon="ls:group" data-inline="false" style="color: black;" data-width="2em" data-height="2em"></span></a></li>
+                    <li class="list-inline-item"><a class="btn-floating btn-fb mx-1" href="mailto:harm.deweirdt@hogent.be" target="_top"><span class="iconify" data-icon="entypo:mail" data-inline="false" style="color: black;" data-width="2em" data-height="2em"></span></a></li>
+                    <li class="list-inline-item"><a class="btn-floating btn-fb mx-1" href="https://www.hogent.be/" target="_blank"><span class="hogentLogo iconify"><img src="~/images/websiteImg/logohogent.png" /></span></a></li>
+                </ul>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -4,7 +4,7 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<form>
+<form style="margin-bottom:1em">
     <div class="form-inline">
         <div class="form-group">
             <label for="maandId"></label>
@@ -14,28 +14,35 @@
     </div>
 </form>
 
-<p></p>
-
-<table class="table">
-    @if ((bool)@ViewData["bevatSessies"])
+@if ((bool)@ViewData["bevatSessies"])
+{
+    if ((bool)ViewData["Ingelogd"])
     {
-        if ((bool)ViewData["Ingelogd"])
-        {
-            <text>Er zijn geen sessies ingepland voor deze maand</text>;
-        }
-        else
-        {
-            <text>U moet zich inloggen</text>;
-
-        }
+        <text>Er zijn geen sessies ingepland voor deze maand</text>;
     }
     else
     {
+        <text>U moet zich inloggen</text>;
+
+    }
+}
+else
+{
+    <div style="margin-bottom:1em" class="form-inline">
+        <div>
+            <input type="text" id="naam" onkeyup="filterFunction()" placeholder="Zoek een titel">
+        </div>
+        <div style="margin-left:1em">
+            <input type="text" id="verantwoordelijke" onkeyup="filterVerantwoordelijkeFunction()" placeholder="Zoek verantwoordelijke">
+        </div>
+    </div>
+
+    <table id="myTable" class="table">
         <tr>
-            <th>Titel</th>
-            <th>Naam verantwoordelijke</th>
-            <th>Start datum & tijd</th>
-            <th>Eind datum & tijd</th>
+            <th class="text-left">Titel</th>
+            <th class="text-center">Naam verantwoordelijke</th>
+            <th class=" text-center">Start datum & tijd</th>
+            <th class=" text-center">Duur</th>
             <th class="text-center">Aantal Personen</th>
             <th></th>
             <th></th>
@@ -43,17 +50,17 @@
         @foreach (var item in Model.Sessies)
         {
             <tr>
-                <td>
+                <td class="text-left">
                     @item.Naam
                 </td>
-                <td>
+                <td class="text-center" >
                     @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
                 </td>
-                <td>
+                <td class=" text-center">
                     @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
                 </td>
-                <td>
-                    @(item.EindDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                <td class=" text-center">
+                    @(item.Duur.ToString(@"hh\:mm"))
                 </td>
                 <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
 
@@ -61,15 +68,25 @@
                     <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
                 </td>
                 <td>
-                    @if (!item.GebruikerIsIngeschreven(Model.Gebruiker)) {
-                        <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
+                    @if (!item.GebruikerIsIngeschreven(Model.Gebruiker))
+                    {
+                        if (item.KanNogInschrijven)
+                        {
+                            <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
+                        }
+                        else
+                        {
+                            <text>Vol!</text>
+                        }
                     }
-                    else {
+                    else
+                    {
                         <a asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@item.SessieId">Uitschrijven</a>
                     }
 
                 </td>
             </tr>
         }
-    }
-</table>
+
+    </table>
+}

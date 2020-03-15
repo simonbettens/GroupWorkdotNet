@@ -1,0 +1,73 @@
+﻿@model dotnet_g033.Models.ViewModels.SessieDetailsViewModel
+@if (Model.HeeftInschrevenGebruikers)
+{
+    <li class="list-group-item">
+        <div>
+            <h3>Ingeschreven Gebruikers</h3>
+            <div>
+                <div class="float-left" style="margin-bottom:1em">
+                    <input type="text" id="naam" onkeyup=" filterFunction()" placeholder="Zoek op een naam">
+                </div>
+                <div class="float-left" style="margin-left:1em;">
+                    <form id="formInschrijven" method="post" enctype="multipart/form-data" asp-controller="Sessie" asp-action="GebruikerInschrijven">
+                        <input name="SessieId" value="@Model.SessieId" type="hidden" />
+                        <input name="KaartNummer" type="text" id="gebruikerToevoegen" placeholder="Geef kaartnummer in" />
+                    </form>
+                </div>
+            </div>
+            <div>
+                <table id="myTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Gebruikers Naam</th>
+                            <th>Aanwezig bevestigd</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.GebruikersIngeschreven)
+                        {
+                            if (item.AanwezigBevestiged)
+                            {
+                                <tr>
+                                    <td>@(item.Voornaam + " " + item.Achternaam)</td>
+                                    <td>@item.UserName</td>
+
+                                    <td><span class="iconify" data-icon="icomoon-free:checkmark" data-inline="false"></span></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="aanwezigNotConfirmed">
+                                    <td>@(item.Voornaam + " " + item.Achternaam)</td>
+                                    <td>@item.UserName</td>
+                                    <td>
+                                        @{
+                                            var parms = new Dictionary<string, string>
+                                                                                    {{ "sessieId", Model.SessieId.ToString() },{ "gebruikerNaam", item.UserName.ToString() } };
+                                        }
+                                        <a asp-route="aanwezigBevestig"
+                                           asp-all-route-data="parms"><span class="iconify" data-icon="icomoon-free:checkmark" data-inline="false"></span></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </li>
+}
+else
+{
+<li class="list-group-item">
+    <p>Er zijn nog geen inschrijvingen voor deze sessie</p>
+    <div class="float-left">
+        <form id="formInschrijven" method="post" enctype="multipart/form-data" asp-controller="Sessie" asp-action="GebruikerInschrijven">
+            <input name="SessieId" value="@Model.SessieId" type="hidden" />
+            <input name="KaartNummer" type="text" id="gebruikerToevoegen" placeholder="Geef kaartnummer in" />
+        </form>
+    </div>
+</li>
+}
+

@@ -1,139 +1,137 @@
 ﻿@model dotnet_g033.Models.ViewModels.SessieDetailsViewModel
 
-@if (Model.HeeftMedia)
-{
-    <li class="list-group-item">
-        <div>
-            @if (Model.HeeftVideos)
-            {
-                <h4>Video's:</h4>
-                <div>
-                    @foreach (var video in Model.Videos)
+
+<li class="list-group-item">
+    <div>
+        @if (Model.HeeftVideos)
+        {
+            <h4>Video's:</h4>
+            <div>
+                @foreach (var video in Model.Videos)
+                {
+
+                    @switch ((int)video.MediaType)
                     {
 
-                        @switch ((int)video.MediaType)
+                        case 2:
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <video class="embed-responsive-item" controls="true" preload="auto">
+                                    <source src="@video.Adress" type="video/@video.Adress.Split('.')[1].ToLower()">
+                                </video>
+                            </div>
+                            break;
+                        case 3:
+
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="@video.Adress" controls allowfullscreen></iframe>
+                            </div>
+                            break;
+                        default:
+                            break;
+
+                    }
+
+                    <br />
+                }
+            </div>
+        }
+        @if (Model.HeeftAfbeeldingen)
+        {
+            <h4>Afbeeldingen:</h4>
+            <div class="row">
+                @foreach (var afbeelding in Model.Afbeeldingen)
+                {
+
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <a href="@afbeelding.Adress" target="_blank">
+
+                                <img src="@afbeelding.Adress" alt="@afbeelding.Naam" style="width:100%">
+                                <div class="caption">
+
+                                    <p>@afbeelding.Naam</p>
+
+                                </div>
+
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        @if (Model.HeeftDocumenten)
+        {
+
+            <h4>Documenten:</h4>
+            <div>
+                <table class="table">
+                    <tr>
+                        <th></th>
+                        <th>Naam</th>
+                        <th>Datum Toegevoegd</th>
+                    </tr>
+                    @foreach (var document in Model.Documenten)
+                    {
+                        @switch ((int)document.MediaType)
                         {
 
-                            case 2:
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <video class="embed-responsive-item" controls="true" preload="auto">
-                                        <source src="@video.Adress" type="video/@video.Adress.Split('.')[1].ToLower()">
-                                    </video>
-                                </div>
-                                break;
-                            case 3:
+                            case 5:
+                                <tr>
+                                    <td> <span class="iconify" data-icon="ant-design:file-excel-outlined" data-inline="false"></span></td>
+                                    <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
+                                    <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
+                                </tr>
 
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="@video.Adress" controls allowfullscreen></iframe>
-                                </div>
+                                break;
+                            case 6:
+                                <tr>
+                                    <td><span class="iconify" data-icon="ant-design:file-word-filled" data-inline="false"></span></td>
+                                    <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
+                                    <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
+                                </tr>
+
+                                break;
+                            case 7:
+                                <tr>
+                                    <td><span class="iconify" data-icon="bx:bxs-file-pdf" data-inline="false"></span></td>
+                                    <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
+                                    <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
+                                </tr>
+
+                                break;
+                            case 8:
+                                <tr>
+                                    <td><span class="iconify" data-icon="fa-regular:file-powerpoint" data-inline="false"></span></td>
+                                    <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
+                                    <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
+                                </tr>
+
+                                break;
+                            case 9:
+                                <tr>
+                                    <td><span class="iconify" data-icon="ant-design:file-zip-filled" data-inline="false"></span></td>
+                                    <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
+                                    <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
+                                </tr>
+
                                 break;
                             default:
                                 break;
-
                         }
 
-                        <br />
+
                     }
-                </div>
-            }
-            @if (Model.HeeftAfbeeldingen)
+                </table>
+            </div>
+        }
+        @if (Model.HeeftLinken)
+        {
+            <h4>Links:</h4>
+            @foreach (var link in Model.Linken)
             {
-                <h4>Afbeeldingen:</h4>
-                <div class="row">
-                    @foreach (var afbeelding in Model.Afbeeldingen)
-                    {
-
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <a href="@afbeelding.Adress" target="_blank">
-
-                                    <img src="@afbeelding.Adress" alt="@afbeelding.Naam" style="width:100%">
-                                    <div class="caption">
-
-                                        <p>@afbeelding.Naam</p>
-
-                                    </div>
-
-                                </a>
-                            </div>
-                        </div>
-                    }
-                </div>
+                <div><a href="@link.Adress" target="_blank">@link.Naam</a></div>
             }
-            @if (Model.HeeftDocumenten)
-            {
+        }
+    </div>
+</li>
 
-                <h4>Documenten:</h4>
-                <div>
-                    <table class="table">
-                        <tr>
-                            <th></th>
-                            <th>Naam</th>
-                            <th>Datum Toegevoegd</th>
-                        </tr>
-                        @foreach (var document in Model.Documenten)
-                        {
-                            @switch ((int)document.MediaType)
-                            {
-
-                                case 5:
-                                    <tr>
-                                        <td> <span class="iconify" data-icon="ant-design:file-excel-outlined" data-inline="false"></span></td>
-                                        <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
-                                        <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
-                                    </tr>
-
-                                    break;
-                                case 6:
-                                    <tr>
-                                        <td><span class="iconify" data-icon="ant-design:file-word-filled" data-inline="false"></span></td>
-                                        <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
-                                        <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
-                                    </tr>
-
-                                    break;
-                                case 7:
-                                    <tr>
-                                        <td><span class="iconify" data-icon="bx:bxs-file-pdf" data-inline="false"></span></td>
-                                        <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
-                                        <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
-                                    </tr>
-
-                                    break;
-                                case 8:
-                                    <tr>
-                                        <td><span class="iconify" data-icon="fa-regular:file-powerpoint" data-inline="false"></span></td>
-                                        <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
-                                        <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
-                                    </tr>
-
-                                    break;
-                                case 9:
-                                    <tr>
-                                        <td><span class="iconify" data-icon="ant-design:file-zip-filled" data-inline="false"></span></td>
-                                        <td><a href="@document.Adress" target="_blank">@document.Naam</a></td>
-                                        <td>@document.TijdToegevoegd.ToString("ddd dd/MM/yyyy, HH:mm")</td>
-                                    </tr>
-
-                                    break;
-                                default:
-                                    break;
-                            }
-
-
-                        }
-                    </table>
-                </div>
-            }
-            @if (Model.HeeftLinken)
-            {
-                <h4>Links:</h4>
-                @foreach (var link in Model.Linken)
-                {
-                    <div><a href="@link.Adress" target="_blank">@link.Naam</a></div>
-                }
-            }
-        </div>
-    </li>
-
-}

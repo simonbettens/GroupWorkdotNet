@@ -5,9 +5,14 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain {
     public class SessieGebruiker {
-        #region Ids
+
+        #region Properties
         public Guid GebruikerId { get; set; }
         public int SessieId { get; set; }
+        public long IdNumber { get; set; }
+        public string UserName { get; set; }
+        public string Voornaam { get; set; }
+        public string Achternaam { get; set; }
         #endregion
 
         #region Relatie properties
@@ -17,6 +22,7 @@ namespace dotnet_g033.Models.Domain {
 
         #region Properties
         public bool Aanwezig { get; set; }
+        public bool AanwezigBevestiged { get; set; }
         #endregion
 
         #region Constructors
@@ -28,9 +34,14 @@ namespace dotnet_g033.Models.Domain {
         {
             this.Sessie = sessie;
             this.Gebruiker = gebruiker;
+            this.IdNumber = gebruiker.IdNumber;
+            this.Voornaam = gebruiker.Voornaam;
+            this.Achternaam = gebruiker.Achternaam;
+            this.UserName = gebruiker.UserName;
             this.GebruikerId = gebruiker.Id;
             this.SessieId = sessie.SessieId;
             this.Aanwezig = false;
+            this.AanwezigBevestiged = false;
         }
         #endregion
     }

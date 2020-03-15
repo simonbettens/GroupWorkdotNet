@@ -15,12 +15,15 @@ namespace dotnet_g033.Models.Domain
         public DateTime EindDatum { get; private set; }
         public bool Gesloten { get; private set; }
         public int MaxCap { get; private set; }
-        public int AantalAanwezigeGebruikers => AantalIngeschrevenGebruikers==0?0:this.GebruikersIngeschreven.Where(g => g.Aanwezig==true).ToList().Count;
+        public int AantalAanwezigeGebruikers => AantalIngeschrevenGebruikers == 0 ? 0 : this.GebruikersIngeschreven.Where(g => g.Aanwezig == true).ToList().Count;
         public int AantalIngeschrevenGebruikers => this.GebruikersIngeschreven.Count;
+        public int AantalResterend => MaxCap - AantalIngeschrevenGebruikers;
         public string Lokaal { get; private set; }
         public string Beschrijving { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public bool StaatOpen { get; set; }
+        public bool KanNogInschrijven => AantalResterend > 0;
+        public TimeSpan Duur => EindDatum - StartDatum;
         #endregion
 
         #region Collections
@@ -80,6 +83,10 @@ namespace dotnet_g033.Models.Domain
 
         public void StelGebruikerAanwezig(SessieGebruiker aanmelding) {
             aanmelding.Aanwezig = true;
+        }
+        public void StelGebruikerAanwezigBevestigd(SessieGebruiker aanmelding)
+        {
+            aanmelding.AanwezigBevestiged = true;
         }
 
         public void ZetOpen()

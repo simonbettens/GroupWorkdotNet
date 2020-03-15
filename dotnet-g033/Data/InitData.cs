@@ -27,13 +27,12 @@ namespace dotnet_g033.Data
             {
                 DateTime huidigetijd = DateTime.Today;
                 var passwordHasher = new PasswordHasher<Gebruiker>();
-                Gebruiker gebruiker1 = new Gebruiker("pc123456", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", StatusType.Actief,GebruikerType.Gebruiker);
-                Gebruiker gebruiker2 = new Gebruiker("sb123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
-                Gebruiker gebruiker3 = new Gebruiker("rn123456", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
-                Gebruiker gebruiker4 = new Gebruiker("as123456", "Aaron", "Sys", "aaron.sys@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
-                Verantwoordelijke admin = new Verantwoordelijke("hdw123456", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", StatusType.Actief, GebruikerType.HoofdVerantwoordelijke);
-                Verantwoordelijke verantwoordelijke = new Verantwoordelijke("sbv123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Verantwoordelijke);
-                gebruiker1.EmailConfirmed = true;
+                Gebruiker gebruiker1 = new Gebruiker(1125302310790, "pc123456", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Gebruiker gebruiker2 = new Gebruiker(1103720665999, "sb123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Gebruiker gebruiker3 = new Gebruiker(1138608425471, "rn123456", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Gebruiker gebruiker4 = new Gebruiker(1101056340993, "as123456", "Aaron", "Sys", "aaron.sys@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Verantwoordelijke admin = new Verantwoordelijke(1103720666020, "hdw123456", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", StatusType.Actief, GebruikerType.HoofdVerantwoordelijke);
+                Verantwoordelijke verantwoordelijke = new Verantwoordelijke(1103720666030, "sbv123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Verantwoordelijke);
                 gebruiker2.EmailConfirmed = true;
                 gebruiker3.EmailConfirmed = true;
                 gebruiker4.EmailConfirmed = true;

@@ -13,6 +13,7 @@ namespace dotnet_g033.Data.Mappers
         public void Configure(EntityTypeBuilder<Gebruiker> builder)
         {
             builder.Property(g => g.UserName).HasMaxLength(50).IsRequired();
+            builder.Property(g => g.IdNumber).IsRequired();
             builder.Property(g => g.Voornaam).IsRequired();
             builder.Property(g => g.Achternaam).IsRequired();
             builder.Property(g => g.Status).IsRequired();

@@ -73,6 +73,7 @@ namespace dotnet_g033.Controllers {
                     ViewData["IsAanwezig"] = false;
                 }
                 var viewModel = new SessieDetailsViewModel(sessie);
+                ViewData["IsDetails"] = true;
                 return View(viewModel);
             }
             TempData["error"] = "Er is iets mis gegaan, we konden de sessie niet ophalen.";
@@ -174,9 +175,87 @@ namespace dotnet_g033.Controllers {
             }
             return RedirectToAction("Details", new { id = id });
         }
+        /// <summary>
+        /// Details van de sessie speciaal voor de verantwoordelijke
+        /// hier kan men de ingeschreven gebruikers zien
+        /// </summary>
+        /// <param name="id"> SessieID</param>
+        /// <returns>Een detailview vvoro de verantwoordelijke met ingeschreven gebruikers</returns>
+        public IActionResult DetailsExtra(int id)
+        {
+            Sessie sessie = _sessieRepository.GetById(id);
+            if (sessie != null)
+            {
+                ViewData["IsIngeschreven"] = false;
+                ViewData["IsAanwezig"] = false;
+                var viewModel = new SessieDetailsViewModel(sessie);
+                ViewData["IsDetails"] = false;
+                return View(nameof(Details), viewModel);
+            }
+            TempData["error"] = "Er is iets mis gegaan, we konden de sessie niet ophalen.";
+            return RedirectToAction("OpenzettenIndex");
+        }
 
+        /// <summary>
+        /// Een form levert een combinatie van een sessieId en een gebruikersnaam
+        /// aan de hand van deze twee gegevens bevestigen we de aanwezigheid van de gebruiker
+        /// </summary>
+        /// <param name="sessieId">sessieId van de sessie waar de aanwezigheid wordt bevestigd</param>
+        /// <param name="gebruikerNaam">De gebruikersnaam van de gebruiker waarvan de aanwezigheid wordt bevestigd</param>
+        /// <returns>Keert terug naar de detailsExtra view</returns>
+        [Route("[action]/", Name = "aanwezigBevestig")]
+        public IActionResult AanwezigheidBevestigd(int sessieId, string gebruikerNaam)
+        {
+            Sessie sessie = _sessieRepository.GetById(sessieId);
+            Gebruiker gebruiker = _gebruikerRepository.GetByUsername(gebruikerNaam);
+            if (sessie != null && gebruiker != null)
+            {
+                if (sessie.StaatOpen)
+                {
+                    BevestigAanwezigheid(sessie, gebruiker);
+                    TempData["message"] = $"Aanwezigheid voor {gebruiker.Voornaam} {gebruiker.Achternaam} is bevestigd";
+                }
+                else
+                {
+                    TempData["error"] = "Sessie staat niet open";
+                }
+                return RedirectToAction("DetailsExtra", new { id = sessieId });
+            }
+            TempData["error"] = "Er is iets mis gegaan, we konden de sessie niet ophalen.";
+            return RedirectToAction("DetailsExtra", new { id = sessieId });
+        }
+        /// <summary>
+        /// Een form levert een combinatie van een sessieId en een gebruikers kaartnummer
+        /// aan de hand van deze twee gegevens bevestigen we de aanwezigheid van de gebruiker
+        /// </summary>
+        /// <param name="givm">speciale viewmodel met gegevens (sessieId en kaartnummer)</param>
+        /// <returns>keert terug naar detailsextra view </returns>
+        [HttpPost("[action]")]
+        [Consumes("multipart/form-data")]
+        public IActionResult GebruikerInschrijven([FromForm]GebruikerInschrijvenViewModel givm)
+        {
+            long kaartNummer = long.Parse(givm.KaartNummer);
+            Gebruiker gebruiker = _gebruikerRepository.GetById(kaartNummer);
+            Sessie sessie = _sessieRepository.GetById(givm.SessieId);
+            if (sessie != null && gebruiker != null)
+            {
+
+                if (sessie.StaatOpen)
+                {
+                    BevestigAanwezigheid(sessie, gebruiker);
+                    TempData["message"] = $"Aanwezigheid voor {gebruiker.Voornaam} {gebruiker.Achternaam} is bevestigd";
+                }
+                else
+                {
+                    TempData["error"] = "Sessie staat niet open";
+                }
+                return RedirectToAction("DetailsExtra", new { id = givm.SessieId });
+            }
+            TempData["error"] = "Er is iets mis gegaan, we konden de sessie niet ophalen.";
+            return RedirectToAction("DetailsExtra", new { id = givm.SessieId });
+        }
         #endregion
-        
+
 
         #region Open Zetten
         [ServiceFilter(typeof(GebruikerFilter))]
@@ -222,9 +301,39 @@ namespace dotnet_g033.Controllers {
         #endregion
 
         #region Hulpmethodes
-        private SelectList GetMaandSelectList(int maandId = 0) {
+        /// <summary>
+        /// maakt een selectlist van maanden
+        /// </summary>
+        /// <param name="maandId">id van de maand</param>
+        /// <returns></returns>
+        private SelectList GetMaandSelectList(int maandId = 0)
+        {
             var maanden = from Maand m in Enum.GetValues(typeof(Maand)) select new { ID = (int)m, Name = m.ToString() };
             return new SelectList(maanden, "ID", "Name", maandId);
+        }
+        /// <summary>
+        /// geeft een sessiegebruiker terug aan de hand de gebruiker en indien die null is
+        /// maakt hij een nieuwe aan, hierna stelt hij de aanwezigheid op true en bevestigd hij de aanwezigheid
+        /// </summary>
+        /// <param name="sessie">sessie object</param>
+        /// <param name="gebruiker">gebruiker object</param>
+        private void BevestigAanwezigheid(Sessie sessie, Gebruiker gebruiker)
+        {
+
+            SessieGebruiker sq = sessie.GeefSessieGebruiker(gebruiker);
+            if (sq == null)
+            {
+                sq = new SessieGebruiker(sessie, gebruiker);
+                sessie.SchrijfGebruikerIn(sq, gebruiker);
+            }
+            if (sq.Aanwezig == false)
+            {
+                sessie.StelGebruikerAanwezig(sq);
+            }
+
+            sessie.StelGebruikerAanwezigBevestigd(sq);
+            _sessieRepository.SaveChanges();
+            _gebruikerRepository.SaveChanges();
         }
         #endregion
     }
