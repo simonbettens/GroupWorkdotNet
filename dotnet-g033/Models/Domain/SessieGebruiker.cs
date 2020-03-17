@@ -13,6 +13,8 @@ namespace dotnet_g033.Models.Domain {
         public string UserName { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
+        public bool Aanwezig { get; set; }
+        public bool AanwezigBevestiged { get; set; }
         #endregion
 
         #region Relatie properties
@@ -20,10 +22,7 @@ namespace dotnet_g033.Models.Domain {
         public Gebruiker Gebruiker { get; set; }
         #endregion
 
-        #region Properties
-        public bool Aanwezig { get; set; }
-        public bool AanwezigBevestiged { get; set; }
-        #endregion
+       
 
         #region Constructors
         public SessieGebruiker()

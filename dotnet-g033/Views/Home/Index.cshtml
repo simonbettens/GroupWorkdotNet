@@ -1,7 +1,95 @@
-﻿@{
+﻿@model dotnet_g033.Models.ViewModels.HomeIndexViewModel
+@{
     ViewData["Title"] = "It-Lab";
 }
 <div class="text-center">
     <h1>@ViewData["Title"]</h1>
     <p>Klik hier voor een <a asp-area="" asp-controller="Sessie" asp-action="Index">volledig overzicht van de evenementen</a>.</p>
 </div>
+<div class="container-fluid text-center">
+    <div class="row">
+        @if (Model.ErIsVolgendeSessie)
+        {
+            <div class="col-sm-6 col-md-8 col-lg-8 col-xl-8 ">
+                <div class="col-12 text-center">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h3 class="modal-title">@Model.EerstVolgendeSessie.Naam - @Model.VerantwoordelijkeNaam</h3>
+                            <div class="font-italic">@Model.EerstVolgendeSessie.Lokaal</div>
+                            <div class="font-italic">
+                                @Model.EerstVolgendeSessie.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.EerstVolgendeSessie.EindDatum.ToString("HH:mm")
+                            </div>
+                        </li>
+                        @if (Model.EerstVolgendeSessie.Beschrijving != "")
+                        {
+                            <li class="list-group-item">@Model.EerstVolgendeSessie.Beschrijving</li>
+                        }
+                        <li class="list-group-item">
+                            <p>Aantal plaatsen beschikbaar: @(Model.AantalResterend)/@Model.EerstVolgendeSessie.MaxCap</p>
+                            <div>
+                                <form method="post">
+                                    <button class="btn btn-secondary text-center " asp-controller="Sessie" asp-action="Details" asp-route-id="@Model.EerstVolgendeSessie.SessieId" type="submit">Details</button>
+                                    <!--Is de gebruiker ingeschreven-->
+                                    @if ((bool)ViewData["IsIngeschreven"])
+                                    {
+                                        <button class="btn btn-secondary text-center " asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@Model.EerstVolgendeSessie.SessieId" type="submit">Uitschrijven</button>
+                                        <!--Is de gebruiker is aanwezig-->
+                                        if (!(bool)ViewData["IsAanwezig"])
+                                        {
+                                            <button class="btn btn-secondary text-center " style="margin-right:1em" asp-controller="Sessie" asp-action="AanwezigStellen" asp-route-id="@Model.EerstVolgendeSessie.SessieId" type="submit">Aanmelden</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (Model.KanNogInschrijven)
+                                        {
+                                            <button class="btn btn-secondary text-center" asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@Model.EerstVolgendeSessie.SessieId" type="submit">Inschrijven </button>
+                                        }
+                                    }
+
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 text-center">
+            <div>
+                <h3>Algemene Aankondingen</h3>
+                <div class="pre-scrollable scrollbar scrollbar-primary" >
+                    <table class="force-overflow table mb-0 ">
+                        <tbody>
+                            @foreach (var item in Model.Aankondingen)
+                            {
+                                <tr>
+                                    @if ((int)item.Prioriteit == 1)
+                                    {
+                                        <td>
+                                            <div class="card bg-white text-left">
+                                                <p>@item.Inhoud</p>
+                                                <p><strong>@(item.Verantwoordelijke.Achternaam + " " + item.Verantwoordelijke.Voornaam)</strong></p>
+                                                <p><i>@(item.Gepost.ToShortDateString())</i></p>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <div class="card bg-warning text-left">
+                                                <p>@item.Inhoud</p>
+                                                <p><strong>@(item.Verantwoordelijke.Achternaam+ " " +item.Verantwoordelijke.Voornaam)</strong></p>
+                                                <p><i>@(item.Gepost.ToShortDateString())</i></p>
+                                            </div>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

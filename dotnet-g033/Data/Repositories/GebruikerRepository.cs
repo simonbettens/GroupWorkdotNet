@@ -25,17 +25,17 @@ namespace dotnet_g033.Data.Repositories
 
         public Gebruiker GetById(long idNumber)
         {
-            return _gebruikers.Where(g => g.IdNumber == idNumber).FirstOrDefault();
+            return _gebruikers.Where(g => g.IdNumber == idNumber).Include(g => g.SessiesIngeschreven).FirstOrDefault();
         }
 
         public Gebruiker GetByUsername(string username)
         {
-            return _gebruikers.Where(g => g.UserName == username).FirstOrDefault();
+            return _gebruikers.Where(g => g.UserName == username).Include(g=>g.SessiesIngeschreven).FirstOrDefault();
         }
 
         public Gebruiker GetByEmail(string email)
         {
-            return _gebruikers.Where(g => g.Email == email).FirstOrDefault();
+            return _gebruikers.Where(g => g.Email == email).Include(g => g.SessiesIngeschreven).FirstOrDefault();
         }
         public Verantwoordelijke GetByUsernameIncludingBeheerdeSessies(string username) {
             return  _gebruikers.OfType<Verantwoordelijke>().Where(v => v.UserName == username).Include(v=>v.BeheerdeSessies).FirstOrDefault();

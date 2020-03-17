@@ -19,6 +19,7 @@ namespace dotnet_g033.Data {
         public DbSet<Document> Document { get; set; }
         public DbSet<Media> Media { get; set; }
         public DbSet<SessieGebruiker> SessieGebruiker { get; set; }
+        public DbSet<Aankonding> Aankonding { get; set; }
         #endregion
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -51,6 +52,12 @@ namespace dotnet_g033.Data {
             builder.ApplyConfiguration(new GebruikerConfig());
             builder.Entity<Verantwoordelijke>().HasBaseType<Gebruiker>();
             builder.ApplyConfiguration(new VerantwoordelijkeConfig());
+            #endregion
+
+            #region Aankondingen
+            builder.ApplyConfiguration(new AankondingConfig());
+            builder.Entity<SessieAankonding>().HasBaseType<Aankonding>();
+            builder.ApplyConfiguration(new SessieAankondingConfig());
             #endregion
 
             builder.ApplyConfiguration(new SessieGebruikerConfig());

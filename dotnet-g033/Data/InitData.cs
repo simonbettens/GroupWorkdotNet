@@ -26,42 +26,47 @@ namespace dotnet_g033.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 DateTime huidigetijd = DateTime.Today;
+
+                #region Gebruikers data
                 var passwordHasher = new PasswordHasher<Gebruiker>();
-                Gebruiker gebruiker1 = new Gebruiker(1125302310790, "pc123456", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
-                Gebruiker gebruiker2 = new Gebruiker(1103720665999, "sb123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
-                Gebruiker gebruiker3 = new Gebruiker(1138608425471, "rn123456", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
-                Gebruiker gebruiker4 = new Gebruiker(1101056340993, "as123456", "Aaron", "Sys", "aaron.sys@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Gebruiker pieter = new Gebruiker(1125302310790, "pc123456", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Gebruiker simon = new Gebruiker(1103720665999, "sb123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Gebruiker ruben = new Gebruiker(1138608425471, "rn123456", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
+                Gebruiker aaron = new Gebruiker(1101056340993, "as123456", "Aaron", "Sys", "aaron.sys@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
                 Verantwoordelijke admin = new Verantwoordelijke(1103720666020, "hdw123456", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", StatusType.Actief, GebruikerType.HoofdVerantwoordelijke);
                 Verantwoordelijke verantwoordelijke = new Verantwoordelijke(1103720666030, "sbv123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Verantwoordelijke);
-                gebruiker2.EmailConfirmed = true;
-                gebruiker3.EmailConfirmed = true;
-                gebruiker4.EmailConfirmed = true;
+                simon.EmailConfirmed = true;
+                ruben.EmailConfirmed = true;
+                aaron.EmailConfirmed = true;
                 admin.EmailConfirmed = true;
                 verantwoordelijke.EmailConfirmed = true;
-                gebruiker1.PasswordHash = passwordHasher.HashPassword(gebruiker1, "koekjes");
-                gebruiker2.PasswordHash = passwordHasher.HashPassword(gebruiker2, "appeltjes");
-                gebruiker3.PasswordHash = passwordHasher.HashPassword(gebruiker3, "peertjes");
-                gebruiker4.PasswordHash = passwordHasher.HashPassword(gebruiker4, "snoepjes");
+                pieter.PasswordHash = passwordHasher.HashPassword(pieter, "koekjes");
+                simon.PasswordHash = passwordHasher.HashPassword(simon, "appeltjes");
+                ruben.PasswordHash = passwordHasher.HashPassword(ruben, "peertjes");
+                aaron.PasswordHash = passwordHasher.HashPassword(aaron, "snoepjes");
                 admin.PasswordHash = passwordHasher.HashPassword(admin, "adminpass");
                 verantwoordelijke.PasswordHash = passwordHasher.HashPassword(verantwoordelijke, "appeltjes");
-                gebruiker1.SecurityStamp = Guid.NewGuid().ToString();
-                gebruiker2.SecurityStamp = Guid.NewGuid().ToString();
-                gebruiker3.SecurityStamp = Guid.NewGuid().ToString();
-                gebruiker4.SecurityStamp = Guid.NewGuid().ToString();
+                pieter.SecurityStamp = Guid.NewGuid().ToString();
+                simon.SecurityStamp = Guid.NewGuid().ToString();
+                aaron.SecurityStamp = Guid.NewGuid().ToString();
+                ruben.SecurityStamp = Guid.NewGuid().ToString();
                 admin.SecurityStamp = Guid.NewGuid().ToString();
                 verantwoordelijke.SecurityStamp = Guid.NewGuid().ToString();
 
-                Gebruiker[] gebruikers = { gebruiker1, gebruiker2, gebruiker3, gebruiker4, admin, verantwoordelijke};
+                Gebruiker[] gebruikers = { pieter, simon, aaron, ruben, admin, verantwoordelijke };
                 _dbContext.AddRange(gebruikers);
+                _dbContext.SaveChanges();
+                #endregion
 
-                Sessie sessie1 = new Sessie("sessie1", huidigetijd.AddDays(1), huidigetijd.AddDays(1).AddHours(1), false, 20,  "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",true);
-                Sessie sessie2 = new Sessie("sessie2", huidigetijd.AddDays(2), huidigetijd.AddDays(2).AddHours(1), false, 10,  "GSCHB4.026", verantwoordelijke, staatOpen : false);
-                Sessie sessie3 = new Sessie("sessie3", huidigetijd.AddDays(3), huidigetijd.AddDays(3).AddHours(1), false, 30,  "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie sessie4 = new Sessie("sessie4", huidigetijd.AddDays(4), huidigetijd.AddDays(4).AddHours(1), false, 20,  "GSCHB4.026", admin);
-                Sessie sessie5 = new Sessie("sessie5", huidigetijd.AddMonths(1), huidigetijd.AddMonths(1).AddHours(1), false, 20,  "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie geslotenSessie1 = new Sessie("geslotenSessie1", new DateTime(2020, 2, 20, 14, 0, 0), new DateTime(2020, 2, 20, 15, 0, 0),  true, 20,  "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie geslotenSessie2 = new Sessie("geslotenSessie2", new DateTime(2020, 2, 21, 14, 0, 0), new DateTime(2020, 2, 21, 15, 0, 0),  true, 20, "GSCHB4.026", verantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie gestartSessie1 = new Sessie("gestartSessie1", huidigetijd, huidigetijd.AddMinutes(45), false, 20,  "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+                #region Sessies
+                Sessie sessie1 = new Sessie("sessie1", huidigetijd.AddDays(1), huidigetijd.AddDays(1).AddHours(1), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", true);
+                Sessie sessie2 = new Sessie("sessie2", huidigetijd.AddDays(2), huidigetijd.AddDays(2).AddHours(1), false, 10, "GSCHB4.026", verantwoordelijke, staatOpen: false);
+                Sessie sessie3 = new Sessie("sessie3", huidigetijd.AddDays(3), huidigetijd.AddDays(3).AddHours(1), false, 30, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+                Sessie sessie4 = new Sessie("sessie4", huidigetijd.AddDays(4), huidigetijd.AddDays(4).AddHours(1), false, 20, "GSCHB4.026", admin);
+                Sessie sessie5 = new Sessie("sessie5", huidigetijd.AddMonths(1), huidigetijd.AddMonths(1).AddHours(1), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+                Sessie geslotenSessie1 = new Sessie("geslotenSessie1", new DateTime(2020, 2, 20, 14, 0, 0), new DateTime(2020, 2, 20, 15, 0, 0), true, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+                Sessie geslotenSessie2 = new Sessie("geslotenSessie2", new DateTime(2020, 2, 21, 14, 0, 0), new DateTime(2020, 2, 21, 15, 0, 0), true, 20, "GSCHB4.026", verantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+                Sessie gestartSessie1 = new Sessie("gestartSessie1", huidigetijd, huidigetijd.AddMinutes(45), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 
                 admin.voegSessieToe(sessie1);
                 verantwoordelijke.voegSessieToe(sessie2);
@@ -72,19 +77,50 @@ namespace dotnet_g033.Data
                 verantwoordelijke.voegSessieToe(geslotenSessie2);
                 admin.voegSessieToe(gestartSessie1);
 
+                sessie1.SchrijfGebruikerIn(new SessieGebruiker(sessie1, simon), simon);
+                sessie1.SchrijfGebruikerIn(new SessieGebruiker(sessie1, pieter), pieter);
+
                 Sessie[] sessies = { sessie1, sessie2, sessie3, sessie4, sessie5, geslotenSessie1, geslotenSessie2, gestartSessie1 };
                 _dbContext.Sessie.AddRange(sessies);
                 _dbContext.SaveChanges();
+                #endregion
+
+                #region Aankondingen
+                Aankonding algemeneAankonding1 = new Aankonding(huidigetijd,"Dit is de eerst algemene aankonding met lage prioriteit",admin,AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding2 = new Aankonding(huidigetijd,"Dit is de twee algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding3 = new Aankonding(huidigetijd,"Dit is de drie algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding4 = new Aankonding(huidigetijd,"Dit is de vier algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding5 = new Aankonding(huidigetijd,"Dit is de vijf algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding6 = new Aankonding(huidigetijd,"Dit is de zes algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding7 = new Aankonding(huidigetijd,"Dit is de zeven algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding8 = new Aankonding(huidigetijd,"Dit is de acht algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding9 = new Aankonding(huidigetijd,"Dit is de negen algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding10 = new Aankonding(huidigetijd,"Dit is de tien algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
+                Aankonding algemeneAankonding11 = new Aankonding(huidigetijd,"Dit is de eerst algemene aankonding met hoge prioriteit", admin, AankondingPrioriteit.Hoog);
+                Aankonding algemeneAankonding12 = new Aankonding(huidigetijd,"Dit is de twee algemene aankonding met hoge prioriteit", admin, AankondingPrioriteit.Hoog);
+
+                SessieAankonding sessieAankonding1 = new SessieAankonding(huidigetijd, "Dit is een aankonding voor sessie 1 met een lage prioriteit", admin,sessie1 ,AankondingPrioriteit.Laag); 
+                SessieAankonding sessieAankonding2 = new SessieAankonding(huidigetijd, "Dit is een aankonding voor sessie 1 met een hooge prioriteit", admin, sessie1, AankondingPrioriteit.Hoog);
+                sessieAankonding1.VoegAankondingToeAanSessie();
+                sessieAankonding2.VoegAankondingToeAanSessie();
+
+                Aankonding[] aankondingen = { algemeneAankonding1, algemeneAankonding2, algemeneAankonding3, algemeneAankonding4, 
+                    algemeneAankonding5,algemeneAankonding6,algemeneAankonding7,algemeneAankonding8,algemeneAankonding9,algemeneAankonding10,
+                    algemeneAankonding11,algemeneAankonding12,sessieAankonding1, sessieAankonding2 };
+                _dbContext.AddRange(aankondingen);
+                _dbContext.SaveChanges();
+                #endregion
+
+                #region Media
                 Link link1 = new Link("https://www.google.be/", "Klik hier om naar google te gaan", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Link);
-                //sessie1.Media.VoegLinkToe(link1);
+
                 sessie1.VoegMediaToe(link1);
                 _dbContext.Link.Add(link1);
                 _dbContext.SaveChanges();
 
                 Video video1 = new Video("https://www.youtube.com/embed/1Rcf8-yk6_o", "Youtbe Linux", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.YoutubeVideo);
                 Video video2 = new Video($"/videos/testVideo.mp4", "Video binary", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Video);
-                //sessie1.Media.VoegVideoToe(video1);
-                //sessie1.Media.VoegVideoToe(video2);
+
                 sessie1.VoegMediaToe(video1);
                 sessie1.VoegMediaToe(video2);
                 Video[] videos = { video1, video2 };
@@ -95,10 +131,7 @@ namespace dotnet_g033.Data
                 Afbeelding afbeelding2 = new Afbeelding("/images/StockFoto2.jpg", "StockFoto2", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Afbeelding);
                 Afbeelding afbeelding3 = new Afbeelding("/images/StockFoto3.jpg", "StockFoto3", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Afbeelding);
                 Afbeelding afbeelding4 = new Afbeelding("/images/StockFoto1.jpg", "StockFoto1", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Afbeelding);
-                //sessie1.Media.VoegAfbeeldingToe(afbeelding1);
-                //sessie1.Media.VoegAfbeeldingToe(afbeelding2);
-                //sessie1.Media.VoegAfbeeldingToe(afbeelding3);
-                //sessie2.Media.VoegAfbeeldingToe(afbeelding4);
+
                 sessie1.VoegMediaToe(afbeelding1);
                 sessie1.VoegMediaToe(afbeelding2);
                 sessie1.VoegMediaToe(afbeelding3);
@@ -112,11 +145,7 @@ namespace dotnet_g033.Data
                 Document doc3 = new Document("/documents/Test_excel.xlsx", "Excel document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Excel);
                 Document doc4 = new Document("/documents/Test_powerpoint.pptx", "Powerpoint document", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Powerpoint);
                 Document doc5 = new Document("/documents/TestDocumenten.zip", "Gezipte map", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Zip);
-                //sessie1.Media.VoegDocumentToe(doc1);
-                //sessie1.Media.VoegDocumentToe(doc2);
-                //sessie1.Media.VoegDocumentToe(doc3);
-                //sessie1.Media.VoegDocumentToe(doc4);
-                //sessie1.Media.VoegDocumentToe(doc5);
+
                 sessie1.VoegMediaToe(doc1);
                 sessie1.VoegMediaToe(doc2);
                 sessie1.VoegMediaToe(doc3);
@@ -124,9 +153,10 @@ namespace dotnet_g033.Data
                 sessie1.VoegMediaToe(doc5);
                 Document[] documenten = { doc1, doc2, doc3, doc4, doc5 };
                 _dbContext.Document.AddRange(documenten);
-
-                
                 _dbContext.SaveChanges();
+                #endregion
+
+
             }
             
             
