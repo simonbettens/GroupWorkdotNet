@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain
 {
-    public enum AankondingPrioriteit
+    public enum AankondigingPrioriteit
     {
         Laag = 1,
         Hoog = 2 

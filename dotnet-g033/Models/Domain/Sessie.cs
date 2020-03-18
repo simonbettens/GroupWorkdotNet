@@ -31,7 +31,7 @@ namespace dotnet_g033.Models.Domain
         public ICollection<Media> Media { get; set; }
         //lijst van sessiegebruikers objecten die ingeschreven zijn bij een sessie
         public ICollection<SessieGebruiker> GebruikersIngeschreven { get; set; }
-        public ICollection<SessieAankonding> Aankondingen { get; set; }
+        public ICollection<SessieAankondiging> Aankondingen { get; set; }
         #endregion
 
         #region Constructors
@@ -40,7 +40,7 @@ namespace dotnet_g033.Models.Domain
         {
             this.Media = new List<Media>();
             this.GebruikersIngeschreven = new List<SessieGebruiker>();
-            this.Aankondingen = new List<SessieAankonding>();
+            this.Aankondingen = new List<SessieAankondiging>();
         }
         //volledige constructor
         public Sessie(string naam, DateTime start, DateTime eind, bool gesloten, int maxCap, string lokaal, Verantwoordelijke verantwoordelijke, string beschrijving = "", bool staatOpen = false)
@@ -56,7 +56,7 @@ namespace dotnet_g033.Models.Domain
             this.Verantwoordelijke = verantwoordelijke;
             this.StaatOpen = staatOpen;
             this.GebruikersIngeschreven = new List<SessieGebruiker>();
-            this.Aankondingen = new List<SessieAankonding>();
+            this.Aankondingen = new List<SessieAankondiging>();
         }
         #endregion
 

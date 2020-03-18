@@ -16,19 +16,19 @@ namespace dotnet_g033.Models.ViewModels
         public bool KanNogInschrijven => AantalResterend > 0;
         public bool IsIngelogd { get; set; }
         public bool ErIsVolgendeSessie => EerstVolgendeSessie != null;
-        public bool ErZijnAankondingen => Aankondingen.Any();
-        public bool ErZijnSessieAankondingen => SessieAankondingen.Any();
+        public bool ErZijnAankondingen => Aankondigingen.Any();
+        public bool ErZijnSessieAankondingen => SessieAankondigingen.Any();
         #endregion
 
         #region Collections
-        public IEnumerable<Aankonding> Aankondingen { get; set; }
-        public IEnumerable<SessieAankonding> SessieAankondingen { get; set; } 
+        public IEnumerable<Aankondiging> Aankondigingen { get; set; }
+        public IEnumerable<SessieAankondiging> SessieAankondigingen { get; set; } 
         #endregion
 
-        public HomeIndexViewModel(IEnumerable<Aankonding> aankondingen, IEnumerable<SessieAankonding> sessieAankondingen,Sessie eerstVolgendeSessie,bool ingelogd)
+        public HomeIndexViewModel(IEnumerable<Aankondiging> aankondigingen, IEnumerable<SessieAankondiging> sessieAankondigingen,Sessie eerstVolgendeSessie,bool ingelogd)
         {
-            this.Aankondingen = aankondingen;
-            this.SessieAankondingen = sessieAankondingen;
+            this.Aankondigingen = aankondigingen;
+            this.SessieAankondigingen = sessieAankondigingen;
             if (eerstVolgendeSessie != null)
             {
                 this.EerstVolgendeSessie = eerstVolgendeSessie;

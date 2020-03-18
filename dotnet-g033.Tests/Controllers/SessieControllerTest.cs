@@ -224,7 +224,6 @@ namespace dotnet_g033.Tests.Controllers
         }
         #endregion
 
-
         #region Openzetten
         [Fact]
         public void Sessie_Openzetten_KanGeslotenSessieNietVinden()

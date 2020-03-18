@@ -19,17 +19,17 @@ namespace dotnet_g033.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ISessieRepository _sessieRepository;
         private readonly IGebruikerRepository _gebruikerRepository;
-        private readonly IAankondingRepository _aankondingRepository;
+        private readonly IAankondigingRepository _aankondigingRepository;
         #endregion
 
         #region Constructor
         public HomeController(ILogger<HomeController> logger, ISessieRepository sessieRepository, 
-            IGebruikerRepository gebruikerRepository,IAankondingRepository aankondingRepository)
+            IGebruikerRepository gebruikerRepository,IAankondigingRepository aankondigingRepository)
         {
             _logger = logger;
             _sessieRepository = sessieRepository;
             _gebruikerRepository = gebruikerRepository;
-            _aankondingRepository = aankondingRepository;
+            _aankondigingRepository = aankondigingRepository;
 
         }
         #endregion
@@ -37,7 +37,7 @@ namespace dotnet_g033.Controllers
         [ServiceFilter(typeof(GebruikerFilter))]
         public IActionResult Index(Gebruiker gebruiker)
         {
-            IEnumerable<SessieAankonding> sessieAankondingen = new List<SessieAankonding>();
+            IEnumerable<SessieAankondiging> sessieAankondingen = new List<SessieAankondiging>();
             Sessie sessie = _sessieRepository.GetByMaand(DateTime.Now.Month).FirstOrDefault();
             bool ingelogd = false;
             if (gebruiker != null)
@@ -45,7 +45,7 @@ namespace dotnet_g033.Controllers
                 ingelogd = true;
                 foreach (var inschrijving in gebruiker.SessiesIngeschreven)
                 {
-                    sessieAankondingen = sessieAankondingen.Concat(_aankondingRepository.GetAllSessieAankonding(inschrijving.SessieId));
+                    sessieAankondingen = sessieAankondingen.Concat(_aankondigingRepository.GetAllSessieAankonding(inschrijving.SessieId));
                 }
 
             }
@@ -64,7 +64,7 @@ namespace dotnet_g033.Controllers
                 }
 
             }
-            IEnumerable<Aankonding> algemeneAankondingen = _aankondingRepository.GetAllAlgemene().ToList().OrderByDescending(a=>a.Prioriteit).ThenBy(a=>a.Gepost);
+            IEnumerable<Aankondiging> algemeneAankondingen = _aankondigingRepository.GetAllAlgemene().ToList().OrderByDescending(a=>a.Prioriteit).ThenBy(a=>a.Gepost);
             HomeIndexViewModel hivm = new HomeIndexViewModel(algemeneAankondingen, sessieAankondingen, sessie,ingelogd); 
             return View(hivm);
         }

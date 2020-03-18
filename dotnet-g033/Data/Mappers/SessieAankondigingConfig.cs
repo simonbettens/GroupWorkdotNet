@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Data.Mappers
 {
-    public class SessieAankondingConfig : IEntityTypeConfiguration<SessieAankonding>
+    public class SessieAankondigingConfig : IEntityTypeConfiguration<SessieAankondiging>
     {
-        public void Configure(EntityTypeBuilder<SessieAankonding> builder)
+        public void Configure(EntityTypeBuilder<SessieAankondiging> builder)
         {
             builder.HasOne(sa => sa.Sessie).WithMany(s => s.Aankondingen).HasForeignKey(sa=>sa.SessieId).OnDelete(DeleteBehavior.Cascade);
         }

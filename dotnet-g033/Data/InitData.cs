@@ -86,27 +86,20 @@ namespace dotnet_g033.Data
                 #endregion
 
                 #region Aankondingen
-                Aankonding algemeneAankonding1 = new Aankonding(huidigetijd,"Dit is de eerst algemene aankonding met lage prioriteit",admin,AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding2 = new Aankonding(huidigetijd,"Dit is de twee algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding3 = new Aankonding(huidigetijd,"Dit is de drie algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding4 = new Aankonding(huidigetijd,"Dit is de vier algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding5 = new Aankonding(huidigetijd,"Dit is de vijf algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding6 = new Aankonding(huidigetijd,"Dit is de zes algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding7 = new Aankonding(huidigetijd,"Dit is de zeven algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding8 = new Aankonding(huidigetijd,"Dit is de acht algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding9 = new Aankonding(huidigetijd,"Dit is de negen algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding10 = new Aankonding(huidigetijd,"Dit is de tien algemene aankonding met lage prioriteit", admin, AankondingPrioriteit.Laag);
-                Aankonding algemeneAankonding11 = new Aankonding(huidigetijd,"Dit is de eerst algemene aankonding met hoge prioriteit", admin, AankondingPrioriteit.Hoog);
-                Aankonding algemeneAankonding12 = new Aankonding(huidigetijd,"Dit is de twee algemene aankonding met hoge prioriteit", admin, AankondingPrioriteit.Hoog);
+                Aankondiging algemeneAankonding1 = new Aankondiging(huidigetijd,"Dit is de eerste algemene aankondiging met lage prioriteit",admin,AankondigingPrioriteit.Laag);
+                Aankondiging algemeneAankonding2 = new Aankondiging(huidigetijd,"Dit is de tweede algemene aankondiging met lage prioriteit", admin, AankondigingPrioriteit.Laag);
+                Aankondiging algemeneAankonding3 = new Aankondiging(huidigetijd,"Dit is de eerst algemene aankondiging met hoge prioriteit", admin, AankondigingPrioriteit.Hoog);
+                Aankondiging algemeneAankonding4 = new Aankondiging(huidigetijd,"Dit is de tweede algemene aankondiging met hoge prioriteit", admin, AankondigingPrioriteit.Hoog);
 
-                SessieAankonding sessieAankonding1 = new SessieAankonding(huidigetijd, "Dit is een aankonding voor sessie 1 met een lage prioriteit", admin,sessie1 ,AankondingPrioriteit.Laag); 
-                SessieAankonding sessieAankonding2 = new SessieAankonding(huidigetijd, "Dit is een aankonding voor sessie 1 met een hooge prioriteit", admin, sessie1, AankondingPrioriteit.Hoog);
+                SessieAankondiging sessieAankonding1 = new SessieAankondiging(huidigetijd, "Dit is een aankondiging voor sessie 1 met een lage prioriteit", admin,sessie1 ,AankondigingPrioriteit.Laag); 
+                SessieAankondiging sessieAankonding2 = new SessieAankondiging(huidigetijd, "Dit is een aankondiging voor sessie 1 met een hoge prioriteit", admin, sessie1, AankondigingPrioriteit.Hoog);
+                SessieAankondiging sessieAankonding3 = new SessieAankondiging(huidigetijd, "Dit is een aankondiging voor sessie 1 met een laag prioriteit", admin, sessie1, AankondigingPrioriteit.Laag);
                 sessieAankonding1.VoegAankondingToeAanSessie();
                 sessieAankonding2.VoegAankondingToeAanSessie();
+                sessieAankonding3.VoegAankondingToeAanSessie();
 
-                Aankonding[] aankondingen = { algemeneAankonding1, algemeneAankonding2, algemeneAankonding3, algemeneAankonding4, 
-                    algemeneAankonding5,algemeneAankonding6,algemeneAankonding7,algemeneAankonding8,algemeneAankonding9,algemeneAankonding10,
-                    algemeneAankonding11,algemeneAankonding12,sessieAankonding1, sessieAankonding2 };
+                Aankondiging[] aankondingen = { algemeneAankonding1, algemeneAankonding2, algemeneAankonding3, algemeneAankonding4, 
+                    sessieAankonding1, sessieAankonding2 };
                 _dbContext.AddRange(aankondingen);
                 _dbContext.SaveChanges();
                 #endregion

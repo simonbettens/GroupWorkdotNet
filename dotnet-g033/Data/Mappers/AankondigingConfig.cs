@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Data.Mappers
 {
-    public class AankondingConfig : IEntityTypeConfiguration<Aankonding>
+    public class AankondigingConfig : IEntityTypeConfiguration<Aankondiging>
     {
-        public void Configure(EntityTypeBuilder<Aankonding> builder)
+        public void Configure(EntityTypeBuilder<Aankondiging> builder)
         {
             builder.HasKey(a => a.AankondingId);
             builder.ToTable("Aankonding");

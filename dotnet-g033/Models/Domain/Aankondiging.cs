@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 
 namespace dotnet_g033.Models.Domain
 {
-    public class Aankonding
+    public class Aankondiging
     {
         #region Properties
         public int AankondingId { get; set; }
         public DateTime Gepost { get; set; }
         public string Inhoud { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; } 
-        public AankondingPrioriteit Prioriteit { get; set; }
+        public AankondigingPrioriteit Prioriteit { get; set; }
         #endregion
 
         #region Constructors
-        public Aankonding()
+        public Aankondiging()
         {
             
         }
-        public Aankonding(DateTime gepost, string inhoud, Verantwoordelijke verantwoordelijke, AankondingPrioriteit prioriteit = AankondingPrioriteit.Laag)
+        public Aankondiging(DateTime gepost, string inhoud, Verantwoordelijke verantwoordelijke, AankondigingPrioriteit prioriteit = AankondigingPrioriteit.Laag)
         {
             this.Gepost = gepost;
             this.Inhoud = inhoud;
