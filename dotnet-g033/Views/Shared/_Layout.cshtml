@@ -27,12 +27,13 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark text-black font-weight-bold" asp-area="" asp-controller="Sessie" asp-action="Index">Sessiekalender</a>
+                            <a class="nav-link text-dark text-black font-weight-bold" asp-area="" asp-controller="Sessie" asp-action="Index">Geplande Sessies</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            @if ((int)GebruiksRepository.GetByUsername(User.Identity.Name).Type >= 2)
-                            {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark text-black font-weight-bold" asp-area="" asp-controller="Sessie" asp-action="AfgelopenSessies">Afgelopen Sessies</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated) {
+                            @if ((int)GebruiksRepository.GetByUsername(User.Identity.Name).Type >= 2) {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark text-black font-weight-bold" asp-area="" asp-controller="Sessie" asp-action="OpenzettenIndex">Mijn Sessies</a>
                                 </li>

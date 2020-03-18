@@ -80,6 +80,20 @@ namespace dotnet_g033.Controllers {
             return RedirectToAction(nameof(Index));
         }
 
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public ActionResult AfgelopenSessies(Gebruiker gebruiker, int maandId = 0) {
+            if (maandId == 0) {
+                maandId = DateTime.Now.Month;
+            }
+            HashSet<Sessie> hashSessies = _sessieRepository.GetAfgelopenByMaand(maandId).Where(s => s.Gesloten != true).ToHashSet();
+            ViewData["bevatSessies"] = !hashSessies.Any();
+            ViewData["Ingelogd"] = true;
+            IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
+            ViewData["Maanden"] = GetMaandSelectList(maandId);
+            SessieIndexViewmodel viewmodel = new SessieIndexViewmodel(gebruiker, sessies);
+            return View(viewmodel);
+        }
+
         #endregion
 
         #region Inschrijven & Uitschrijven & Aanwezig Stellen

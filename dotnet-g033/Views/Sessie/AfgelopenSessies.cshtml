@@ -14,21 +14,16 @@
     </div>
 </form>
 
-@if ((bool)@ViewData["bevatSessies"])
-{
-    if ((bool)ViewData["Ingelogd"])
-
-    {
-        <text>Er zijn geen sessies ingepland voor deze maand</text>;
+@if ((bool)@ViewData["bevatSessies"]) {
+    if ((bool)ViewData["Ingelogd"]) {
+        <text>Er zijn geen afgelopen sessies gevonden in deze maand</text>;
     }
-    else
-    {
+    else {
         <text>U moet zich inloggen</text>;
 
     }
 }
-else
-{
+else {
     <div style="margin-bottom:1em" class="form-inline">
         <div>
             <input type="text" id="naam" onkeyup="filterFunction()" placeholder="Zoek een titel">
@@ -46,15 +41,13 @@ else
             <th class=" text-center">Duur</th>
             <th class="text-center">Aantal Personen</th>
             <th></th>
-            <th></th>
         </tr>
-        @foreach (var item in Model.Sessies)
-        {
+        @foreach (var item in Model.Sessies) {
             <tr>
                 <td class="text-left">
                     @item.Naam
                 </td>
-                <td class="text-center" >
+                <td class="text-center">
                     @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
                 </td>
                 <td class=" text-center">
@@ -63,31 +56,11 @@ else
                 <td class=" text-center">
                     @(item.Duur.ToString(@"hh\:mm"))
                 </td>
-                <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
-
+                <td class="text-center">@(item.AantalAanwezigeGebruikers)/@item.MaxCap</td>
                 <td>
                     <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
                 </td>
-                <td>
-                    @if (!item.GebruikerIsIngeschreven(Model.Gebruiker))
-                    {
-                        if (item.KanNogInschrijven)
-                        {
-                            <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
-                        }
-                        else
-                        {
-                            <text>Vol!</text>
-                        }
-                    }
-                    else
-                    {
-                        <a asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@item.SessieId">Uitschrijven</a>
-                    }
-
-                </td>
             </tr>
         }
-
     </table>
 }

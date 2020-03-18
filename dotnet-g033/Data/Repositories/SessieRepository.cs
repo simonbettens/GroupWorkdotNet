@@ -60,5 +60,11 @@ namespace dotnet_g033.Data.Repositories
         {
             _context.SaveChanges();
         }
+
+        public IEnumerable<Sessie> GetAfgelopenByMaand(int maand) {
+            return _sessies.Where(s => s.StartDatum.Month == maand && s.EindDatum < DateTime.Today && s.Gesloten == false)
+                .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
+                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
+        }
     }
 }

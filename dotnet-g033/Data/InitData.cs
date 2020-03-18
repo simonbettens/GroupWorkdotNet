@@ -93,8 +93,8 @@ namespace dotnet_g033.Data
 
                 Sessie sessie4 = new Sessie(
                     "De weg naar de Cloud",
-                    new DateTime(2020, 4, 9, 12, 30, 0),
-                    new DateTime(2020, 4, 9, 12, 30, 0),
+                    new DateTime(2020, 3, 5, 12, 30, 0),
+                    new DateTime(2020, 3, 5, 12, 30, 0),
                     false, 
                     20, 
                     "GSCHB4.026", 
@@ -102,8 +102,8 @@ namespace dotnet_g033.Data
                 
                 Sessie sessie5 = new Sessie(
                     "Improving Security Is Possible?",
-                    new DateTime(2020, 4, 16, 12, 30, 0),
-                    new DateTime(2020, 4, 16, 12, 30, 0),
+                    new DateTime(2020, 3, 12, 12, 30, 0),
+                    new DateTime(2020, 3, 12, 12, 30, 0),
                     false, 
                     20, 
                     "GSCHB4.026", 
