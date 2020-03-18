@@ -44,7 +44,7 @@ namespace dotnet_g033.Models.Domain
             this.SessiesIngeschreven.Add(nieuweInschrijving);
         }
 
-        internal void SchrijfUit(SessieGebruiker nieuweInschrijving)
+        public void SchrijfUit(SessieGebruiker nieuweInschrijving)
         {
             this.SessiesIngeschreven.Remove(nieuweInschrijving);
         }

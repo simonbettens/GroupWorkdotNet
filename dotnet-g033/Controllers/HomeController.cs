@@ -52,7 +52,11 @@ namespace dotnet_g033.Controllers
             sessieAankondingen = sessieAankondingen.OrderByDescending(sa => sa.Prioriteit).ThenBy(sa => sa.Gepost);
             if (sessie != null)
             {
-                bool ingeschreven = sessie.GebruikerIsIngeschreven(gebruiker);
+                bool ingeschreven = false;
+                if (gebruiker != null)
+                {
+                    ingeschreven = sessie.GebruikerIsIngeschreven(gebruiker);
+                }
                 ViewData["IsIngeschreven"] = ingeschreven;
                 if (ingeschreven)
                 {
