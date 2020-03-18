@@ -62,14 +62,14 @@ namespace dotnet_g033.Data
                 #region Sessies
                 Sessie sessie1 = new Sessie(
                     "The Three Laws of TDD (featuring Kotlin)", 
-                    new DateTime(2020, 3, 19, 12, 30, 0),
-                    new DateTime(2020, 3, 19, 13, 30, 0), 
+                    new DateTime(2020, 3, 20, 12, 30, 0),
+                    new DateTime(2020, 3, 20, 13, 30, 0), 
                     false, 
                     20, 
                     "GSCHB4.026", 
                     admin,
                     "Testen is moeilijk aan te brengen tijdens je opleiding want je komt toch niet vaak terug op oude code omdat de \"klant\" aanpassing wilt. Maar iedereen heeft al veel tijd verloren omdat er bugs waren, of omdat de code niet goed te lezen was. \n Maar Uncle Bob is terug, en deze keer legt hij de drie wetten van Test - Driven Development uit, en toont ze ook in actie. Dit zijn de drie regels:\n 1.You are not allowed to write any production code unless it is to make a failing unit test pass. \n 2.You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures. \n 3.You are not allowed to write any more production code than is sufficient to pass the one failing unit test. \n Door deze drie regels te volgen garandeer je dat je code altijd doet wat ze moet doen! Als je code bijschrijft of aanpast kan je altijd vertrouwen op je tests.", 
-                    true);
+                    false);
                 
                 Sessie sessie2 = new Sessie(
                     "Life is terrible: let's talk about the web",
@@ -96,7 +96,7 @@ namespace dotnet_g033.Data
                     "De weg naar de Cloud",
                     new DateTime(2020, 3, 5, 12, 30, 0),
                     new DateTime(2020, 3, 5, 12, 30, 0),
-                    false, 
+                    true, 
                     20, 
                     "GSCHB4.026", 
                     admin);
@@ -105,23 +105,23 @@ namespace dotnet_g033.Data
                     "Improving Security Is Possible?",
                     new DateTime(2020, 3, 12, 12, 30, 0),
                     new DateTime(2020, 3, 12, 12, 30, 0),
-                    false, 
+                    true, 
                     20, 
                     "GSCHB4.026", 
                     admin,
                     "In deze talk geeft James Mickens van Harvard University zijn ongezouten mening over de mysteries van Machine Learning (\"The stuff is what the stuff is, brother.\") en andere \"hippe en innovatieve\" frameworks en technologieën, en hoe de focus op innovatie ervoor zorgt dat er nooit tijd is voor security.");
 
-                Sessie geslotenSessie1 = new Sessie(
+                Sessie bijnaGestarteSessie1 = new Sessie(
                     "Power use of Unix",
-                    new DateTime(2020, 2, 20, 14, 0, 0),
-                    new DateTime(2020, 2, 20, 15, 0, 0),
-                    true,
+                    huidigetijd.AddMinutes(45),
+                    huidigetijd.AddHours(1).AddMinutes(15),
+                    false,
                     20,
                     "GSCHB4.026",
                     admin,
                     "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.De perfecte sessie voor iedereen die wil kennismaken met de kracht van de commandline!");
 
-                Sessie geslotenSessie2 = new Sessie(
+                Sessie sessie6 = new Sessie(
                     "How to be a happy Developer. Now!", 
                     new DateTime(2020, 2, 21, 14, 0, 0), 
                     new DateTime(2020, 2, 21, 15, 0, 0), 
@@ -141,20 +141,22 @@ namespace dotnet_g033.Data
                     "GSCHB4.026",
                     admin,
                     "Netflix wordt gezien al seen grote DevOps omgeving. Toch is “DevOps”niet iets waar ze veel over spreken. Als het dan toch zo’n kritisch deel is voor het succes van de organisatie, waarom horen we er niet meer over?\nNetflix ziet DevOps als het resultaat van een duidelijke bedrijfscultuur, niet als oplossing van een bepaald probleem.Alles begint bij de bedrijfscultuur, chaos is je vriend en vertrouwen is van absoluut belang.");
+                
+
 
                 admin.voegSessieToe(sessie1);
                 verantwoordelijke.voegSessieToe(sessie2);
                 admin.voegSessieToe(sessie3);
                 admin.voegSessieToe(sessie4);
                 admin.voegSessieToe(sessie5);
-                admin.voegSessieToe(geslotenSessie1);
-                verantwoordelijke.voegSessieToe(geslotenSessie2);
+                verantwoordelijke.voegSessieToe(sessie6);
                 admin.voegSessieToe(gestartSessie1);
+                admin.voegSessieToe(bijnaGestarteSessie1);
 
                 sessie1.SchrijfGebruikerIn(new SessieGebruiker(sessie1, simon), simon);
                 sessie1.SchrijfGebruikerIn(new SessieGebruiker(sessie1, pieter), pieter);
 
-                Sessie[] sessies = { sessie1, sessie2, sessie3, sessie4, sessie5, geslotenSessie1, geslotenSessie2, gestartSessie1 };
+                Sessie[] sessies = { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, gestartSessie1, bijnaGestarteSessie1 };
                 _dbContext.Sessie.AddRange(sessies);
                 _dbContext.SaveChanges();
                 #endregion
@@ -229,9 +231,9 @@ namespace dotnet_g033.Data
                 Feedback feedback3 = new Feedback(5, DateTime.Now, "Simon", "Bettens", "sb123456", "zeer tof en leerrijk, spreker was ook zeer enthousiast :)");
                 Feedback[] feedback = { feedback1, feedback2, feedback3 };
 
-                sessie1.VoegFeedbackToe(feedback1);
-                sessie1.VoegFeedbackToe(feedback2);
-                sessie2.VoegFeedbackToe(feedback3);
+                sessie5.VoegFeedbackToe(feedback1);
+                sessie5.VoegFeedbackToe(feedback2);
+                sessie4.VoegFeedbackToe(feedback3);
                 _dbContext.Feedback.AddRange(feedback);
                 _dbContext.SaveChanges(); 
                 #endregion

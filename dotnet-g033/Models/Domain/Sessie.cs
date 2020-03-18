@@ -24,6 +24,7 @@ namespace dotnet_g033.Models.Domain
         public bool StaatOpen { get; set; }
         public bool KanNogInschrijven => AantalResterend > 0;
         public TimeSpan Duur => EindDatum - StartDatum;
+        public bool Bezig => DateTime.Now >= StartDatum&& DateTime.Now <= EindDatum ;
         #endregion
 
         #region Collections

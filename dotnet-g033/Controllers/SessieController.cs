@@ -8,12 +8,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace dotnet_g033.Controllers {
+namespace dotnet_g033.Controllers
+{
     /// <summary>
     /// 
     /// </summary>
     [Authorize]
-    public class SessieController : Controller {
+    public class SessieController : Controller
+    {
 
         #region Repositories
 
@@ -24,7 +26,8 @@ namespace dotnet_g033.Controllers {
         #endregion
 
         #region Constructor
-        public SessieController(ISessieRepository sessieRepository, IGebruikerRepository gebruikerRepository, IFeedbackRepository feedbackRepository) {
+        public SessieController(ISessieRepository sessieRepository, IGebruikerRepository gebruikerRepository, IFeedbackRepository feedbackRepository)
+        {
             this._sessieRepository = sessieRepository;
             this._feedbackRepository = feedbackRepository;
             this._gebruikerRepository = gebruikerRepository;
@@ -41,8 +44,10 @@ namespace dotnet_g033.Controllers {
         /// <param name="maandId">De geselecteerde maand</param>
         /// <returns>Een view met alle sessies van de geselecteerde maand</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
-        public ActionResult Index(Gebruiker gebruiker, int maandId = 0) {
-            if (maandId == 0) {
+        public ActionResult Index(Gebruiker gebruiker, int maandId = 0)
+        {
+            if (maandId == 0)
+            {
                 maandId = DateTime.Now.Month;
             }
             HashSet<Sessie> hashSessies = _sessieRepository.GetByMaand(maandId).Where(s => s.Gesloten != true).ToHashSet();
@@ -63,16 +68,20 @@ namespace dotnet_g033.Controllers {
         /// <param name="gebruiker">de ingelogde gebruiker</param>
         /// <returns>een view met alle info van de gekozen sessie</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
-        public ActionResult Details(int id, Gebruiker gebruiker) {
+        public ActionResult Details(int id, Gebruiker gebruiker)
+        {
             Sessie sessie = _sessieRepository.GetById(id);
             ViewData["GebruikerId"] = gebruiker.UserName;
-            if (sessie != null) {
+            if (sessie != null)
+            {
                 bool ingeschreven = sessie.GebruikerIsIngeschreven(gebruiker);
                 ViewData["IsIngeschreven"] = ingeschreven;
-                if (ingeschreven) {
+                if (ingeschreven)
+                {
                     ViewData["IsAanwezig"] = sessie.GeefSessieGebruiker(gebruiker).Aanwezig;
                 }
-                else {
+                else
+                {
                     ViewData["IsAanwezig"] = false;
                 }
                 var viewModel = new SessieDetailsViewModel(sessie);
@@ -84,14 +93,15 @@ namespace dotnet_g033.Controllers {
         }
 
         [ServiceFilter(typeof(GebruikerFilter))]
-        public ActionResult AfgelopenSessies(Gebruiker gebruiker, int maandId = 0) {
-            if (maandId == 0) {
+        public ActionResult AfgelopenSessies(Gebruiker gebruiker, int maandId = 0)
+        {
+            if (maandId == 0)
+            {
                 maandId = DateTime.Now.Month;
             }
-            HashSet<Sessie> hashSessies = _sessieRepository.GetAfgelopenByMaand(maandId).Where(s => s.Gesloten != true).ToHashSet();
-            ViewData["bevatSessies"] = !hashSessies.Any();
+            IEnumerable<Sessie> sessies = _sessieRepository.GetAfgelopenByMaand(maandId);
+            ViewData["bevatSessies"] = !sessies.Any();
             ViewData["Ingelogd"] = true;
-            IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
             ViewData["Maanden"] = GetMaandSelectList(maandId);
             SessieIndexViewmodel viewmodel = new SessieIndexViewmodel(gebruiker, sessies);
             return View(viewmodel);
@@ -108,17 +118,21 @@ namespace dotnet_g033.Controllers {
         /// <param name="gebruiker">de ingelogde gebruiker</param>
         /// <returns>een detailview van de gekozen sessie met een melding of de inschrijving geslaagd is</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
-        public IActionResult InSchrijven(int id, Gebruiker gebruiker) {
+        public IActionResult InSchrijven(int id, Gebruiker gebruiker)
+        {
             Sessie sessie = _sessieRepository.GetById(id);
-            if (gebruiker != null && sessie != null) {
-                try {
+            if (gebruiker != null && sessie != null)
+            {
+                try
+                {
                     SessieGebruiker sessieGebruiker = new SessieGebruiker(sessie, gebruiker);
                     sessie.SchrijfGebruikerIn(sessieGebruiker, gebruiker);
                     _gebruikerRepository.SaveChanges();
                     _sessieRepository.SaveChanges();
                     TempData["message"] = $"Je inschrijving voor {sessie.Naam} werd geregistreerd.";
                 }
-                catch {
+                catch
+                {
                     TempData["error"] = "Er is iets mis gegaan, we konden je niet inschrijven.";
 
                 }
@@ -137,26 +151,33 @@ namespace dotnet_g033.Controllers {
         /// <param name="gebruiker">de ingelogde gebruiker</param>
         /// <returns>Een detailview van de gekozen sessie met een melding of de uitschrijving geslaagd is</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
-        public IActionResult Uitschrijven(int id, Gebruiker gebruiker) {
-            try {
+        public IActionResult Uitschrijven(int id, Gebruiker gebruiker)
+        {
+            try
+            {
                 Sessie sessie = _sessieRepository.GetById(id);
-                if (gebruiker != null && sessie != null) {
-                    if (sessie.EindDatum > DateTime.Now) {
+                if (gebruiker != null && sessie != null)
+                {
+                    if (sessie.EindDatum > DateTime.Now)
+                    {
                         SessieGebruiker sessieGebruiker = sessie.GeefSessieGebruiker(gebruiker);
                         sessie.SchrijfGebruikerUit(sessieGebruiker, gebruiker);
                         _gebruikerRepository.SaveChanges();
                         _sessieRepository.SaveChanges();
                         TempData["message"] = $"Je bent uitgeschreven voor {sessie.Naam}.";
                     }
-                    else {
+                    else
+                    {
                         TempData["error"] = "De sessie is reeds afgelopen. Uitschrijven is niet meer mogelijk.";
                     }
                 }
-                else {
+                else
+                {
                     TempData["error"] = "Er is iets mis gegaan, we konden je niet uitschrijven.";
                 }
             }
-            catch {
+            catch
+            {
                 TempData["error"] = "Er is iets mis gegaan, we konden je niet uitschrijven.";
             }
             return RedirectToAction("Details", new { id = id });
@@ -172,21 +193,27 @@ namespace dotnet_g033.Controllers {
         /// <returns>Een detailview van de gekozen sessie met een melding of de aanmelding geslaagd is</returns>
         [HttpPost]
         [ServiceFilter(typeof(GebruikerFilter))]
-        public IActionResult AanwezigStellen(int id, Gebruiker gebruiker) {
+        public IActionResult AanwezigStellen(int id, Gebruiker gebruiker)
+        {
             Sessie sessie = _sessieRepository.GetById(id);
-            if (gebruiker != null && sessie != null) {
-                if (sessie.GebruikerIsIngeschreven(gebruiker) && sessie.StaatOpen) {
-                    try {
+            if (gebruiker != null && sessie != null)
+            {
+                if (sessie.GebruikerIsIngeschreven(gebruiker) && sessie.StaatOpen)
+                {
+                    try
+                    {
                         sessie.StelGebruikerAanwezig(sessie.GeefSessieGebruiker(gebruiker));
                         _gebruikerRepository.SaveChanges();
                         _sessieRepository.SaveChanges();
                         TempData["message"] = $"Je staat aanwezig voor {sessie.Naam}.";
                     }
-                    catch {
+                    catch
+                    {
                         TempData["error"] = "Er is iets mis gegaan, we konden je niet aanmelden.";
                     }
                 }
-                else {
+                else
+                {
                     TempData["error"] = "Deze sessie staat momenteel niet open.";
                 }
             }
@@ -276,15 +303,21 @@ namespace dotnet_g033.Controllers {
 
         #region Open Zetten
         [ServiceFilter(typeof(GebruikerFilter))]
-        public ActionResult OpenzettenIndex(Gebruiker gebruiker, int maandId = 0) {
-            if (maandId == 0) {
+        public ActionResult OpenzettenIndex(Gebruiker gebruiker, int maandId = 0)
+        {
+            if (maandId == 0)
+            {
                 maandId = DateTime.Now.Month;
             }
             HashSet<Sessie> hashSessies;
             if ((int)gebruiker.Type == 3)
+            {
                 hashSessies = _sessieRepository.GetSessieHoofdVerantwoordelijkeNogTeOpenen(gebruiker, maandId).ToHashSet();
+            }
             else
+            {
                 hashSessies = _sessieRepository.GetSessieVerantwoordelijkeNogTeOpenen(gebruiker, maandId).ToHashSet();
+            }
             IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
             ViewData["BevatSessies"] = sessies.Any();
             ViewData["Maanden"] = GetMaandSelectList(maandId);
@@ -292,21 +325,34 @@ namespace dotnet_g033.Controllers {
             return View(viewmodel);
         }
 
-        public ActionResult VeranderStaatOpen(int id) {
+        public ActionResult VeranderStaatOpen(int id)
+        {
             Sessie sessie = _sessieRepository.GetById(id);
             HashSet<Sessie> hashSessies = _sessieRepository.GetAll().ToHashSet();
             IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
             IEnumerable<Sessie> sessiesOpen = new List<Sessie>(sessies.Where(s => s.StaatOpen == true));
-            if (sessie != null) {
-                if (sessie.StaatOpen == true) {
+            if (sessie != null)
+            {
+                if (sessie.StaatOpen == true)
+                {
                     sessie.Sluit();
                     TempData["message"] = $"{sessie.Naam} is gesloten";
                 }
-                else {
-                    if (sessiesOpen.Count() > 0) {
+                else
+                {
+                    if (sessiesOpen.Count() > 0)
+                    {
                         TempData["error"] = $"Er staat al een sessie open van {sessiesOpen.ToList().First().Verantwoordelijke.Voornaam} {sessiesOpen.ToList().First().Verantwoordelijke.Achternaam}!";
                     }
-                    else {
+                    else if (!(DateTime.Now >= sessie.StartDatum.AddHours(-1)))
+                    {
+                        TimeSpan tijdResterend = sessie.StartDatum.AddHours(-1) - DateTime.Now;
+                        
+                        TempData["error"] = $"{sessie.Naam} kan niet geopend worden, nog {tijdResterend.Days} " +
+                            $"dagen en {tijdResterend.ToString(@"hh\:mm\:ss")} resterend";
+                    }
+                    else
+                    {
                         sessie.ZetOpen();
                         TempData["message"] = $"{sessie.Naam} staat nu open";
                     }
@@ -323,20 +369,27 @@ namespace dotnet_g033.Controllers {
         public ActionResult VoegFeedbackToe([FromForm] FeedbackModel model, Gebruiker gebruiker)
         {
             Sessie sessie = _sessieRepository.GetById(model.SessieId);
-            if (sessie != null && gebruiker != null)
+            try
             {
-                if (model.AantalSterren != 0)
+                if (sessie != null && gebruiker != null)
                 {
-                    sessie.Feedback.Add(new Feedback(model.AantalSterren, DateTime.Now, gebruiker.Voornaam, gebruiker.Achternaam, gebruiker.UserName, model.Comment));
-                    _sessieRepository.SaveChanges();
-                    _feedbackRepository.SaveChanges();
-                    return RedirectToAction("Details", new { id = model.SessieId });
+                    if (model.AantalSterren != 0)
+                    {
+                        sessie.Feedback.Add(new Feedback(model.AantalSterren, DateTime.Now, gebruiker.Voornaam, gebruiker.Achternaam, gebruiker.UserName, model.Comment));
+                        _sessieRepository.SaveChanges();
+                        _feedbackRepository.SaveChanges();
+                        return RedirectToAction("Details", new { id = model.SessieId });
+                    }
+                    else
+                    {
+                        TempData["error"] = "Star rating is verplicht bij het indienen van feedback";
+                        return RedirectToAction("Details", new { id = model.SessieId });
+                    }
                 }
-                else
-                {
-                    TempData["error"] = "Star rating is verplicht bij het indienen van feedback";
-                    return RedirectToAction("Details", new { id = model.SessieId });
-                }
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Comment mag niet meer dan 500 karakters bevatten";
             }
             return RedirectToAction("Details", new { id = model.SessieId });
         }

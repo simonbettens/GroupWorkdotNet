@@ -24,7 +24,7 @@
 
 <table id="myTable" class="table">
     <tr>
-        <th class="text-left">Zichtbaarheid</th>
+        <th class="text-left">Status</th>
         <th class="text-left">Titel</th>
         <th class="text-center">Naam verantwoordelijke</th>
         <th class="text-center">Start datum & tijd</th>
@@ -36,36 +36,72 @@
     {
         @foreach (var item in Model.Sessies)
         {
-            <tr>
-                @if (item.StaatOpen == true)
-                {
-                    <td class="text-center">
-                        <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-open" data-inline="false"></span></a>
+            if (!item.Gesloten && !item.Bezig)
+            {
+                <tr>
+                    @if (item.StaatOpen == true)
+                    {
+                        <td class="text-center">
+                            <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-open" data-inline="false"></span></a>
+                        </td>
+                    }
+                    else if (item.StaatOpen == false)
+                    {
+                        <td class="text-center">
+                            <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-close" data-inline="false"></span></a>
+                        </td>
+                    }
+
+                    <td class="text-left">
+                        @item.Naam
                     </td>
-                }
-                else if (item.StaatOpen == false)
-                {
                     <td class="text-center">
-                        <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-close" data-inline="false"></span></a>
+                        @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
                     </td>
-                }
-                <td class="text-left">
-                    @item.Naam
-                </td>
-                <td class="text-center">
-                    @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
-                </td>
-                <td class="text-center">
-                    @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
-                </td>
-                <td class="text-center">
-                    @(item.Duur.ToString(@"hh\:mm"))
-                </td>
-                <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
-                <td>
-                    <a asp-controller="Sessie" asp-action="DetailsExtra" asp-route-id="@item.SessieId">Details</a>
-                </td>
-            </tr>
+                    <td class="text-center">
+                        @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                    </td>
+                    <td class="text-center">
+                        @(item.Duur.ToString(@"hh\:mm"))
+                    </td>
+                    <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
+                    <td>
+                        <a asp-controller="Sessie" asp-action="DetailsExtra" asp-route-id="@item.SessieId">Details</a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center">
+                        @if (item.Bezig)
+                        {
+                            <span class="iconify" data-icon="ic:outline-timer" data-inline="false" style="color: black;"></span>
+                        }
+                        else
+                        {
+                            <span class="iconify" data-icon="icomoon-free:checkmark" data-inline="false"></span>
+                        }
+                    </td>
+
+                    <td class="text-left">
+                        @item.Naam
+                    </td>
+                    <td class="text-center">
+                        @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
+                    </td>
+                    <td class="text-center">
+                        @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+                    </td>
+                    <td class="text-center">
+                        @(item.Duur.ToString(@"hh\:mm"))
+                    </td>
+                    <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
+                    <td>
+                        <a asp-controller="Sessie" asp-action="DetailsExtra" asp-route-id="@item.SessieId">Details</a>
+                    </td>
+                </tr>
+            }
         }
     }
     else
@@ -73,3 +109,19 @@
         <text>U heeft nog geen sessies ingepland deze maand</text>;
     }
 </table>
+<div>
+    <h3>Legende</h3>
+    <p>
+        <span class="iconify" data-icon="el:eye-open" data-inline="false"></span> : De sessie staat open
+
+    </p>
+    <p>
+        <span class="iconify" data-icon="el:eye-close" data-inline="false"></span> : De sessie staat nog niet open maar kan opengezet worden
+    </p>
+    <p>
+        <span class="iconify" data-icon="ic:outline-timer" data-inline="false" style="color: black;"></span> : Deze sessie is bezig
+    </p>
+    <p>
+        <span class="iconify" data-icon="icomoon-free:checkmark" data-inline="false"></span> : Deze sessie is afgelopen
+    </p>
+</div>

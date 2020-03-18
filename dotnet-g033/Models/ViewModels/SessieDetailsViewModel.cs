@@ -31,6 +31,8 @@ namespace dotnet_g033.Models.ViewModels {
         public bool HeeftInschrevenGebruikers { get; set; }
         public bool KanNogInschrijven => AantalResterend > 0;
         public bool HeeftFeedback { get; }
+        public bool Afgelopen { get; }
+        public bool HeeftAankondigen => SessieAankondigingen.Any();
 
         public IEnumerable<Media> Media { get; }
         public IEnumerable<Media> Linken { get; }
@@ -39,6 +41,7 @@ namespace dotnet_g033.Models.ViewModels {
         public IEnumerable<Media> Afbeeldingen { get; }
         public IEnumerable<SessieGebruiker> GebruikersIngeschreven { get; set; }
         public IEnumerable<Feedback> Feedback { get; }
+        public IEnumerable<SessieAankondiging> SessieAankondigingen { get; set; }
         #endregion
 
         public SessieDetailsViewModel(Sessie sessie)
@@ -76,6 +79,8 @@ namespace dotnet_g033.Models.ViewModels {
 
             this.GebruikersIngeschreven = sessie.GebruikersIngeschreven.OrderBy(gi => gi.AanwezigBevestiged).ThenBy(gi => gi.Voornaam).ThenBy(gi => gi.Achternaam);
             this.HeeftInschrevenGebruikers = GebruikersIngeschreven.Any();
+            this.Afgelopen = sessie.Gesloten;
+            this.SessieAankondigingen = sessie.Aankondingen;
         }
 
 

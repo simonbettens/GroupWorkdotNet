@@ -29,6 +29,12 @@ namespace dotnet_g033.Data.Repositories
                 .Include(s => s.Verantwoordelijke).Include(s=>s.GebruikersIngeschreven)
                 .OrderBy(s => s.StartDatum).ThenBy(s=>s.Naam).ToList();
         }
+        public IEnumerable<Sessie> GetAfgelopenByMaand(int maand)
+        {
+            return _sessies.Where(s => s.StartDatum.Month == maand && s.EindDatum < DateTime.Today && s.Gesloten == true)
+                .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
+                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
+        }
         public IEnumerable<Sessie> GetByMaandVerantwoordelijke(int maand)
         {
             return _sessies.Where(s => s.StartDatum.Month == maand &&  s.StaatOpen == false)
@@ -39,32 +45,26 @@ namespace dotnet_g033.Data.Repositories
         public Sessie GetById(int id)
         {
             return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Feedback).Include(s => s.Verantwoordelijke)
-                .Include(s => s.GebruikersIngeschreven).FirstOrDefault();
+                .Include(s => s.GebruikersIngeschreven).Include(s => s.Aankondingen).FirstOrDefault();
         }
 
         public IEnumerable<Sessie> GetSessieVerantwoordelijkeNogTeOpenen(Gebruiker g, int maandId)
         {
-            return _sessies.Where(s => s.StartDatum.Month == maandId && s.Verantwoordelijke.UserName.Equals(g.UserName) && DateTime.Now.AddHours(1) <= s.StartDatum && s.Gesloten == false)
+            return _sessies.Where(s => s.StartDatum.Month == maandId && s.Verantwoordelijke.UserName.Equals(g.UserName))
                 .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
-                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
+                .OrderBy(s => s.Gesloten).ThenBy(s => s.StartDatum).ToList();
         }
 
         public IEnumerable<Sessie> GetSessieHoofdVerantwoordelijkeNogTeOpenen(Gebruiker g, int maandId)
         {
-            return _sessies.Where(s => s.StartDatum.Month == maandId && DateTime.Now.AddHours(1) <= s.StartDatum && s.Gesloten == false)
+            return _sessies.Where(s => s.StartDatum.Month == maandId)
                 .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
-                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
+                .OrderBy(s => s.Gesloten).ThenBy(s=>s.StartDatum).ToList();
         }
 
         public void SaveChanges()
         {
             _context.SaveChanges();
-        }
-
-        public IEnumerable<Sessie> GetAfgelopenByMaand(int maand) {
-            return _sessies.Where(s => s.StartDatum.Month == maand && s.EindDatum < DateTime.Today && s.Gesloten == false)
-                .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
-                .OrderBy(s => s.StartDatum).ThenBy(s => s.Naam).ToList();
         }
     }
 }
