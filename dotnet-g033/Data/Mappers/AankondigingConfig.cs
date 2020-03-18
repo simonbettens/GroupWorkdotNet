@@ -15,7 +15,7 @@ namespace dotnet_g033.Data.Mappers
             builder.HasKey(a => a.AankondingId);
             builder.ToTable("Aankonding");
             builder.Property(a => a.Gepost).IsRequired();
-            builder.Property(a => a.Inhoud).IsRequired().HasMaxLength(100);
+            builder.Property(a => a.Inhoud).IsRequired().HasMaxLength(200);
             builder.Property(a => a.Prioriteit).IsRequired();
             builder.HasOne(a => a.Verantwoordelijke).WithMany().OnDelete(DeleteBehavior.Cascade);
             

@@ -25,7 +25,7 @@ namespace dotnet_g033.Data
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
-                DateTime huidigetijd = DateTime.Today;
+                DateTime huidigetijd = DateTime.Now;
 
                 #region Gebruikers data
                 var passwordHasher = new PasswordHasher<Gebruiker>();
@@ -59,14 +59,87 @@ namespace dotnet_g033.Data
                 #endregion
 
                 #region Sessies
-                Sessie sessie1 = new Sessie("sessie1", huidigetijd.AddDays(1), huidigetijd.AddDays(1).AddHours(1), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", true);
-                Sessie sessie2 = new Sessie("sessie2", huidigetijd.AddDays(2), huidigetijd.AddDays(2).AddHours(1), false, 10, "GSCHB4.026", verantwoordelijke, staatOpen: false);
-                Sessie sessie3 = new Sessie("sessie3", huidigetijd.AddDays(3), huidigetijd.AddDays(3).AddHours(1), false, 30, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie sessie4 = new Sessie("sessie4", huidigetijd.AddDays(4), huidigetijd.AddDays(4).AddHours(1), false, 20, "GSCHB4.026", admin);
-                Sessie sessie5 = new Sessie("sessie5", huidigetijd.AddMonths(1), huidigetijd.AddMonths(1).AddHours(1), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie geslotenSessie1 = new Sessie("geslotenSessie1", new DateTime(2020, 2, 20, 14, 0, 0), new DateTime(2020, 2, 20, 15, 0, 0), true, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie geslotenSessie2 = new Sessie("geslotenSessie2", new DateTime(2020, 2, 21, 14, 0, 0), new DateTime(2020, 2, 21, 15, 0, 0), true, 20, "GSCHB4.026", verantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-                Sessie gestartSessie1 = new Sessie("gestartSessie1", huidigetijd, huidigetijd.AddMinutes(45), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+                Sessie sessie1 = new Sessie(
+                    "The Three Laws of TDD (featuring Kotlin)", 
+                    new DateTime(2020, 3, 19, 12, 30, 0),
+                    new DateTime(2020, 3, 19, 13, 30, 0), 
+                    false, 
+                    20, 
+                    "GSCHB4.026", 
+                    admin,
+                    "Testen is moeilijk aan te brengen tijdens je opleiding want je komt toch niet vaak terug op oude code omdat de \"klant\" aanpassing wilt. Maar iedereen heeft al veel tijd verloren omdat er bugs waren, of omdat de code niet goed te lezen was. \n Maar Uncle Bob is terug, en deze keer legt hij de drie wetten van Test - Driven Development uit, en toont ze ook in actie. Dit zijn de drie regels:\n 1.You are not allowed to write any production code unless it is to make a failing unit test pass. \n 2.You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures. \n 3.You are not allowed to write any more production code than is sufficient to pass the one failing unit test. \n Door deze drie regels te volgen garandeer je dat je code altijd doet wat ze moet doen! Als je code bijschrijft of aanpast kan je altijd vertrouwen op je tests.", 
+                    true);
+                
+                Sessie sessie2 = new Sessie(
+                    "Life is terrible: let's talk about the web",
+                    new DateTime(2020, 3, 26, 12, 30, 0),
+                    new DateTime(2020, 3, 26, 13, 20, 0),
+                    false, 
+                    10, 
+                    "GSCHB4.026", 
+                    verantwoordelijke, 
+                    staatOpen: false);
+
+                Sessie sessie3 = new Sessie(
+                    "TDD: Where did it all go wrong?",
+                    new DateTime(2020, 4, 2, 12, 30, 0),
+                    new DateTime(2020, 4, 2, 13, 30, 0),
+                    false,
+                    30,
+                    "GSCHB4.026",
+                    admin,
+                    "In Ontwerpen 1 leerde je al over het testen van software, en hoe TDD vitaal is voor het afleveren van werkende software. En in de volgende semesters bleef die focus op het schrijven van testen aanwezig. Maar moet die focus op TDD er wel zo sterk zijn ? Is wat nuance niet aan de orde ? Ian Cooper brengt in deze talk een duidelijk antwoord op deze vraag.Hij heeft al meer dan 20 jaar ervaring en heeft vooral gewerkt aan de architectuur van grote.NET - projecten.");
+
+
+                Sessie sessie4 = new Sessie(
+                    "De weg naar de Cloud",
+                    new DateTime(2020, 4, 9, 12, 30, 0),
+                    new DateTime(2020, 4, 9, 12, 30, 0),
+                    false, 
+                    20, 
+                    "GSCHB4.026", 
+                    admin);
+                
+                Sessie sessie5 = new Sessie(
+                    "Improving Security Is Possible?",
+                    new DateTime(2020, 4, 16, 12, 30, 0),
+                    new DateTime(2020, 4, 16, 12, 30, 0),
+                    false, 
+                    20, 
+                    "GSCHB4.026", 
+                    admin,
+                    "In deze talk geeft James Mickens van Harvard University zijn ongezouten mening over de mysteries van Machine Learning (\"The stuff is what the stuff is, brother.\") en andere \"hippe en innovatieve\" frameworks en technologieën, en hoe de focus op innovatie ervoor zorgt dat er nooit tijd is voor security.");
+
+                Sessie geslotenSessie1 = new Sessie(
+                    "Power use of Unix",
+                    new DateTime(2020, 2, 20, 14, 0, 0),
+                    new DateTime(2020, 2, 20, 15, 0, 0),
+                    true,
+                    20,
+                    "GSCHB4.026",
+                    admin,
+                    "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.De perfecte sessie voor iedereen die wil kennismaken met de kracht van de commandline!");
+
+                Sessie geslotenSessie2 = new Sessie(
+                    "How to be a happy Developer. Now!", 
+                    new DateTime(2020, 2, 21, 14, 0, 0), 
+                    new DateTime(2020, 2, 21, 15, 0, 0), 
+                    true, 
+                    20, 
+                    "GSCHB4.026", 
+                    verantwoordelijke,
+                    "Veel ontwikkelaars claimen dat ze van hun hobby hun beroep hebben gemaakt. \nDus, wat kunnen we doen om de huidige situatie te verbeteren ? Hoe kunnen we onszelf beter laten voelen ? Dieze talk richt zich op een aantal eenvoudig te implementeren tactieken die ieder van ons kan gebruiken vanaf morgen, waardoor ons leven een beetje makkelijker en leuker wordt: stuk voor stuk, dag na dag.");
+
+
+                Sessie gestartSessie1 = new Sessie(
+                    "How Netflix thinks of DevOps",
+                    huidigetijd,
+                    huidigetijd.AddMinutes(45),
+                    false,
+                    20,
+                    "GSCHB4.026",
+                    admin,
+                    "Netflix wordt gezien al seen grote DevOps omgeving. Toch is “DevOps”niet iets waar ze veel over spreken. Als het dan toch zo’n kritisch deel is voor het succes van de organisatie, waarom horen we er niet meer over?\nNetflix ziet DevOps als het resultaat van een duidelijke bedrijfscultuur, niet als oplossing van een bepaald probleem.Alles begint bij de bedrijfscultuur, chaos is je vriend en vertrouwen is van absoluut belang.");
 
                 admin.voegSessieToe(sessie1);
                 verantwoordelijke.voegSessieToe(sessie2);
@@ -86,14 +159,14 @@ namespace dotnet_g033.Data
                 #endregion
 
                 #region Aankondingen
-                Aankondiging algemeneAankonding1 = new Aankondiging(huidigetijd,"Dit is de eerste algemene aankondiging met lage prioriteit",admin,AankondigingPrioriteit.Laag);
-                Aankondiging algemeneAankonding2 = new Aankondiging(huidigetijd,"Dit is de tweede algemene aankondiging met lage prioriteit", admin, AankondigingPrioriteit.Laag);
-                Aankondiging algemeneAankonding3 = new Aankondiging(huidigetijd,"Dit is de eerst algemene aankondiging met hoge prioriteit", admin, AankondigingPrioriteit.Hoog);
-                Aankondiging algemeneAankonding4 = new Aankondiging(huidigetijd,"Dit is de tweede algemene aankondiging met hoge prioriteit", admin, AankondigingPrioriteit.Hoog);
+                Aankondiging algemeneAankonding1 = new Aankondiging(new DateTime(2020, 3, 17, 15, 0, 0), "Studenten met interesse kunnen altijd een mailtje sturen en dan zend ik de filmpjes van de afgelaste sessies door",admin,AankondigingPrioriteit.Laag);
+                Aankondiging algemeneAankonding2 = new Aankondiging(huidigetijd,"Bedankt aan alle studenten die feedback hebben gegeven op de sessies, deze komen goed van pas bij het kiezen van de volgende", admin, AankondigingPrioriteit.Laag);
+                Aankondiging algemeneAankonding3 = new Aankondiging(huidigetijd,"Wegens de huidige coronamaatregelen worden hierbij alle sessies afgelast.", admin, AankondigingPrioriteit.Hoog);
+                Aankondiging algemeneAankonding4 = new Aankondiging(huidigetijd,"Het IT-Lab zal niet open zijn tot minstens 5 april wegens de landelijke coronamaatregelen", admin, AankondigingPrioriteit.Hoog);
 
-                SessieAankondiging sessieAankonding1 = new SessieAankondiging(huidigetijd, "Dit is een aankondiging voor sessie 1 met een lage prioriteit", admin,sessie1 ,AankondigingPrioriteit.Laag); 
-                SessieAankondiging sessieAankonding2 = new SessieAankondiging(huidigetijd, "Dit is een aankondiging voor sessie 1 met een hoge prioriteit", admin, sessie1, AankondigingPrioriteit.Hoog);
-                SessieAankondiging sessieAankonding3 = new SessieAankondiging(huidigetijd, "Dit is een aankondiging voor sessie 1 met een laag prioriteit", admin, sessie1, AankondigingPrioriteit.Laag);
+                SessieAankondiging sessieAankonding1 = new SessieAankondiging(huidigetijd, "Studenten die nog steeds interesse vertonen kunnen mij een mailtje sturen, ik zal het filmpje van de sessie doorsturen", admin,sessie1 ,AankondigingPrioriteit.Laag); 
+                SessieAankondiging sessieAankonding2 = new SessieAankondiging(huidigetijd, "Deze sessie zal afgelast worden door de huidige coronamaatregelen", admin, sessie1, AankondigingPrioriteit.Hoog);
+                SessieAankondiging sessieAankonding3 = new SessieAankondiging(huidigetijd, "Deze sessie zal afgelast worden door de huidige coronamaatregelen", admin, sessie2, AankondigingPrioriteit.Hoog);
                 sessieAankonding1.VoegAankondingToeAanSessie();
                 sessieAankonding2.VoegAankondingToeAanSessie();
                 sessieAankonding3.VoegAankondingToeAanSessie();

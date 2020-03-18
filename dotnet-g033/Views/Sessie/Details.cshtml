@@ -37,7 +37,7 @@
     </li>
     @if (Model.Beschrijving != "")
     {
-        <li class="list-group-item">@Model.Beschrijving</li>
+        <li class="list-group-item"><span class="beschrijving">@Model.Beschrijving</span></li>
     }
     <!--Media partial heeft de view media-->
     @if ((bool)ViewData["IsDetails"] && Model.HeeftMedia)
