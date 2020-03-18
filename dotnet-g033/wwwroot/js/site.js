@@ -79,6 +79,15 @@ function filterVerantwoordelijkeOpenzettenFunction() {
     }
 }
 
+// Star rating
+$(':radio').change(function () {
+    console.log('New star rating: ' + this.value);
+});
+
+submitForm = function () {
+    document.getElementById("form1").submit();
+}
+
 const init = function () {
     const form = document.getElementById("formInschrijven");
     const node = document.getElementById("gebruikerToevoegen");
@@ -90,5 +99,7 @@ const init = function () {
         });
     }
 };
+
+
 
 window.onload = init;

@@ -20,6 +20,7 @@ namespace dotnet_g033.Data {
         public DbSet<Media> Media { get; set; }
         public DbSet<SessieGebruiker> SessieGebruiker { get; set; }
         public DbSet<Aankondiging> Aankondiging { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
         #endregion
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -58,6 +59,10 @@ namespace dotnet_g033.Data {
             builder.ApplyConfiguration(new AankondigingConfig());
             builder.Entity<SessieAankondiging>().HasBaseType<Aankondiging>();
             builder.ApplyConfiguration(new SessieAankondigingConfig());
+            #endregion
+
+            #region Config feedback items
+            builder.ApplyConfiguration(new FeedbackConfig());
             #endregion
 
             builder.ApplyConfiguration(new SessieGebruikerConfig());

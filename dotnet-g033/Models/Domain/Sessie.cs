@@ -32,6 +32,7 @@ namespace dotnet_g033.Models.Domain
         //lijst van sessiegebruikers objecten die ingeschreven zijn bij een sessie
         public ICollection<SessieGebruiker> GebruikersIngeschreven { get; set; }
         public ICollection<SessieAankondiging> Aankondingen { get; set; }
+        public ICollection<Feedback> Feedback { get; set; }
         #endregion
 
         #region Constructors
@@ -39,6 +40,7 @@ namespace dotnet_g033.Models.Domain
         public Sessie()
         {
             this.Media = new List<Media>();
+            this.Feedback = new List<Feedback>();
             this.GebruikersIngeschreven = new List<SessieGebruiker>();
             this.Aankondingen = new List<SessieAankondiging>();
         }
@@ -52,6 +54,7 @@ namespace dotnet_g033.Models.Domain
             this.MaxCap = maxCap;
             this.Lokaal = lokaal;
             this.Media = new List<Media>();
+            this.Feedback = new List<Feedback>();
             this.Beschrijving = beschrijving;
             this.Verantwoordelijke = verantwoordelijke;
             this.StaatOpen = staatOpen;
@@ -100,6 +103,16 @@ namespace dotnet_g033.Models.Domain
         public void Sluit()
         {
             this.StaatOpen = false;
+        }
+
+        public void VoegFeedbackToe(Feedback feedback)
+        {
+            Feedback.Add(feedback);
+        }
+
+        public void VerwijderFeedback(Feedback feedback)
+        {
+            Feedback.Remove(feedback);
         }
         #endregion
 

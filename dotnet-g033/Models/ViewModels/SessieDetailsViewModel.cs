@@ -30,6 +30,7 @@ namespace dotnet_g033.Models.ViewModels {
         public bool HeeftAfbeeldingen { get; }
         public bool HeeftInschrevenGebruikers { get; set; }
         public bool KanNogInschrijven => AantalResterend > 0;
+        public bool HeeftFeedback { get; }
 
         public IEnumerable<Media> Media { get; }
         public IEnumerable<Media> Linken { get; }
@@ -37,6 +38,7 @@ namespace dotnet_g033.Models.ViewModels {
         public IEnumerable<Media> Documenten { get; }
         public IEnumerable<Media> Afbeeldingen { get; }
         public IEnumerable<SessieGebruiker> GebruikersIngeschreven { get; set; }
+        public IEnumerable<Feedback> Feedback { get; }
         #endregion
 
         public SessieDetailsViewModel(Sessie sessie)
@@ -55,6 +57,8 @@ namespace dotnet_g033.Models.ViewModels {
             this._sessie = sessie;
             this.Media = sessie.Media;
             this.HeeftMedia = sessie.Media.Any();
+            this.Feedback = sessie.Feedback;
+            this.HeeftFeedback = sessie.Feedback.Any();
 
             Linken = Media.Where(m => m.MediaType == MediaType.Link).ToList();
             Videos = Media.Where(m => (m.MediaType == MediaType.Video || m.MediaType == MediaType.YoutubeVideo)).ToList();

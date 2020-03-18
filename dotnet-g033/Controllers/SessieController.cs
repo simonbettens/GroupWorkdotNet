@@ -18,13 +18,15 @@ namespace dotnet_g033.Controllers {
         #region Repositories
 
         private readonly ISessieRepository _sessieRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
         private readonly IGebruikerRepository _gebruikerRepository;
 
         #endregion
 
         #region Constructor
-        public SessieController(ISessieRepository sessieRepository, IGebruikerRepository gebruikerRepository) {
+        public SessieController(ISessieRepository sessieRepository, IGebruikerRepository gebruikerRepository, IFeedbackRepository feedbackRepository) {
             this._sessieRepository = sessieRepository;
+            this._feedbackRepository = feedbackRepository;
             this._gebruikerRepository = gebruikerRepository;
         }
 
@@ -63,6 +65,7 @@ namespace dotnet_g033.Controllers {
         [ServiceFilter(typeof(GebruikerFilter))]
         public ActionResult Details(int id, Gebruiker gebruiker) {
             Sessie sessie = _sessieRepository.GetById(id);
+            ViewData["GebruikerId"] = gebruiker.UserName;
             if (sessie != null) {
                 bool ingeschreven = sessie.GebruikerIsIngeschreven(gebruiker);
                 ViewData["IsIngeschreven"] = ingeschreven;
@@ -313,6 +316,46 @@ namespace dotnet_g033.Controllers {
             return RedirectToAction("OpenzettenIndex");
         }
         #endregion
+
+        [HttpPost("[action]")]
+        [ServiceFilter(typeof(GebruikerFilter))]
+        [Consumes("multipart/form-data")]
+        public ActionResult VoegFeedbackToe([FromForm] FeedbackModel model, Gebruiker gebruiker)
+        {
+            Sessie sessie = _sessieRepository.GetById(model.SessieId);
+            if (sessie != null && gebruiker != null)
+            {
+                if (model.AantalSterren != 0)
+                {
+                    sessie.Feedback.Add(new Feedback(model.AantalSterren, DateTime.Now, gebruiker.Voornaam, gebruiker.Achternaam, gebruiker.UserName, model.Comment));
+                    _sessieRepository.SaveChanges();
+                    _feedbackRepository.SaveChanges();
+                    return RedirectToAction("Details", new { id = model.SessieId });
+                }
+                else
+                {
+                    TempData["error"] = "Star rating is verplicht bij het indienen van feedback";
+                    return RedirectToAction("Details", new { id = model.SessieId });
+                }
+            }
+            return RedirectToAction("Details", new { id = model.SessieId });
+        }
+
+        [Route("[action]/", Name = "VerwijderFeedback")]
+        public ActionResult VerwijderFeedback(int sessieId, int feedbackId)
+        {
+            Feedback feedback = _feedbackRepository.GetByID(feedbackId);
+            Sessie sessie = _sessieRepository.GetById(sessieId);
+            if (sessie != null & feedback != null)
+            {
+                sessie.VerwijderFeedback(feedback);
+                _feedbackRepository.VerwijderFeedback(feedback);
+                _sessieRepository.SaveChanges();
+                _feedbackRepository.SaveChanges();
+                return RedirectToAction("Details", new { id = sessieId });
+            }
+            return RedirectToAction("Details", new { id = sessieId });
+        }
 
         #region Hulpmethodes
         /// <summary>

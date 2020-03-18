@@ -37,6 +37,7 @@ namespace dotnet_g033 {
 
             services.AddScoped<ISessieRepository, SessieRepository>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IAankondigingRepository, AankondingRepository>();
             services.AddScoped<InitData>();
             services.AddScoped<GebruikerFilter>();

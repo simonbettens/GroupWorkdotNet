@@ -57,12 +57,92 @@
 <br />
 <br />
 <div class="list-group">
-    <div class="list-group-item-primary">Feedback bij de sessie</div>
-    <div class="list-group-item">Feedback item #1</div>
-    <div class="list-group-item">Feedback item #2</div>
-    <div class="list-group-item">Feedback item #3</div>
+    <div class="list-group-item-primary">
+        <p>Feedback bij de sessie</p>
+    </div>
+
     <div class="list-group-item">
-            <textarea class="form-control col-xs-12" type="text" name="feedbackinput">Geef feedback op deze sessie</textarea><br />
-            <button>Indienen</button>
+
+        @if (Model.HeeftFeedback)
+        {
+            @foreach (var feedback in Model.Feedback)
+            {
+                <div class="comment">
+                    @for (int i = 0; i < feedback.ToonAantalSterren(); i++)
+                    {
+                        <span class="blue-star">★</span>
+                    }
+
+                    @for (int i = feedback.ToonAantalSterren(); i < 5; i++)
+                    {
+                        <span class="normal-star">★</span>
+                    }
+
+                    @if ((bool)((string)ViewData["GebruikerId"] == feedback.GebruikerUserName))
+                    {
+                        <div>
+                            @{
+                                var parms = new Dictionary<string, string>
+                                {{ "sessieId", Model.SessieId.ToString() },{ "feedbackId", feedback.Id.ToString() } };
+                            }
+                            <a class="verwijder-comment-knop" asp-route="VerwijderFeedback"
+                               asp-all-route-data="parms">Verwijder comment</a>
+                        </div>
+
+                    }
+
+                    @if ((bool)feedback.HeeftInhoud())
+                    {
+                        <p class="inhoud">@feedback.Inhoud</p>
+                    }
+
+                    <p class="naam_tijd">~@feedback.Voornaam @feedback.Achternaam op @feedback.TijdToegevoegd.ToShortDateString() om @feedback.TijdToegevoegd.ToString("HH:mm")</p>
+                </div>
+            }
+        }
+
+
+    </div>
+
+    <div class="list-group-item">
+        <form id="form1" method="post" enctype="multipart/form-data" asp-controller="Sessie" asp-action="VoegFeedbackToe">
+            <input name="SessieId" value="@Model.SessieId" type="hidden" />
+            <div class="rating">
+                <label>
+                    <input type="radio" name="AantalSterren" value="1" id="i1" />
+                    <span class="icon">★</span>
+                </label>
+                <label>
+                    <input type="radio" name="AantalSterren" value="2" id="i2" />
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                </label>
+                <label>
+                    <input type="radio" name="AantalSterren" value="3" id="i3" />
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                </label>
+                <label>
+                    <input type="radio" name="AantalSterren" value="4" id="i4" />
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                </label>
+                <label>
+                    <input type="radio" name="AantalSterren" value="5" id="i5" />
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                    <span class="icon">★</span>
+                </label>
+            </div>
+            <div>
+                <textarea class="form-control col-xs-12" type="text" name="Comment" placeholder="Geef feedback op deze sessie" id="text1"></textarea><br />
+                <button type="submit" onclick=submitForm()>Indienen</button>
+            </div>
+        </form>
     </div>
 </div>

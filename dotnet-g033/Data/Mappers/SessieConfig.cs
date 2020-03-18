@@ -22,6 +22,7 @@ namespace dotnet_g033.Data.Mappers
             builder.Property(m => m.MaxCap).HasDefaultValue(30).IsRequired();
             builder.Property(l => l.Lokaal).IsRequired();
             builder.HasMany(s => s.Media).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(s => s.Feedback).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
             builder.Property(b => b.Beschrijving).HasMaxLength(1000).IsRequired(false);
             builder.HasOne(s => s.Verantwoordelijke).WithMany(v=>v.BeheerdeSessies).IsRequired().OnDelete(DeleteBehavior.Restrict);
 

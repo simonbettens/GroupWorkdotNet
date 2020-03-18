@@ -35,6 +35,7 @@ namespace dotnet_g033.Data
                 Gebruiker aaron = new Gebruiker(1101056340993, "as123456", "Aaron", "Sys", "aaron.sys@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
                 Verantwoordelijke admin = new Verantwoordelijke(1103720666020, "hdw123456", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", StatusType.Actief, GebruikerType.HoofdVerantwoordelijke);
                 Verantwoordelijke verantwoordelijke = new Verantwoordelijke(1103720666030, "sbv123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Verantwoordelijke);
+                pieter.EmailConfirmed = true;
                 simon.EmailConfirmed = true;
                 ruben.EmailConfirmed = true;
                 aaron.EmailConfirmed = true;
@@ -222,7 +223,18 @@ namespace dotnet_g033.Data
                 _dbContext.SaveChanges();
                 #endregion
 
+                #region Feedback
+                Feedback feedback1 = new Feedback(3, DateTime.Now, "Pieter", "Carlier", "pc123456", "Zeer toffe sessie!!!");
+                Feedback feedback2 = new Feedback(1, DateTime.Now, "Aaron", "Sys", "as123456", "HEB HIER NIETS UIT GELEERD, SLECHT");
+                Feedback feedback3 = new Feedback(5, DateTime.Now, "Simon", "Bettens", "sb123456", "zeer tof en leerrijk, spreker was ook zeer enthousiast :)");
+                Feedback[] feedback = { feedback1, feedback2, feedback3 };
 
+                sessie1.VoegFeedbackToe(feedback1);
+                sessie1.VoegFeedbackToe(feedback2);
+                sessie2.VoegFeedbackToe(feedback3);
+                _dbContext.Feedback.AddRange(feedback);
+                _dbContext.SaveChanges(); 
+                #endregion
             }
             
             
