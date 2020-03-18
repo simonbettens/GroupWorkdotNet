@@ -10,7 +10,7 @@
         <div class="font-italic">
             @Model.StartDatum.ToString("dd/MM/yyyy, HH:mm") - @Model.EindDatum.ToString("HH:mm")
             <!--Kijk of het een Edit view is-->
-            @if ((bool)ViewData["IsDetails"])
+            @if ((bool)ViewData["IsDetails"] && !Model.Afgelopen)
             {
                 <form method="post">
                     <!--Is de gebruiker ingeschreven-->
