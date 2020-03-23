@@ -45,7 +45,7 @@ namespace dotnet_g033.Data.Repositories
         public Sessie GetById(int id)
         {
             return _sessies.Where(s => s.SessieId == id).Include(s => s.Media).Include(s => s.Feedback).Include(s => s.Verantwoordelijke)
-                .Include(s => s.GebruikersIngeschreven).Include(s => s.Aankondingen).FirstOrDefault();
+                .Include(s => s.GebruikersIngeschreven).Include(s => s.Aankondingen).ThenInclude(a=>a.Verantwoordelijke).FirstOrDefault();
         }
 
         public IEnumerable<Sessie> GetSessieVerantwoordelijkeNogTeOpenen(Gebruiker g, int maandId)

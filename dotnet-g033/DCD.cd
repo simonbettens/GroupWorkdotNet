@@ -99,17 +99,17 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>ggAIAAAEgQAYAABAAsECpAAACCAAEAAAAqAAAAEAAIQ=</HashCode>
+      <HashCode>ggAIAAAEgQAYAABAAsECpAAACiAAEAAAAqAAAAEAAIQ=</HashCode>
       <FileName>Models\Domain\Sessie.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Verantwoordelijke" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Feedback" />
       <Property Name="Media" />
       <Property Name="GebruikersIngeschreven" />
       <Property Name="Aankondingen" />
+      <Property Name="Feedback" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="dotnet_g033.Models.Domain.SessieAankondiging">
