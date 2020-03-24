@@ -373,16 +373,25 @@ namespace dotnet_g033.Controllers
             {
                 if (sessie != null && gebruiker != null)
                 {
-                    if (model.AantalSterren != 0)
+                    SessieGebruiker sessieGebruiker = sessie.GeefSessieGebruiker(gebruiker);
+                    if (sessieGebruiker != null && sessieGebruiker.AanwezigBevestiged)
                     {
-                        sessie.Feedback.Add(new Feedback(model.AantalSterren, DateTime.Now, gebruiker.Voornaam, gebruiker.Achternaam, gebruiker.UserName, model.Comment));
-                        _sessieRepository.SaveChanges();
-                        _feedbackRepository.SaveChanges();
-                        return RedirectToAction("Details", new { id = model.SessieId });
+                        if (model.AantalSterren > 0 && model.AantalSterren <= 5)
+                        {
+                            sessie.Feedback.Add(new Feedback(model.AantalSterren, DateTime.Now, gebruiker.Voornaam, gebruiker.Achternaam, gebruiker.UserName, model.Comment));
+                            _sessieRepository.SaveChanges();
+                            _feedbackRepository.SaveChanges();
+                            return RedirectToAction("Details", new { id = model.SessieId });
+                        }
+                        else
+                        {
+                            TempData["error"] = "Star rating is verplicht bij het indienen van feedback en ligt tussen 0 en 5";
+                            return RedirectToAction("Details", new { id = model.SessieId });
+                        }
                     }
                     else
                     {
-                        TempData["error"] = "Star rating is verplicht bij het indienen van feedback";
+                        TempData["error"] = "U aanwezigheid moest bevestigd zijn";
                         return RedirectToAction("Details", new { id = model.SessieId });
                     }
                 }
@@ -393,6 +402,7 @@ namespace dotnet_g033.Controllers
             }
             return RedirectToAction("Details", new { id = model.SessieId });
         }
+
 
         [Route("[action]/", Name = "VerwijderFeedback")]
         public ActionResult VerwijderFeedback(int sessieId, int feedbackId)

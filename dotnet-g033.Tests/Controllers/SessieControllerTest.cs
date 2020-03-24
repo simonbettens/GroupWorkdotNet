@@ -24,17 +24,20 @@ namespace dotnet_g033.Tests.Controllers
         private readonly SessieController _sessieController;
         private readonly Mock<ISessieRepository> _mockSessieRepository;
         private readonly Mock<IGebruikerRepository> _mockGebruikerRepository;
+        private readonly Mock<IFeedbackRepository> _mockFeedbackRepository;
         private readonly Sessie _sessie;
         private readonly Sessie _sessie2;
         private readonly Sessie _sessie3;
         private readonly Sessie _sessie6;
         private readonly Sessie _sessie7;
+        private readonly Sessie _sessie8; //gesloten & afgelopen
         private readonly int _maandJan = 1;
         private readonly int _maandFeb = 2;
         private readonly int _huidigeMaand;
         private readonly Gebruiker _gebruiker;
         private readonly Verantwoordelijke _verantwoordelijkeLeeg;
         private readonly Verantwoordelijke _verantwoordelijke;
+        private readonly Feedback _feedback;
         #endregion
 
         public SessieControllerTest()
@@ -42,7 +45,8 @@ namespace dotnet_g033.Tests.Controllers
             _dummyContext = new DummyApplicationDbContext();
             _mockSessieRepository = new Mock<ISessieRepository>();
             _mockGebruikerRepository = new Mock<IGebruikerRepository>();
-            _sessieController = new SessieController(_mockSessieRepository.Object, _mockGebruikerRepository.Object)
+            _mockFeedbackRepository = new Mock<IFeedbackRepository>();
+            _sessieController = new SessieController(_mockSessieRepository.Object, _mockGebruikerRepository.Object, _mockFeedbackRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -55,6 +59,9 @@ namespace dotnet_g033.Tests.Controllers
             _sessie3 = _dummyContext.Sessie3;
             _sessie6 = _dummyContext.Sessie6;
             _sessie7 = _dummyContext.Sessie7;
+            _sessie8 = _dummyContext.Sessie8;
+
+            _feedback = _dummyContext.Feedback;
         }
 
         #region Index
@@ -99,7 +106,7 @@ namespace dotnet_g033.Tests.Controllers
         {
 
             _mockSessieRepository.Setup(s => s.GetById(1)).Returns((Sessie)null);
-            var result = Assert.IsType<RedirectToActionResult>(_sessieController.Details(1, _gebruiker));
+            Assert.IsType<RedirectToActionResult>(_sessieController.Details(1, _gebruiker));
         }
         [Fact]
         public void DetailsTest_KanSessieVinden()
@@ -178,7 +185,8 @@ namespace dotnet_g033.Tests.Controllers
         }
 
         [Fact]
-        public void Uitschrijven_SessieIsAlVoorbij_SchrijftNietUit() {
+        public void Uitschrijven_SessieIsAlVoorbij_SchrijftNietUit()
+        {
             _sessie2.SchrijfGebruikerIn(new SessieGebruiker(_sessie2, _gebruiker), _gebruiker);
             _mockSessieRepository.Setup(s => s.GetById(1)).Returns(_sessie2);
             _sessieController.Uitschrijven(1, _gebruiker);
@@ -257,7 +265,24 @@ namespace dotnet_g033.Tests.Controllers
         }
 
         #endregion
+        #region Feedback
+
+        [Fact]
+        public void Feedback_nietAangemeld()
+        {
+            _sessie3.SchrijfGebruikerIn(new SessieGebruiker(_sessie3, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(3)).Returns(_sessie3);
+            _sessieController.AanwezigStellen(3, _gebruiker);
+            _sessie3.VoegFeedbackToe(_feedback);
+            FeedbackModel model = new FeedbackModel();
+            model.AantalSterren = 2;
+            model.Comment = "DUMMY COMMENT";
+            model.SessieId = 3;
+            Assert.IsType<RedirectToActionResult>(_sessieController.VoegFeedbackToe(model, _gebruiker));
+        }
+        #endregion
 
 
     }
 }
+

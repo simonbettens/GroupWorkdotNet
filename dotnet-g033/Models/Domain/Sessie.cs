@@ -108,13 +108,19 @@ namespace dotnet_g033.Models.Domain
 
         public void VoegFeedbackToe(Feedback feedback)
         {
+            if (this.StartDatum > DateTime.Now)
+                throw new ArgumentException("Sessie is nog niet gestart.");
             Feedback.Add(feedback);
         }
-
         public void VerwijderFeedback(Feedback feedback)
         {
             Feedback.Remove(feedback);
         }
+        public List<Feedback> GetFeedbacks()
+        {
+            return this.Feedback.ToList();
+        }
+
         #endregion
 
     }

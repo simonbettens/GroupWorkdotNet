@@ -9,14 +9,16 @@ namespace dotnet_g033.Tests.Models
 {
     public class SessieTest
     {
-        public Sessie Sessie1 { get; set; }
-        public Sessie Sessie2 { get; set; }
+        public Sessie Sessie1 { get; set; } //toekomst
+        public Sessie Sessie2 { get; set; } //verleden
+
         public Link LinkGoogle { get; set; }
         public Video Video { get; set; }
         public Afbeelding Afbeelding { get; set; }
         public Document Document { get; set; }
         public Gebruiker Gebruiker { get; set; }
         private readonly DummyApplicationDbContext _dummyContext;
+        public Feedback Feedback { get; set; }
         public SessieTest()
         {
             _dummyContext = new DummyApplicationDbContext();
@@ -27,6 +29,7 @@ namespace dotnet_g033.Tests.Models
             this.Afbeelding = _dummyContext.Afbeelding;
             this.Document = _dummyContext.Word;
             this.Gebruiker = _dummyContext.Gebruiker;
+            this.Feedback = _dummyContext.Feedback;
         }
 
         [Fact]
@@ -88,6 +91,19 @@ namespace dotnet_g033.Tests.Models
             Sessie1.Sluit();
             Assert.False(Sessie1.StaatOpen);
         }
+        [Fact]
+        public void Feedback_OpSessieNietGestart()
+        {
+            Assert.Throws<ArgumentException>(() => Sessie1.VoegFeedbackToe(Feedback));
+        }
+
+        [Fact]
+        public void Feedback_OpSessieGestart()
+        {
+            Sessie2.VoegFeedbackToe(Feedback);
+            Assert.Single(Sessie2.GetFeedbacks());
+        }
+
 
     }
 }

@@ -61,6 +61,11 @@ namespace dotnet_g033.Data.Repositories
                 .Include(s => s.Verantwoordelijke).Include(s => s.GebruikersIngeschreven)
                 .OrderBy(s => s.Gesloten).ThenBy(s=>s.StartDatum).ToList();
         }
+        public ICollection<Feedback> GetFeedbacksVanSessie(Sessie sessie)
+        {
+            return _sessies.Where(s => s == sessie).FirstOrDefault().Feedback.ToList();
+        }
+
 
         public void SaveChanges()
         {

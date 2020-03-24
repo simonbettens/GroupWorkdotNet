@@ -14,6 +14,7 @@ namespace dotnet_g033.Models.Domain
         IEnumerable<Sessie> GetSessieVerantwoordelijkeNogTeOpenen(Gebruiker g, int maand);
         IEnumerable<Sessie> GetSessieHoofdVerantwoordelijkeNogTeOpenen(Gebruiker g, int maandId);
         Sessie GetById(int id);
+        ICollection<Feedback> GetFeedbacksVanSessie(Sessie sessie);
         void SaveChanges();
     }
 }
