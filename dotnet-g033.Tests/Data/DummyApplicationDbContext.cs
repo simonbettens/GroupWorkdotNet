@@ -34,6 +34,7 @@ namespace dotnet_g033.Tests.Data
         public SessieGebruiker SessieGebruiker { get; set; }
         public Verantwoordelijke VerantwoordelijkeLeeg { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
+        public Verantwoordelijke Hoofdverantwoordelijke { get; set; }
         public Feedback Feedback { get; set; }
         #endregion
 
@@ -46,38 +47,38 @@ namespace dotnet_g033.Tests.Data
             Gebruiker gebruiker2 = new Gebruiker(02, "sb123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
             Gebruiker gebruiker3 = new Gebruiker(03, "rn123456", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
             Gebruiker gebruiker4 = new Gebruiker(04, "as123456", "Aaron", "Sys", "aaron.sys@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
-            Verantwoordelijke admin = new Verantwoordelijke(00, "hdw123456", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", StatusType.Actief, GebruikerType.HoofdVerantwoordelijke);
+             Hoofdverantwoordelijke = new Verantwoordelijke(00, "hdw123456", "Harm", "De Weirdt", "harm.deweirdt@hogent.be", StatusType.Actief, GebruikerType.HoofdVerantwoordelijke);
             Verantwoordelijke verantwoordelijke = new Verantwoordelijke(05, "sbv123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Verantwoordelijke);
             Verantwoordelijke verantwoordelijkeLeeg = new Verantwoordelijke(06, "vg123456", "Verantwoordelijke", "Leeg", "vg@hogent.be", StatusType.Actief, GebruikerType.Verantwoordelijke);
             gebruiker1.EmailConfirmed = true;
             gebruiker2.EmailConfirmed = true;
             gebruiker3.EmailConfirmed = true;
             gebruiker4.EmailConfirmed = true;
-            admin.EmailConfirmed = true;
+            Hoofdverantwoordelijke.EmailConfirmed = true;
             verantwoordelijke.EmailConfirmed = true;
             verantwoordelijkeLeeg.EmailConfirmed = true;
             gebruiker1.PasswordHash = passwordHasher.HashPassword(gebruiker1, "koekjes");
             gebruiker2.PasswordHash = passwordHasher.HashPassword(gebruiker2, "appeltjes");
             gebruiker3.PasswordHash = passwordHasher.HashPassword(gebruiker3, "peertjes");
             gebruiker4.PasswordHash = passwordHasher.HashPassword(gebruiker4, "snoepjes");
-            admin.PasswordHash = passwordHasher.HashPassword(admin, "adminpass");
+            Hoofdverantwoordelijke.PasswordHash = passwordHasher.HashPassword(Hoofdverantwoordelijke, "adminpass");
             verantwoordelijke.PasswordHash = passwordHasher.HashPassword(verantwoordelijke, "appeltjes");
             verantwoordelijkeLeeg.PasswordHash = passwordHasher.HashPassword(verantwoordelijke, "leeg");
             gebruiker1.SecurityStamp = Guid.NewGuid().ToString();
             gebruiker2.SecurityStamp = Guid.NewGuid().ToString();
             gebruiker3.SecurityStamp = Guid.NewGuid().ToString();
             gebruiker4.SecurityStamp = Guid.NewGuid().ToString();
-            admin.SecurityStamp = Guid.NewGuid().ToString();
+            Hoofdverantwoordelijke.SecurityStamp = Guid.NewGuid().ToString();
             verantwoordelijke.SecurityStamp = Guid.NewGuid().ToString();
             verantwoordelijkeLeeg.SecurityStamp = Guid.NewGuid().ToString();
 
-            Gebruiker[] gebruikers = { gebruiker1, gebruiker2, gebruiker3, gebruiker4, admin, verantwoordelijke, verantwoordelijkeLeeg };
+            Gebruiker[] gebruikers = { gebruiker1, gebruiker2, gebruiker3, gebruiker4, Hoofdverantwoordelijke, verantwoordelijke, verantwoordelijkeLeeg };
 
-            Sessie1 = new Sessie("sessie1", huidigetijd.AddDays(1), huidigetijd.AddDays(1).AddHours(1), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", true);
+            Sessie1 = new Sessie("sessie1", huidigetijd.AddDays(1), huidigetijd.AddDays(1).AddHours(1), false, 20, "GSCHB4.026", Hoofdverantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", true);
             Sessie2 = new Sessie("sessie2", new DateTime(2020, 2, 21, 10, 30, 0), new DateTime(2020, 2, 21, 12, 30, 0), false, 10, "GSCHB4.026", verantwoordelijke, staatOpen: true);
-            Sessie3 = new Sessie("sessie3", new DateTime(2020, 2, 22, 16, 0, 0), new DateTime(2020, 2, 22, 17, 0, 0), false, 30, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-            Sessie4 = new Sessie("sessie4", new DateTime(2020, 2, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, "GSCHB4.026", admin);
-            Sessie5 = new Sessie("sessie5", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, "GSCHB4.026", admin, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+            Sessie3 = new Sessie("sessie3", new DateTime(2020, 2, 22, 16, 0, 0), new DateTime(2020, 2, 22, 17, 0, 0), false, 30, "GSCHB4.026", Hoofdverantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+            Sessie4 = new Sessie("sessie4", new DateTime(2020, 2, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, "GSCHB4.026", Hoofdverantwoordelijke);
+            Sessie5 = new Sessie("sessie5", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), false, 20, "GSCHB4.026", Hoofdverantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
             Sessie6 = new Sessie("sessie6", new DateTime(2020, 3, 19, 14, 0, 0), new DateTime(2020, 2, 19, 15, 0, 0), true, 20, "GSCHB4.026", verantwoordelijke, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
             Sessie7 = new Sessie("sessie7", new DateTime(2020, 2, 21, 10, 30, 0), new DateTime(2020, 2, 21, 12, 30, 0), false, 10, "GSCHB4.026", verantwoordelijke, staatOpen: true);
             Sessie8 = new Sessie("sessie8", new DateTime(2020, 3, 28, 10, 30, 0), new DateTime(2020, 3, 28, 12, 30, 0), true, 10, "GSCHB4.026", verantwoordelijke, staatOpen: false);
@@ -104,7 +105,8 @@ namespace dotnet_g033.Tests.Data
 
             this.Gebruiker = new Gebruiker(05, "test12345", "voornaam", "achternaam", "voornaam.achternaam@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
 
-            Feedback Feedback = new Feedback(4, huidigetijd, "Dummy", "Comment", "dummy@student.hogent.be", "Dit is een comment");
+            Feedback = new Feedback(4, huidigetijd, "Dummy", "Comment", "dummy@student.hogent.be", "Dit is een comment");
+
             Sessie7.VoegFeedbackToe(Feedback);
 
 

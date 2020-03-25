@@ -37,6 +37,7 @@ namespace dotnet_g033.Tests.Controllers
         private readonly Gebruiker _gebruiker;
         private readonly Verantwoordelijke _verantwoordelijkeLeeg;
         private readonly Verantwoordelijke _verantwoordelijke;
+        private readonly Verantwoordelijke _hoofdverantwoordelijke;
         private readonly Feedback _feedback;
         #endregion
 
@@ -54,6 +55,7 @@ namespace dotnet_g033.Tests.Controllers
             _gebruiker = _dummyContext.Gebruiker;
             _verantwoordelijkeLeeg = _dummyContext.VerantwoordelijkeLeeg;
             _verantwoordelijke = _dummyContext.Verantwoordelijke;
+            _hoofdverantwoordelijke = _dummyContext.Hoofdverantwoordelijke;
             _sessie = _dummyContext.Sessie1;
             _sessie2 = _dummyContext.Sessie2;
             _sessie3 = _dummyContext.Sessie3;
@@ -279,6 +281,93 @@ namespace dotnet_g033.Tests.Controllers
             model.Comment = "DUMMY COMMENT";
             model.SessieId = 3;
             Assert.IsType<RedirectToActionResult>(_sessieController.VoegFeedbackToe(model, _gebruiker));
+        }
+        [Fact]
+        public void Feedback_nietIngeschreven()
+        {
+            _mockSessieRepository.Setup(s => s.GetById(3)).Returns(_sessie3);
+            _sessie3.VoegFeedbackToe(_feedback);
+            FeedbackModel model = new FeedbackModel();
+            model.AantalSterren = 2;
+            model.Comment = "DUMMY COMMENT";
+            model.SessieId = 3;
+            Assert.Empty(_sessie3.GebruikersIngeschreven);
+            Assert.IsType<RedirectToActionResult>(_sessieController.VoegFeedbackToe(model, _gebruiker));
+        }
+        [Fact]
+        public void Feedback_NegatieveStarRating()
+        {
+            _sessie2.SchrijfGebruikerIn(new SessieGebruiker(_sessie2, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(2)).Returns(_sessie2);
+            _sessie2.StelGebruikerAanwezigBevestigd(_sessie2.GeefSessieGebruiker(_gebruiker));
+            FeedbackModel model = new FeedbackModel();
+            model.AantalSterren = -4;
+            model.Comment = "DUMMY COMMENT";
+            model.SessieId = 2;
+            Assert.IsType<RedirectToActionResult>(_sessieController.VoegFeedbackToe(model, _gebruiker));
+        }
+        [Fact]
+        public void Feedback_TeGrootteStarRating()
+        {
+            _sessie2.SchrijfGebruikerIn(new SessieGebruiker(_sessie2, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(2)).Returns(_sessie2);
+            _sessie2.StelGebruikerAanwezigBevestigd(_sessie2.GeefSessieGebruiker(_gebruiker));
+            FeedbackModel model = new FeedbackModel();
+            model.AantalSterren =50;
+            model.Comment = "DUMMY COMMENT";
+            model.SessieId = 2;
+            Assert.IsType<RedirectToActionResult>(_sessieController.VoegFeedbackToe(model, _gebruiker));
+        }
+        [Fact]
+        public void Feedback_CorrecteStarRating()
+        {
+            _sessie2.SchrijfGebruikerIn(new SessieGebruiker(_sessie2, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(2)).Returns(_sessie2);
+            _sessie2.StelGebruikerAanwezigBevestigd(_sessie2.GeefSessieGebruiker(_gebruiker));
+            FeedbackModel model = new FeedbackModel();
+            model.AantalSterren = 5;
+            model.Comment = "DUMMY COMMENT";
+            model.SessieId = 2;
+            Assert.IsType<RedirectToActionResult>(_sessieController.VoegFeedbackToe(model, _gebruiker));
+        }
+        [Fact]
+        public void Feedback_TeGrootteComment()
+        {
+            _sessie2.SchrijfGebruikerIn(new SessieGebruiker(_sessie2, _gebruiker), _gebruiker);
+            _mockSessieRepository.Setup(s => s.GetById(2)).Returns(_sessie2);
+            _sessie2.StelGebruikerAanwezigBevestigd(_sessie2.GeefSessieGebruiker(_gebruiker));
+            FeedbackModel model = new FeedbackModel();
+            model.AantalSterren = 5;
+            model.Comment = "Aenean aliquam ex ut lacinia efficitur. Integer mattis elit odio, vitae dapibus quam tempus sit amet. Quisque congue consequat pellentesque. Aenean ullamcorper purus sodales egestas pharetra. Ut id blandit leo, non iaculis tellus. Proin tortor ex, tempus sed nisl vitae, semper bibendum metus. Pellentesque malesuada, nisl nec commodo hendrerit, tellus orci lacinia nunc, sed facilisis erat purus sit amet ligula. Cras et dignissim erat, sagittis sagittis ipsum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent eleifend porttitor lorem sed pharetra. Vestibulum pulvinar, nisl sit amet tristique blandit, ligula arcu hendrerit est, vel vulputate leo nisl scelerisque tortor. Fusce vestibulum in nibh tincidunt consequat."+
+                "In egestas vel metus eu maximus. Vestibulum non risus vel enim rutrum accumsan.Aenean quis laoreet est. Vivamus consectetur consequat metus at mollis. Sed eget lacus eget est dignissim feugiat finibus sit amet ante.Duis condimentum nunc vel nibh vulputate dapibus.Quisque efficitur ornare enim. Quisque cursus porta elit in bibendum.Cras pellentesque leo non lectus elementum, nec condimentum nibh congue.Suspendisse ultricies nibh dictum, elementum augue scelerisque, luctus sapien.";
+            model.SessieId = 2;
+            _mockFeedbackRepository.Setup(f => f.SaveChanges()).Throws(new ArgumentException());
+            Assert.IsType<RedirectToActionResult>(_sessieController.VoegFeedbackToe(model, _gebruiker));
+        }
+        [Fact]
+        public void Feedback_VerwijderenDoorHoofdverantwoordelijke()
+        {
+            _mockSessieRepository.Setup(s => s.GetById(2)).Returns(_sessie2);
+            _sessie2.VoegFeedbackToe(_feedback);
+            _mockFeedbackRepository.Setup(f => f.GetByID(1)).Returns(_feedback);
+          Assert.IsType<RedirectToActionResult>(_sessieController.VerwijderFeedback(2, 1, _hoofdverantwoordelijke));
+        }
+        [Fact]
+        public void Feedback_VerwijderenDooFouteGebruiker()
+        {
+            _mockSessieRepository.Setup(s => s.GetById(2)).Returns(_sessie2);
+            _sessie2.VoegFeedbackToe(_feedback);
+            _mockFeedbackRepository.Setup(f => f.GetByID(1)).Returns(_feedback);
+            Assert.IsType<RedirectToActionResult>(_sessieController.VerwijderFeedback(2, 1, _verantwoordelijke));
+        }
+        [Fact]
+        public void Feedback_VerwijderenDoorJuisteGebruiker()
+        {
+            _mockSessieRepository.Setup(s => s.GetById(2)).Returns(_sessie2);
+            Feedback feedback = new Feedback(2, DateTime.Now, _gebruiker.Voornaam, _gebruiker.Achternaam, _gebruiker.UserName);
+            _sessie2.VoegFeedbackToe(feedback);
+            _mockFeedbackRepository.Setup(f => f.GetByID(1)).Returns(feedback);
+            Assert.IsType<RedirectToActionResult>(_sessieController.VerwijderFeedback(2, 1, _gebruiker));
         }
         #endregion
 

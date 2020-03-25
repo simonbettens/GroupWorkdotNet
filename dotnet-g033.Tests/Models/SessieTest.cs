@@ -103,6 +103,14 @@ namespace dotnet_g033.Tests.Models
             Sessie2.VoegFeedbackToe(Feedback);
             Assert.Single(Sessie2.GetFeedbacks());
         }
+        [Fact]
+        public void Feedback_Ingeschreven()
+        {
+            SessieGebruiker sg = new SessieGebruiker(Sessie2, Gebruiker);
+            Sessie2.SchrijfGebruikerIn(sg, Gebruiker);
+            Sessie2.VoegFeedbackToe(Feedback);
+            Assert.Single(Sessie2.GetFeedbacks());
+        }
 
 
     }

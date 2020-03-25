@@ -35,11 +35,6 @@ namespace dotnet_g033.Models.Domain
             return Inhoud;
         }
 
-        public void EditComment(string input)
-        {
-            Inhoud = input;
-        }
-
         public bool HeeftInhoud()
         {
             return this.Inhoud != "";

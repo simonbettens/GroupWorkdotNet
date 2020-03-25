@@ -403,19 +403,23 @@ namespace dotnet_g033.Controllers
             return RedirectToAction("Details", new { id = model.SessieId });
         }
 
-
+        [ServiceFilter(typeof(GebruikerFilter))]
         [Route("[action]/", Name = "VerwijderFeedback")]
-        public ActionResult VerwijderFeedback(int sessieId, int feedbackId)
+        public ActionResult VerwijderFeedback(int sessieId, int feedbackId, Gebruiker gebruiker)
         {
             Feedback feedback = _feedbackRepository.GetByID(feedbackId);
             Sessie sessie = _sessieRepository.GetById(sessieId);
-            if (sessie != null & feedback != null)
+            if (sessie != null && feedback != null && gebruiker != null)
             {
+                if(feedback.GebruikerUserName == gebruiker.UserName || gebruiker.Type == GebruikerType.HoofdVerantwoordelijke)
+                {
                 sessie.VerwijderFeedback(feedback);
                 _feedbackRepository.VerwijderFeedback(feedback);
                 _sessieRepository.SaveChanges();
                 _feedbackRepository.SaveChanges();
                 return RedirectToAction("Details", new { id = sessieId });
+                }
+               
             }
             return RedirectToAction("Details", new { id = sessieId });
         }
