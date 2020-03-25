@@ -124,7 +124,7 @@
                             <span class="normal-star">★</span>
                         }
 
-                        @if ((bool)((string)ViewData["GebruikerId"] == feedback.GebruikerUserName))
+                        @if ((bool)((string)ViewData["GebruikerId"] == feedback.GebruikerUserName)||(bool)ViewData["IsVerantwoordelijke"])
                         {
                             <div>
                                 @{

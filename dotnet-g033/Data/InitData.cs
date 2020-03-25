@@ -156,6 +156,23 @@ namespace dotnet_g033.Data
                 sessie1.SchrijfGebruikerIn(new SessieGebruiker(sessie1, simon), simon);
                 sessie1.SchrijfGebruikerIn(new SessieGebruiker(sessie1, pieter), pieter);
 
+
+                SessieGebruiker sessieGebruiker1 = new SessieGebruiker(sessie4, simon);
+                sessie4.SchrijfGebruikerIn(sessieGebruiker1, simon);
+                sessie4.StelGebruikerAanwezig(sessieGebruiker1);
+                sessie4.StelGebruikerAanwezigBevestigd(sessieGebruiker1);
+
+                SessieGebruiker sessieGebruiker2 = new SessieGebruiker(sessie5, aaron);
+                sessie5.SchrijfGebruikerIn(sessieGebruiker2, aaron);
+                sessie5.StelGebruikerAanwezig(sessieGebruiker2);
+                sessie5.StelGebruikerAanwezigBevestigd(sessieGebruiker2);
+
+                SessieGebruiker sessieGebruiker3 = new SessieGebruiker(sessie5, pieter);
+                sessie5.SchrijfGebruikerIn(sessieGebruiker3, pieter);
+                sessie5.StelGebruikerAanwezig(sessieGebruiker3);
+                sessie5.StelGebruikerAanwezigBevestigd(sessieGebruiker3);
+
+
                 Sessie[] sessies = { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, gestartSessie1, bijnaGestarteSessie1 };
                 _dbContext.Sessie.AddRange(sessies);
                 _dbContext.SaveChanges();

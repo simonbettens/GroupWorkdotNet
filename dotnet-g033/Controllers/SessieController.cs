@@ -84,6 +84,7 @@ namespace dotnet_g033.Controllers
                 {
                     ViewData["IsAanwezig"] = false;
                 }
+                ViewData["IsVerantwoordelijke"] = (int)gebruiker.Type > 2;
                 var viewModel = new SessieDetailsViewModel(sessie);
                 ViewData["IsDetails"] = true;
                 return View(viewModel);
@@ -233,7 +234,8 @@ namespace dotnet_g033.Controllers
         /// </summary>
         /// <param name="id"> SessieID</param>
         /// <returns>Een detailview vvoro de verantwoordelijke met ingeschreven gebruikers</returns>
-        public IActionResult DetailsExtra(int id)
+        [ServiceFilter(typeof(GebruikerFilter))]
+        public IActionResult DetailsExtra(int id, Gebruiker gebruiker)
         {
             Sessie sessie = _sessieRepository.GetById(id);
             if (sessie != null)
@@ -242,6 +244,7 @@ namespace dotnet_g033.Controllers
                 ViewData["IsAanwezig"] = false;
                 var viewModel = new SessieDetailsViewModel(sessie);
                 ViewData["IsDetails"] = false;
+                ViewData["IsVerantwoordelijke"] = (int)gebruiker.Type > 2;
                 return View(nameof(Details), viewModel);
             }
             TempData["error"] = "Er is iets mis gegaan, we konden de sessie niet ophalen.";
