@@ -45,8 +45,8 @@ else {
         @foreach (var item in Model.Sessies) {
             <tr>
                 <td class="text-left">
-                    @item.Naam
-                </td>
+                    <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">@item.Naam</a>
+</td>
                 <td class="text-center">
                     @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
                 </td>
@@ -57,9 +57,6 @@ else {
                     @(item.Duur.ToString(@"hh\:mm"))
                 </td>
                 <td class="text-center">@(item.AantalAanwezigeGebruikers)/@item.MaxCap</td>
-                <td>
-                    <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
-                </td>
             </tr>
         }
     </table>

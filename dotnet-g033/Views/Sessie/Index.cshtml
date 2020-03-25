@@ -50,43 +50,38 @@ else
         </tr>
         @foreach (var item in Model.Sessies)
         {
-            <tr>
-                <td class="text-left">
-                    @item.Naam
-                </td>
-                <td class="text-center" >
-                    @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
-                </td>
-                <td class=" text-center">
-                    @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
-                </td>
-                <td class=" text-center">
-                    @(item.Duur.ToString(@"hh\:mm"))
-                </td>
-                <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
+    
+        <tr>
 
-                <td>
-                    <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">Details</a>
-                </td>
-                <td>
-                    @if (!item.GebruikerIsIngeschreven(Model.Gebruiker))
-                    {
-                        if (item.KanNogInschrijven)
-                        {
-                            <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
-                        }
-                        else
-                        {
-                            <text>Vol!</text>
-                        }
+            <td class="text-left">
+                <a asp-controller="Sessie" asp-action="Details" asp-route-id="@item.SessieId">@item.Naam</a>
+</td>
+            <td class="text-center">
+                @item.Verantwoordelijke.Voornaam @item.Verantwoordelijke.Achternaam
+            </td>
+            <td class=" text-center">
+                @(item.StartDatum.ToString("ddd dd/MM/yyyy, HH:mm"))
+            </td>
+            <td class=" text-center">
+                @(item.Duur.ToString(@"hh\:mm"))
+            </td>
+            <td class="text-center">@(item.AantalIngeschrevenGebruikers)/@item.MaxCap</td>
+            <td>
+                @if (!item.GebruikerIsIngeschreven(Model.Gebruiker)) {
+                    if (item.KanNogInschrijven) {
+                        <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
                     }
-                    else
-                    {
-                        <a asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@item.SessieId">Uitschrijven</a>
+                    else {
+                        <text>Vol!</text>
                     }
+                }
+                else {
+                    <a asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@item.SessieId">Uitschrijven</a>
+                }
 
-                </td>
-            </tr>
+            </td>
+        </tr>
+    
         }
 
     </table>
