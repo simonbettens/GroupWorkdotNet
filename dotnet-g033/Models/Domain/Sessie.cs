@@ -105,6 +105,10 @@ namespace dotnet_g033.Models.Domain
         {
             this.StaatOpen = false;
         }
+        public void SluitDefentief() {
+            this.StaatOpen = false;
+            this.Gesloten = true;
+        }
 
         public void VoegFeedbackToe(Feedback feedback)
         {

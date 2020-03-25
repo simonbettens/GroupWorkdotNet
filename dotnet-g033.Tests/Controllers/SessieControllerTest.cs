@@ -265,8 +265,15 @@ namespace dotnet_g033.Tests.Controllers
             _sessieController.VeranderStaatOpen(7);
             Assert.False(_sessie7.StaatOpen);
         }
-
+        [Fact]
+        public void SluitSessieDefentief() {
+            _mockSessieRepository.Setup(s => s.GetById(7)).Returns(_sessie7);
+            _sessieController.SluitSessie(7);
+            Assert.False(_sessie7.StaatOpen);
+            Assert.True(_sessie7.Gesloten);
+        }
         #endregion
+
         #region Feedback
 
         [Fact]

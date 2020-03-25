@@ -39,19 +39,27 @@
             if (!item.Gesloten && !item.Bezig)
             {
                 <tr>
-                    @if (item.StaatOpen == true)
+                    @if (item.EindDatum <= DateTime.Now)
+                    {
+                        <td class="text-center">
+                            <a asp-controller="Sessie" asp-action="SluitSessie" asp-route-id="@item.SessieId"><span class="iconify" data-icon="ion:close-sharp" data-inline="false"></span></a>
+                        </td>
+
+                    }
+                    else
+                    if (item.StaatOpen == true)
                     {
                         <td class="text-center">
                             <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-open" data-inline="false"></span></a>
                         </td>
                     }
-                    else if (item.StaatOpen == false)
+                    else 
+                    if (item.StaatOpen == false)
                     {
                         <td class="text-center">
                             <a asp-controller="Sessie" asp-action="VeranderStaatOpen" asp-route-id="@item.SessieId"><span class="iconify" data-icon="el:eye-close" data-inline="false"></span></a>
                         </td>
                     }
-
                     <td class="text-left">
                         @item.Naam
                     </td>
@@ -123,5 +131,8 @@
     </p>
     <p>
         <span class="iconify" data-icon="icomoon-free:checkmark" data-inline="false"></span> : Deze sessie is afgelopen
+    </p>
+    <p>
+        <span class="iconify" data-icon="ion:close-sharp" data-inline="false"></span> : Sluit de sessie defentief
     </p>
 </div>

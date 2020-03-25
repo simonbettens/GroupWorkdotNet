@@ -138,8 +138,9 @@ namespace dotnet_g033.Controllers
                 }
 
             }
-            if (view) {
-                return RedirectToAction("Index",new { maandId = maandId });
+            if (view)
+            {
+                return RedirectToAction("Index", new { maandId = maandId });
             }
             return RedirectToAction("Details", new { id = id });
 
@@ -183,7 +184,8 @@ namespace dotnet_g033.Controllers
             {
                 TempData["error"] = "Er is iets mis gegaan, we konden je niet uitschrijven.";
             }
-            if (view) {
+            if (view)
+            {
                 return RedirectToAction("Index", new { maandId = maandId });
             }
             return RedirectToAction("Details", new { id = id });
@@ -335,7 +337,6 @@ namespace dotnet_g033.Controllers
             Sessie sessie = _sessieRepository.GetById(id);
             HashSet<Sessie> hashSessies = _sessieRepository.GetAll().ToHashSet();
             IEnumerable<Sessie> sessies = new List<Sessie>(hashSessies);
-            IEnumerable<Sessie> sessiesOpen = new List<Sessie>(sessies.Where(s => s.StaatOpen == true));
             if (sessie != null)
             {
                 if (sessie.StaatOpen == true)
@@ -345,14 +346,10 @@ namespace dotnet_g033.Controllers
                 }
                 else
                 {
-                    if (sessiesOpen.Count() > 0)
-                    {
-                        TempData["error"] = $"Er staat al een sessie open van {sessiesOpen.ToList().First().Verantwoordelijke.Voornaam} {sessiesOpen.ToList().First().Verantwoordelijke.Achternaam}!";
-                    }
-                    else if (!(DateTime.Now >= sessie.StartDatum.AddHours(-1)))
+                    if (!(DateTime.Now >= sessie.StartDatum.AddHours(-1)))
                     {
                         TimeSpan tijdResterend = sessie.StartDatum.AddHours(-1) - DateTime.Now;
-                        
+
                         TempData["error"] = $"{sessie.Naam} kan niet geopend worden, nog {tijdResterend.Days} " +
                             $"dagen en {tijdResterend.ToString(@"hh\:mm\:ss")} resterend";
                     }
@@ -362,6 +359,16 @@ namespace dotnet_g033.Controllers
                         TempData["message"] = $"{sessie.Naam} staat nu open";
                     }
                 }
+                _sessieRepository.SaveChanges();
+            }
+            return RedirectToAction("OpenzettenIndex");
+        }
+        public ActionResult SluitSessie(int id)
+        {
+            Sessie sessie = _sessieRepository.GetById(id);
+            if (sessie != null)
+            {
+                sessie.SluitDefentief();
                 _sessieRepository.SaveChanges();
             }
             return RedirectToAction("OpenzettenIndex");
@@ -417,18 +424,18 @@ namespace dotnet_g033.Controllers
             Sessie sessie = _sessieRepository.GetById(sessieId);
             if (sessie != null && feedback != null && gebruiker != null)
             {
-                if(feedback.GebruikerUserName == gebruiker.UserName || gebruiker.Type == GebruikerType.HoofdVerantwoordelijke)
+                if (feedback.GebruikerUserName == gebruiker.UserName || gebruiker.Type == GebruikerType.HoofdVerantwoordelijke)
                 {
-                sessie.VerwijderFeedback(feedback);
-                _feedbackRepository.VerwijderFeedback(feedback);
-                _sessieRepository.SaveChanges();
-                _feedbackRepository.SaveChanges();
-                return RedirectToAction("Details", new { id = sessieId });
+                    sessie.VerwijderFeedback(feedback);
+                    _feedbackRepository.VerwijderFeedback(feedback);
+                    _sessieRepository.SaveChanges();
+                    _feedbackRepository.SaveChanges();
+                    return RedirectToAction("Details", new { id = sessieId });
                 }
-               
+
             }
             return RedirectToAction("Details", new { id = sessieId });
-        } 
+        }
         #endregion
 
         #region Hulpmethodes
