@@ -44,14 +44,14 @@ Om een sessie open te zetten dient men zich in te loggen als hoofdverantwoordeli
 - Detail Sessie
   - Alle info in verband met de sessie
   - Alle media
-#### Dit kan een verantwoordelijke extra doen : 
+#### Dit kan een verantwoordelijke extra doen vergeleken met hierboven : 
 - Mijn Sessies
   - Een overzicht van alle sessies van die verantwoordelijke 
   - Je kan de sessies openzetten 
   - Je kan naar de details gaan
     - Hier kan je de gebruikers inschrijven via een barcode
     - Wij gebruikte de "Barcode to PC" gsm-app en "Barcode to PC server" computerapp om deze te testen
-#### Dit kan een hoofdverantwoordelijke extra doen :
+#### Dit kan een hoofdverantwoordelijke extra doen vergeleken met hierboven:
 - Mijn Sessies
   - Hij kan het zelfde doen maar je ziet alle sessies
     
