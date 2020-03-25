@@ -26,7 +26,7 @@ Er zijn reeds enkele sessies geconfigureerd om een overzicht te geven wat er all
 
 Om een sessie open te zetten dient men zich in te loggen als hoofdverantwoordelijke en de status van de gewenste sessie op 'open' te zetten.
 ### What to do
-Dit kan een gewone gebruiker zien en doen :
+#### Dit kan een gewone gebruiker zien en doen :
 - Homepagina
   - Eerst volgende sessie
   - Algemene en sessie specifieke aankondiging
@@ -43,14 +43,14 @@ Dit kan een gewone gebruiker zien en doen :
 - Detail Sessie
   - Alle info in verband met de sessie
   - Alle media
-Dit kan een verantwoordelijke extra doen : 
+### Dit kan een verantwoordelijke extra doen : 
 - Mijn Sessies
   - Een overzicht van alle sessies van die verantwoordelijke 
   - Je kan de sessie openzetten 
   - Je kan naar de details gaan
     - Hier kan je de gebruikers inschrijven via een barcode
     - Wij gebruikte de "Barcode to PC" gsm-app en "Barcode to PC server" computerapp om deze te testen
-Dit kan een hoofdverantwoordelijke extra doen :
+### Dit kan een hoofdverantwoordelijke extra doen :
 - Mijn Sessies
   - Hij kan het zelfde doen maar je ziet alle sessies
     
