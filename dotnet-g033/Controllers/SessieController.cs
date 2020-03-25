@@ -306,7 +306,6 @@ namespace dotnet_g033.Controllers
         }
         #endregion
 
-
         #region Open Zetten
         [ServiceFilter(typeof(GebruikerFilter))]
         public ActionResult OpenzettenIndex(Gebruiker gebruiker, int maandId = 0)
@@ -369,6 +368,7 @@ namespace dotnet_g033.Controllers
         }
         #endregion
 
+        #region Feedback
         [HttpPost("[action]")]
         [ServiceFilter(typeof(GebruikerFilter))]
         [Consumes("multipart/form-data")]
@@ -424,7 +424,8 @@ namespace dotnet_g033.Controllers
                 return RedirectToAction("Details", new { id = sessieId });
             }
             return RedirectToAction("Details", new { id = sessieId });
-        }
+        } 
+        #endregion
 
         #region Hulpmethodes
         /// <summary>
