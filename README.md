@@ -10,7 +10,7 @@ Bij het gebruiken van de website zal u zich op een gegeven moment moeten inlogge
 | sb123456 | appeltjes |normale gebruiker|
 | rn123456 | peertjes  |normale gebruiker|
 | as123456 | snoepjes  |normale gebruiker|
-| sb123456 | appeltjes |verantwoordelijke|
+| sbv123456 | appeltjes |verantwoordelijke|
 | hdw123456 | adminpass |hoofdverantwoordelijke|
 
 ### Sessies
