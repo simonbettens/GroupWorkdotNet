@@ -37,7 +37,7 @@ Om een sessie open te zetten dient men zich in te loggen als hoofdverantwoordeli
   - Je kan zoeken titel en verantwoordelijke naam
   - Je kan een detail van een sessie bekijken en je ook inschrijven
 - Afgelopen Sessies
-  - Idem van Geplande sessies
+  - Idem van "Geplande Sessies" maar
     - Je kan je niet inschrijven
     - Je kan feedback indienen als je aanwezig was bij de sessie
 - Detail Sessie
@@ -46,7 +46,7 @@ Om een sessie open te zetten dient men zich in te loggen als hoofdverantwoordeli
 #### Dit kan een verantwoordelijke extra doen : 
 - Mijn Sessies
   - Een overzicht van alle sessies van die verantwoordelijke 
-  - Je kan de sessie openzetten 
+  - Je kan de sessies openzetten 
   - Je kan naar de details gaan
     - Hier kan je de gebruikers inschrijven via een barcode
     - Wij gebruikte de "Barcode to PC" gsm-app en "Barcode to PC server" computerapp om deze te testen
