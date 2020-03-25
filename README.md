@@ -4,13 +4,14 @@ Een webinterface voor het organiseren van en inschijven in sessies van het HoGen
 ## How to use:
 ### Inloggen
 Bij het gebruiken van de website zal u zich op een gegeven moment moeten inloggen. Er zijn enkele accounts reeds geconfigureerd die u hiervoor kan gebruiken:
-| gebruikersnaam| wachtwoord |
-|----------|-----------|
-| pc123456 | koekjes   |
-| sb123456 | appeltjes |
-| rn123456 | peertjes  |
-| as123456 | snoepjes  |
-| hdw123456 | adminpass |
+| gebruikersnaam| wachtwoord |type gebruiker|
+|----------|-----------|-----------------|
+| pc123456 | koekjes   |normale gebruiker|
+| sb123456 | appeltjes |normale gebruiker|
+| rn123456 | peertjes  |normale gebruiker|
+| as123456 | snoepjes  |normale gebruiker|
+| sb123456 | appeltjes |verantwoordelijke|
+| hdw123456 | adminpass |hoofdverantwoordelijke|
 
 ### Sessies
 Er zijn reeds enkele sessies geconfigureerd om een overzicht te geven wat er allemaal mogelijk is. Hieronder vindt u een overzicht met alle sessies en de opties per sessie.
