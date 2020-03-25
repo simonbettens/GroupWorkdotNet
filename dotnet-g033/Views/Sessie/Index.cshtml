@@ -69,14 +69,14 @@ else
             <td>
                 @if (!item.GebruikerIsIngeschreven(Model.Gebruiker)) {
                     if (item.KanNogInschrijven) {
-                        <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId">Inschrijven</a>
+                        <a asp-controller="Sessie" asp-action="InSchrijven" asp-route-id="@item.SessieId" asp-route-view="@true" asp-route-maandId="@((ViewData["Maanden"] as SelectList).SelectedValue)">Inschrijven</a>
                     }
                     else {
                         <text>Vol!</text>
                     }
                 }
                 else {
-                    <a asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@item.SessieId">Uitschrijven</a>
+                    <a asp-controller="Sessie" asp-action="Uitschrijven" asp-route-id="@item.SessieId" asp-route-view="@true" asp-route-maandId="@((ViewData["Maanden"] as SelectList).SelectedValue)">Uitschrijven</a>
                 }
 
             </td>
