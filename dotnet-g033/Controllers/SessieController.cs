@@ -118,7 +118,7 @@ namespace dotnet_g033.Controllers
         /// <param name="gebruiker">de ingelogde gebruiker</param>
         /// <returns>een detailview van de gekozen sessie met een melding of de inschrijving geslaagd is</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
-        public IActionResult InSchrijven(int id, Gebruiker gebruiker)
+        public IActionResult InSchrijven(int id, Gebruiker gebruiker, bool view = false, int maandId = 0)
         {
             Sessie sessie = _sessieRepository.GetById(id);
             if (gebruiker != null && sessie != null)
@@ -138,6 +138,9 @@ namespace dotnet_g033.Controllers
                 }
 
             }
+            if (view) {
+                return RedirectToAction("Index",new { maandId = maandId });
+            }
             return RedirectToAction("Details", new { id = id });
 
         }
@@ -151,7 +154,7 @@ namespace dotnet_g033.Controllers
         /// <param name="gebruiker">de ingelogde gebruiker</param>
         /// <returns>Een detailview van de gekozen sessie met een melding of de uitschrijving geslaagd is</returns>
         [ServiceFilter(typeof(GebruikerFilter))]
-        public IActionResult Uitschrijven(int id, Gebruiker gebruiker)
+        public IActionResult Uitschrijven(int id, Gebruiker gebruiker, bool view = false, int maandId = 0)
         {
             try
             {
@@ -179,6 +182,9 @@ namespace dotnet_g033.Controllers
             catch
             {
                 TempData["error"] = "Er is iets mis gegaan, we konden je niet uitschrijven.";
+            }
+            if (view) {
+                return RedirectToAction("Index", new { maandId = maandId });
             }
             return RedirectToAction("Details", new { id = id });
 
@@ -300,7 +306,6 @@ namespace dotnet_g033.Controllers
         }
         #endregion
 
-
         #region Open Zetten
         [ServiceFilter(typeof(GebruikerFilter))]
         public ActionResult OpenzettenIndex(Gebruiker gebruiker, int maandId = 0)
@@ -363,6 +368,7 @@ namespace dotnet_g033.Controllers
         }
         #endregion
 
+        #region Feedback
         [HttpPost("[action]")]
         [ServiceFilter(typeof(GebruikerFilter))]
         [Consumes("multipart/form-data")]
@@ -422,7 +428,8 @@ namespace dotnet_g033.Controllers
                
             }
             return RedirectToAction("Details", new { id = sessieId });
-        }
+        } 
+        #endregion
 
         #region Hulpmethodes
         /// <summary>

@@ -119,7 +119,7 @@ namespace dotnet_g033.Data
                     20,
                     "GSCHB4.026",
                     admin,
-                    "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.De perfecte sessie voor iedereen die wil kennismaken met de kracht van de commandline!");
+                    "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren. De perfecte sessie voor iedereen die wil kennismaken met de kracht van de commandline!");
 
                 Sessie sessie6 = new Sessie(
                     "How to be a happy Developer. Now!", 
@@ -140,7 +140,7 @@ namespace dotnet_g033.Data
                     20,
                     "GSCHB4.026",
                     admin,
-                    "Netflix wordt gezien al seen grote DevOps omgeving. Toch is “DevOps”niet iets waar ze veel over spreken. Als het dan toch zo’n kritisch deel is voor het succes van de organisatie, waarom horen we er niet meer over?\nNetflix ziet DevOps als het resultaat van een duidelijke bedrijfscultuur, niet als oplossing van een bepaald probleem.Alles begint bij de bedrijfscultuur, chaos is je vriend en vertrouwen is van absoluut belang.");
+                    "Netflix wordt gezien als een grote DevOps omgeving. Toch is “DevOps” niet iets waar ze veel over spreken. Als het dan toch zo’n kritisch deel is voor het succes van de organisatie, waarom horen we er niet meer over?\nNetflix ziet DevOps als het resultaat van een duidelijke bedrijfscultuur, niet als oplossing van een bepaald probleem. Alles begint bij de bedrijfscultuur, chaos is je vriend en vertrouwen is van absoluut belang.");
                 
 
 
