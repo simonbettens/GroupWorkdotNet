@@ -18,7 +18,7 @@ Er zijn reeds enkele sessies geconfigureerd om een overzicht te geven wat er all
 
 | Sessie                        | optie |
 |-------------------------------|-------|
-| TDD: Where did it all go wrong? | Is al verlopen maar is nog niet gesloten, bevat alle mediatypes |
+| The Three Laws of TDD| Is al verlopen maar is nog niet gesloten, bevat alle mediatypes |
 | How Netflix thinks of DevOps  | Is bezig maar staat niet open |
 | Power use of Unix             | Zal direct beginnen, staat ook niet open |
 | Life is terrible: let's talk about the web | Bevat media en een aankondiging |
