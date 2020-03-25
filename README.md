@@ -18,10 +18,10 @@ Er zijn reeds enkele sessies geconfigureerd om een overzicht te geven wat er all
 
 | Sessie                        | optie |
 |-------------------------------|-------|
+| The Three Laws of TDD| Is al verlopen maar is nog niet gesloten, bevat alle mediatypes |
 | How Netflix thinks of DevOps  | Is bezig maar staat niet open |
 | Power use of Unix             | Zal direct beginnen, staat ook niet open |
 | Life is terrible: let's talk about the web | Bevat media en een aankondiging |
-| TDD: Where did it all go wrong? | Valt in april |
 | De weg naar de Cloud | Afgelopen, bevat feedback |
 | Improving Security Is Possible? | Afgelopen, bevat feedback |
 
