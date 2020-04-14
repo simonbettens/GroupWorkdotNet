@@ -13,7 +13,7 @@ namespace dotnet_g033.Data.Mappers
         public void Configure(EntityTypeBuilder<Aankondiging> builder)
         {
             builder.HasKey(a => a.AankondingId);
-            builder.ToTable("Aankonding");
+            builder.ToTable("Aankondiging");
             builder.Property(a => a.Gepost).IsRequired();
             builder.Property(a => a.Inhoud).IsRequired().HasMaxLength(200);
             builder.Property(a => a.Prioriteit).IsRequired();

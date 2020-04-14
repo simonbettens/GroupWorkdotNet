@@ -21,7 +21,7 @@ namespace dotnet_g033.Data
         }
         public void InitializeData()
         {
-            
+            //return;
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
@@ -29,6 +29,7 @@ namespace dotnet_g033.Data
 
                 #region Gebruikers data
                 var passwordHasher = new PasswordHasher<Gebruiker>();
+                /*
                 Gebruiker pieter = new Gebruiker(1125302310790, "pc123456", "Pieter", "Carlier", "pieter.carlier@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
                 Gebruiker simon = new Gebruiker(1103720665999, "sb123456", "Simon", "Bettens", "simon.bettens@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
                 Gebruiker ruben = new Gebruiker(1138608425471, "rn123456", "Ruben", "Naudts", "ruben.naudts@student.hogent.be", StatusType.Actief, GebruikerType.Gebruiker);
@@ -53,13 +54,19 @@ namespace dotnet_g033.Data
                 ruben.SecurityStamp = Guid.NewGuid().ToString();
                 admin.SecurityStamp = Guid.NewGuid().ToString();
                 verantwoordelijke.SecurityStamp = Guid.NewGuid().ToString();
+                */
+                Gebruiker test = new Gebruiker(1125302310790, "tst1234", "test", "test", "test.test@student.hogent.be", StatusType.NietActief, GebruikerType.Gebruiker);
+                test.EmailConfirmed = true;
+                test.PasswordHash = passwordHasher.HashPassword(test, "test");
+                test.SecurityStamp = Guid.NewGuid().ToString();
 
-                Gebruiker[] gebruikers = { pieter, simon, aaron, ruben, admin, verantwoordelijke };
+                Gebruiker[] gebruikers = { test /*,pieter, simon, aaron, ruben, admin, verantwoordelijke */};
                 _dbContext.AddRange(gebruikers);
                 _dbContext.SaveChanges();
                 #endregion
 
                 #region Sessies
+                /*
                 Sessie sessie1 = new Sessie(
                     "The Three Laws of TDD (featuring Kotlin)", 
                     new DateTime(2020, 3, 20, 12, 30, 0),
@@ -176,9 +183,11 @@ namespace dotnet_g033.Data
                 Sessie[] sessies = { sessie1, sessie2, sessie3, sessie4, sessie5, sessie6, gestartSessie1, bijnaGestarteSessie1 };
                 _dbContext.Sessie.AddRange(sessies);
                 _dbContext.SaveChanges();
+                */
                 #endregion
 
                 #region Aankondingen
+                /*
                 Aankondiging algemeneAankonding1 = new Aankondiging(new DateTime(2020, 3, 17, 15, 0, 0), "Studenten met interesse kunnen altijd een mailtje sturen en dan zend ik de filmpjes van de afgelaste sessies door",admin,AankondigingPrioriteit.Laag);
                 Aankondiging algemeneAankonding2 = new Aankondiging(huidigetijd,"Bedankt aan alle studenten die feedback hebben gegeven op de sessies, deze komen goed van pas bij het kiezen van de volgende", admin, AankondigingPrioriteit.Laag);
                 Aankondiging algemeneAankonding3 = new Aankondiging(huidigetijd,"Wegens de huidige coronamaatregelen worden hierbij alle sessies afgelast.", admin, AankondigingPrioriteit.Hoog);
@@ -195,9 +204,11 @@ namespace dotnet_g033.Data
                     sessieAankonding1, sessieAankonding2 };
                 _dbContext.AddRange(aankondingen);
                 _dbContext.SaveChanges();
+                */
                 #endregion
 
                 #region Media
+                /*
                 Link link1 = new Link("https://www.google.be/", "Klik hier om naar google te gaan", new DateTime(2020, 2, 20, 14, 0, 0), MediaType.Link);
 
                 sessie1.VoegMediaToe(link1);
@@ -240,9 +251,11 @@ namespace dotnet_g033.Data
                 Document[] documenten = { doc1, doc2, doc3, doc4, doc5 };
                 _dbContext.Document.AddRange(documenten);
                 _dbContext.SaveChanges();
+                */
                 #endregion
 
                 #region Feedback
+                /*
                 Feedback feedback1 = new Feedback(3, DateTime.Now, "Pieter", "Carlier", "pc123456", "Zeer toffe sessie!!!");
                 Feedback feedback2 = new Feedback(1, DateTime.Now, "Aaron", "Sys", "as123456", "HEB HIER NIETS UIT GELEERD, SLECHT");
                 Feedback feedback3 = new Feedback(5, DateTime.Now, "Simon", "Bettens", "sb123456", "zeer tof en leerrijk, spreker was ook zeer enthousiast :)");
@@ -253,6 +266,7 @@ namespace dotnet_g033.Data
                 sessie4.VoegFeedbackToe(feedback3);
                 _dbContext.Feedback.AddRange(feedback);
                 _dbContext.SaveChanges(); 
+                */
                 #endregion
             }
             

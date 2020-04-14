@@ -10,6 +10,7 @@ namespace dotnet_g033.Data.Mappers {
     public class SessieGebruikerConfig : IEntityTypeConfiguration<SessieGebruiker> {
         public void Configure(EntityTypeBuilder<SessieGebruiker> builder) {
             builder.HasKey(t => new { t.SessieId, t.GebruikerId });
+            builder.Property(t => t.IdNumber).HasColumnType("bigint");
             /*
             builder.HasOne(s => s.Sessie)
                 .WithMany(s=>s.GebruikersIngeschreven)

@@ -29,6 +29,7 @@ namespace dotnet_g033.Data {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //var connectionString = @"Server=23.97.247.66;Database=ItLab;user id=simon.bettens;password=efE95@6E941B;Trusted_Connection=false;MultipleActiveResultSets=true";
             var connectionString = @"Server=.;Database=ItLabTest;Integrated Security=True;";
             optionsBuilder.UseSqlServer(connectionString);
         }
