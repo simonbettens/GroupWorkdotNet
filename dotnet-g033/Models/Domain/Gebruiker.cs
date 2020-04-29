@@ -13,6 +13,7 @@ namespace dotnet_g033.Models.Domain
         public long IdNumber { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
+        public string JavaPasswoord { get;  }
         public StatusType Status { get; private set; }
         public GebruikerType Type { get; set; }
         public ICollection<SessieGebruiker> SessiesIngeschreven { get; set; }
@@ -34,6 +35,7 @@ namespace dotnet_g033.Models.Domain
             this.NormalizedEmail = email;
             this.Status = status;
             this.Type = type;
+            this.JavaPasswoord = "";
             this.SessiesIngeschreven = new List<SessieGebruiker>();
         }
         #endregion

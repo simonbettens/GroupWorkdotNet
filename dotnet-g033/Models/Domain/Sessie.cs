@@ -20,6 +20,7 @@ namespace dotnet_g033.Models.Domain
         public int AantalResterend => MaxCap - AantalIngeschrevenGebruikers;
         public string Lokaal { get; private set; }
         public string Beschrijving { get; set; }
+        public string Gastspreker { get; set; }
         public Verantwoordelijke Verantwoordelijke { get; set; }
         public bool StaatOpen { get; set; }
         public bool KanNogInschrijven => AantalResterend > 0;

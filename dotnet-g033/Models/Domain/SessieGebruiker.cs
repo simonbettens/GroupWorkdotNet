@@ -15,6 +15,7 @@ namespace dotnet_g033.Models.Domain {
         public string Achternaam { get; set; }
         public bool Aanwezig { get; set; }
         public bool AanwezigBevestiged { get; set; }
+        public DateTime DatumIngeschreven { get; set; }
         #endregion
 
         #region Relatie properties
@@ -41,6 +42,7 @@ namespace dotnet_g033.Models.Domain {
             this.SessieId = sessie.SessieId;
             this.Aanwezig = false;
             this.AanwezigBevestiged = false;
+            this.DatumIngeschreven = DateTime.Now;
         }
         #endregion
     }

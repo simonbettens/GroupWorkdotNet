@@ -11,6 +11,7 @@ namespace dotnet_g033.Data.Mappers {
         public void Configure(EntityTypeBuilder<SessieGebruiker> builder) {
             builder.HasKey(t => new { t.SessieId, t.GebruikerId });
             builder.Property(t => t.IdNumber).HasColumnType("bigint");
+            builder.Property(t => t.DatumIngeschreven).IsRequired(true);
             /*
             builder.HasOne(s => s.Sessie)
                 .WithMany(s=>s.GebruikersIngeschreven)

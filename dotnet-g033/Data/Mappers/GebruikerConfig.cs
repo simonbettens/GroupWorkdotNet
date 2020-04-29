@@ -18,6 +18,7 @@ namespace dotnet_g033.Data.Mappers
             builder.Property(g => g.Voornaam).IsRequired();
             builder.Property(g => g.Achternaam).IsRequired();
             builder.Property(g => g.Status).IsRequired();
+            builder.Property(g => g.JavaPasswoord).IsRequired();
             builder.HasMany(g => g.SessiesIngeschreven)
              .WithOne(gs => gs.Gebruiker)
              .HasForeignKey(gs => gs.GebruikerId)
