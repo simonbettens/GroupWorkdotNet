@@ -14,7 +14,7 @@ namespace dotnet_g033.Data.Mappers
         {
             builder.HasDiscriminator<string>("TypeMedia")
                 .HasValue<Video>("Video")
-                .HasValue<Document>("Documenten")
+                .HasValue<Document>("Document")
                 .HasValue<Link>("Link")
                 .HasValue<Afbeelding>("Afbeelding");
             builder.ToTable("Media");
